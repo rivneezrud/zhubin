@@ -8,12 +8,14 @@
 
 package io.element.android.features.messages.impl.timeline.components.customreaction
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LocalTextStyle
@@ -23,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.TextUnit
@@ -30,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.element.android.compound.theme.ElementTheme
 import io.element.android.emojibasebindings.Emoji
+import io.element.android.features.messages.impl.R
 import io.element.android.features.messages.impl.timeline.a11y.a11yReactionAction
+import io.element.android.features.messages.impl.timeline.components.IRAN_FLAG_UNICODE
 import io.element.android.libraries.designsystem.preview.ElementPreview
 import io.element.android.libraries.designsystem.preview.PreviewsDayNight
 import io.element.android.libraries.designsystem.text.toDp
@@ -69,10 +74,18 @@ fun EmojiItem(
             },
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = item.unicode,
-            style = LocalTextStyle.current.copy(fontSize = emojiSize),
-        )
+        if (item.unicode == IRAN_FLAG_UNICODE) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_flag_iran_lionsun),
+                contentDescription = null,
+                modifier = Modifier.size(emojiSize.toDp()),
+            )
+        } else {
+            Text(
+                text = item.unicode,
+                style = LocalTextStyle.current.copy(fontSize = emojiSize),
+            )
+        }
     }
 }
 

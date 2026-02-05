@@ -30,9 +30,7 @@ import io.element.android.features.messages.impl.utils.containsOnlyEmojis
 import io.element.android.libraries.androidutils.text.LinkifyHelper
 import io.element.android.libraries.designsystem.preview.ElementPreview
 import io.element.android.libraries.designsystem.preview.PreviewsDayNight
-import io.element.android.libraries.textcomposer.ElementRichTextEditorStyle
 import io.element.android.libraries.textcomposer.mentions.LocalMentionSpanUpdater
-import io.element.android.wysiwyg.compose.EditorStyledText
 import io.element.android.wysiwyg.link.Link
 
 @Composable
@@ -55,13 +53,11 @@ fun TimelineItemTextView(
     ) {
         val text = getTextWithResolvedMentions(content)
         Box(modifier.semantics { contentDescription = content.plainText }) {
-            EditorStyledText(
+            ZhubinMessageText(
                 text = text,
-                onLinkClickedListener = onLinkClick,
-                onLinkLongClickedListener = onLinkLongClick,
-                style = ElementRichTextEditorStyle.textStyle(),
-                onTextLayout = ContentAvoidingLayout.measureLegacyLastTextLine(onContentLayoutChange = onContentLayoutChange),
-                releaseOnDetach = false,
+                onLinkClick = onLinkClick,
+                onLinkLongClick = onLinkLongClick,
+                onTextLayout = ContentAvoidingLayout.measureLastTextLine(onContentLayoutChange = onContentLayoutChange),
             )
         }
     }
