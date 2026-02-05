@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Verwende einen anderen Kontoanbieter, z. B. deinen eigenen privaten Server oder ein Geschäftskonto."</string>
   <string name="screen_change_account_provider_title">"Kontoanbieter wechseln"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Auf %1$s ist die Element Pro App erforderlich. Bitte lade diese aus dem Store."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro erforderlich"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Auf %1$s ist die Zhubin Pro App erforderlich. Bitte lade diese aus dem Store."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro erforderlich"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Wir konnten diesen Homeserver nicht erreichen. Bitte überprüfe, ob du die Homeserver-URL korrekt eingegeben hast. Wenn die URL korrekt ist, wende dich an deinen Homeserver-Administrator, um weitere Hilfe zu erhalten."</string>
   <string name="screen_change_server_error_invalid_well_known">"Der Server ist aufgrund eines Problems in der \".well-known\" Datei nicht verfügbar:
 %1$s"</string>
@@ -44,7 +44,7 @@
   <string name="screen_onboarding_sign_up">"Konto erstellen"</string>
   <string name="screen_onboarding_welcome_message">"Willkommen beim schnellsten %1$s aller Zeiten. Optimiert für Geschwindigkeit und Einfachheit."</string>
   <string name="screen_onboarding_welcome_subtitle">"Willkommen zu %1$s. Aufgeladen, für Geschwindigkeit und Einfachheit."</string>
-  <string name="screen_onboarding_welcome_title">"Sei in Deinem Element"</string>
+  <string name="screen_onboarding_welcome_title">"Sei in Deinem Zhubin"</string>
   <string name="screen_qr_code_login_connecting_subtitle">"Sichere Verbindung aufbauen"</string>
   <string name="screen_qr_code_login_connection_note_secure_state_description">"Es konnte keine sichere Verbindung zu dem neuen Gerät hergestellt werden."</string>
   <string name="screen_qr_code_login_connection_note_secure_state_list_header">"Und jetzt?"</string>
@@ -91,7 +91,7 @@ Versuche, dich manuell anzumelden, oder scanne den QR-Code mit einem anderen Ger
   <string name="screen_qr_code_login_verify_code_subtitle">"Dein Konto-Provider kann nach dem folgenden Code fragen, um die Anmeldung zu bestätigen."</string>
   <string name="screen_qr_code_login_verify_code_title">"Dein Verifizierungscode"</string>
   <string name="screen_server_confirmation_change_server">"Kontoanbieter wechseln"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Ein privater Server für die Mitarbeiter von Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Ein privater Server für die Mitarbeiter von Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix ist ein offenes Netzwerk für eine sichere, dezentrale Kommunikation."</string>
   <string name="screen_server_confirmation_message_register">"Hier werden deine Gespräche gespeichert - so wie du deine E-Mails bei einem E-Mail-Anbieter aufbewahren würden."</string>
   <string name="screen_server_confirmation_title_login">"Du bist dabei, dich bei %1$s anzumelden"</string>

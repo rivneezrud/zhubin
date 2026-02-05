@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Käytä toista palveluntarjoajaa, kuten omaa yksityistä palvelintasi tai työpaikkaasi."</string>
   <string name="screen_change_account_provider_title">"Vaihda palveluntarjoajaa"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Element Pro -sovellus on pakollinen %1$s -palvelimella. Lataa se sovelluskaupasta."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro vaaditaan"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Zhubin Pro -sovellus on pakollinen %1$s -palvelimella. Lataa se sovelluskaupasta."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro vaaditaan"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Kotipalvelimeen ei saatu yhteyttä. Varmista, että olet syöttänyt osoitteen oikein. Jos osoite on oikein, ota yhteyttä palvelimesi ylläpitäjään."</string>
   <string name="screen_change_server_error_invalid_well_known">"Palvelin ei ole saatavilla .well-known tiedostossa olevan ongelman vuoksi:
 %1$s"</string>
@@ -89,7 +89,7 @@ Yritä kirjautua sisään manuaalisesti tai skannaa QR-koodi toisella laitteella
   <string name="screen_qr_code_login_verify_code_subtitle">"Palveluntarjoajasi saattaa kysyä seuraavaa koodia kirjautumisen vahvistamiseksi."</string>
   <string name="screen_qr_code_login_verify_code_title">"Vahvistuskoodisi"</string>
   <string name="screen_server_confirmation_change_server">"Vaihda palveluntarjoajaa"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Yksityinen palvelin Elementin työntekijöille."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Yksityinen palvelin Zhubinin työntekijöille."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix on avoin verkko turvallista, hajautettua viestintää varten."</string>
   <string name="screen_server_confirmation_message_register">"Keskustelusi asuvat täällä — aivan kuten aivan kuten käyttäisit sähköpostipalveluntarjoajaa sähköpostiesi säilyttämiseen."</string>
   <string name="screen_server_confirmation_title_login">"Olet kirjautumassa sisään %1$s-palvelimelle"</string>

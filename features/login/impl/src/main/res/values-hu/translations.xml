@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Másik fiókszolgáltató, például a saját privát kiszolgáló vagy egy munkahelyi fiók használata."</string>
   <string name="screen_change_account_provider_title">"Fiókszolgáltató módosítása"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Az Element Pro alkalmazás szükséges a következőn: %1$s. Töltse le az áruházból."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro szükséges"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Az Zhubin Pro alkalmazás szükséges a következőn: %1$s. Töltse le az áruházból."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro szükséges"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Nem sikerült elérni ezt a Matrix-kiszolgálót. Ellenőrizze, hogy helyesen adta-e meg a Matrix-kiszolgáló webcímét. Ha a webcím helyes, akkor további segítségért lépjen kapcsolatba a Matrix-kiszolgáló adminisztrátorával."</string>
   <string name="screen_change_server_error_invalid_well_known">"A kiszolgáló a well-known fájl problémája miatt nem érhető el:
 %1$s"</string>
@@ -91,7 +91,7 @@ Próbáljon meg kézileg bejelentkezni, vagy olvassa be a QR-kódot egy másik e
   <string name="screen_qr_code_login_verify_code_subtitle">"A fiókszolgáltatója kérheti a következő kódot a bejelentkezése ellenőrzéséhez."</string>
   <string name="screen_qr_code_login_verify_code_title">"Az Ön ellenőrzőkódja"</string>
   <string name="screen_server_confirmation_change_server">"Fiókszolgáltató módosítása"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Egy privát kiszolgáló az Element alkalmazottai számára."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Egy privát kiszolgáló az Zhubin alkalmazottai számára."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"A Matrix egy nyitott hálózat a biztonságos, decentralizált kommunikációhoz."</string>
   <string name="screen_server_confirmation_message_register">"Itt lesznek a beszélgetései – ahogyan egy e-mail-szolgáltatást is használna a levelei kezeléséhez."</string>
   <string name="screen_server_confirmation_title_login">"Hamarosan bejelentkezik ebbe: %1$s"</string>

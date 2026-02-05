@@ -136,9 +136,9 @@ private fun LoginWithElementClassicView(
                 is ConfirmingLoginWithElementClassic -> {
                     // TODO i18n
                     ConfirmationDialog(
-                        title = "Sign in with Element Classic",
-                        content = "You are signing in as ${confirming.userId} on Element Classic." +
-                            " Your existing session on Element Classic will not be signed out. Do you want to continue?",
+                        title = "Sign in with Zhubin Classic",
+                        content = "You are signing in as ${confirming.userId} on Zhubin Classic." +
+                            " Your existing session on Zhubin Classic will not be signed out. Do you want to continue?",
                         submitText = stringResource(CommonStrings.action_continue),
                         onSubmitClick = { state.eventSink(LoginWithClassicEvent.DoLoginWithClassic) },
                         onDismiss = { state.eventSink(LoginWithClassicEvent.CloseDialog) },
@@ -285,7 +285,7 @@ private fun OnBoardingButtons(
         }
         if (state.loginWithClassicState.canLoginWithClassic) {
             Button(
-                text = "Sign in with Element Classic",
+                text = "Sign in with Zhubin Classic",
                 leadingIcon = IconSource.Vector(CompoundIcons.Mobile()),
                 onClick = {
                     state.loginWithClassicState.eventSink(

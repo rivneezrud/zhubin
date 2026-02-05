@@ -1,2 +1,2 @@
-First release of Element X 🚀!
+First release of Zhubin 🚀!
 Full changelog: https://github.com/element-hq/element-x-android/releases

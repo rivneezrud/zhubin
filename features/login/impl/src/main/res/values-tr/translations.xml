@@ -80,7 +80,7 @@ Manuel olarak oturum açmayı deneyin veya QR kodunu başka bir cihazla tarayın
   <string name="screen_qr_code_login_verify_code_subtitle">"Hesap sağlayıcınız, oturum açmayı doğrulamak için aşağıdaki kodu isteyebilir."</string>
   <string name="screen_qr_code_login_verify_code_title">"Doğrulama kodunuz"</string>
   <string name="screen_server_confirmation_change_server">"Hesap sağlayıcısını değiştir"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Element çalışanları için özel bir sunucu."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Zhubin çalışanları için özel bir sunucu."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix, güvenli, merkezi olmayan iletişim için açık bir ağdır."</string>
   <string name="screen_server_confirmation_message_register">"Konuşmalarınızın saklanacağı yer burasıdır - tıpkı e-postalarınızı saklamak için bir e-posta sağlayıcısı kullandığınız gibi."</string>
   <string name="screen_server_confirmation_title_login">"%1$s sunucusunda oturum açmak üzeresiniz"</string>

@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Použite iného poskytovateľa účtu, ako napríklad vlastný súkromný server alebo pracovný účet."</string>
   <string name="screen_change_account_provider_title">"Zmeniť poskytovateľa účtu"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Aplikácia Element Pro je potrebná na %1$s Stiahnite si ju z obchodu."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Vyžaduje sa Element Pro"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Aplikácia Zhubin Pro je potrebná na %1$s Stiahnite si ju z obchodu."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Vyžaduje sa Zhubin Pro"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Nemohli sme sa spojiť s týmto domovským serverom. Skontrolujte prosím, či ste zadali URL adresu domovského servera správne. Ak je adresa URL správna, kontaktujte svoj domovský server pre ďalšiu pomoc."</string>
   <string name="screen_change_server_error_invalid_well_known">"Server nie je k dispozícii kvôli problému v známom súbore:
 %1$s"</string>
@@ -91,7 +91,7 @@ Skúste sa prihlásiť manuálne alebo naskenujte QR kód pomocou iného zariade
   <string name="screen_qr_code_login_verify_code_subtitle">"Váš poskytovateľ účtu môže požiadať o nasledujúci kód na overenie prihlásenia."</string>
   <string name="screen_qr_code_login_verify_code_title">"Váš overovací kód"</string>
   <string name="screen_server_confirmation_change_server">"Zmeniť poskytovateľa účtu"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Súkromný server pre zamestnancov spoločnosti Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Súkromný server pre zamestnancov spoločnosti Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix je otvorená sieť pre bezpečnú a decentralizovanú komunikáciu."</string>
   <string name="screen_server_confirmation_message_register">"Tu budú žiť vaše konverzácie - podobne ako používate poskytovateľa e-mailových služieb na uchovávanie e-mailov."</string>
   <string name="screen_server_confirmation_title_login">"Chystáte sa prihlásiť do %1$s"</string>

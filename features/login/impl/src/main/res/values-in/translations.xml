@@ -86,7 +86,7 @@ Coba masuk secara manual, atau pindai kode QR dengan perangkat lain."</string>
   <string name="screen_qr_code_login_verify_code_subtitle">"Penyedia akun Anda mungkin meminta kode berikut untuk memverifikasi proses masuk."</string>
   <string name="screen_qr_code_login_verify_code_title">"Kode verifikasi Anda"</string>
   <string name="screen_server_confirmation_change_server">"Ubah penyedia akun"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Server pribadi untuk karyawan Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Server pribadi untuk karyawan Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix adalah jaringan terbuka untuk komunikasi yang aman dan terdesentralisasi."</string>
   <string name="screen_server_confirmation_message_register">"Di sinilah percakapan Anda akan berlangsung — sama seperti Anda menggunakan penyedia surel untuk menyimpan surel Anda."</string>
   <string name="screen_server_confirmation_title_login">"Anda akan masuk ke %1$s"</string>

@@ -144,7 +144,7 @@ fun aMessagesState(
     showReinvitePrompt = showReinvitePrompt,
     enableTextFormatting = true,
     roomCallState = roomCallState,
-    appName = "Element",
+    appName = "Zhubin",
     pinnedMessagesBannerState = pinnedMessagesBannerState,
     dmUserVerificationState = dmUserVerificationState,
     roomMemberModerationState = roomMemberModerationState,

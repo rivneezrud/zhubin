@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Використати іншого провайдера облікових записів, наприклад, власний приватний сервер або робочий обліковий запис."</string>
   <string name="screen_change_account_provider_title">"Змінити провайдера облікового запису"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Необхідно встановити застосунок Element Pro на %1$s. Завантажте його з магазину."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Потрібен Element Pro"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Необхідно встановити застосунок Zhubin Pro на %1$s. Завантажте його з магазину."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Потрібен Zhubin Pro"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Не вдалося під\'єднатися до цього домашнього сервера. Перевірте правильність введеної URL-адреси домашнього сервера. Якщо URL-адреса правильна, зверніться по додаткову допомогу до адміністратора домашнього сервера."</string>
   <string name="screen_change_server_error_invalid_well_known">"Сервер недоступний через помилку у файлі well-known:
 %1$s"</string>
@@ -89,7 +89,7 @@
   <string name="screen_qr_code_login_verify_code_subtitle">"Постачальник облікового запису може попросити вас ввести код нижче для підтвердження входу."</string>
   <string name="screen_qr_code_login_verify_code_title">"Ваш код підтвердження"</string>
   <string name="screen_server_confirmation_change_server">"Змінити провайдера облікового запису"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Приватний сервер для співробітників Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Приватний сервер для співробітників Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix — це відкрита мережа для безпечної, децентралізованої комунікації."</string>
   <string name="screen_server_confirmation_message_register">"Тут розміщуватимуться ваші розмови — так само як у поштовій скриньці для зберігання своїх електронних листів."</string>
   <string name="screen_server_confirmation_title_login">"Ви збираєтесь увійти в %1$s"</string>

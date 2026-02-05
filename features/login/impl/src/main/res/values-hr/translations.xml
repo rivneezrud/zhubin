@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Koristite drugog davatelja računa, kao što je vlastiti privatni poslužitelj ili poslovni račun."</string>
   <string name="screen_change_account_provider_title">"Promijeni davatelja usluga računa"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Potrebna je aplikacija Element Pro na %1$s. Molimo vas da je preuzmete iz trgovine."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Potreban je Element Pro"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Potrebna je aplikacija Zhubin Pro na %1$s. Molimo vas da je preuzmete iz trgovine."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Potreban je Zhubin Pro"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Nismo mogli pristupiti ovom matičnom poslužitelju. Provjerite jeste li ispravno unijeli URL matičnog poslužitelja. Ako je URL ispravan, obratite se administratoru matičnog poslužitelja za daljnju pomoć."</string>
   <string name="screen_change_server_error_invalid_well_known">"Poslužitelj nije dostupan zbog problema u .well-known datoteci:
 %1$s"</string>
@@ -91,7 +91,7 @@ Pokušajte se prijaviti ručno ili skenirajte QR kod drugim uređajem."</string>
   <string name="screen_qr_code_login_verify_code_subtitle">"Davatelj usluge računa može zatražiti sljedeći kod za potvrdu prijave."</string>
   <string name="screen_qr_code_login_verify_code_title">"Vaš verifikacijski kod"</string>
   <string name="screen_server_confirmation_change_server">"Promijeni davatelja usluga računa"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Privatni poslužitelj za zaposlenike aplikacije Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Privatni poslužitelj za zaposlenike aplikacije Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix je otvorena mreža za sigurnu, decentraliziranu komunikaciju."</string>
   <string name="screen_server_confirmation_message_register">"Ovdje će se čuvati vaši razgovori – baš kao što biste koristili davatelja usluga e-pošte za čuvanje svojih e-poruka."</string>
   <string name="screen_server_confirmation_title_login">"Prijavit ćete se na poslužitelj %1$s"</string>

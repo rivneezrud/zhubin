@@ -1,2 +1,2 @@
-Main changes in this version: fixes an issue that prevented Element Call notifications from being displayed sometimes.
+Main changes in this version: fixes an issue that prevented Zhubin Call notifications from being displayed sometimes.
 Full changelog: https://github.com/element-hq/element-x-android/releases

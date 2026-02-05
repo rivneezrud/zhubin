@@ -108,7 +108,7 @@ android {
     logger.warnInBox("Building ${defaultConfig.applicationId} ($baseAppName) [$buildType]")
 
     buildTypes {
-        val oidcRedirectSchemeBase = BuildTimeConfig.METADATA_HOST_REVERSED ?: "io.element.android"
+        val oidcRedirectSchemeBase = BuildTimeConfig.METADATA_HOST_REVERSED ?: "ir.zhubin.messenger"
         getByName("debug") {
             resValue("string", "app_name", "$baseAppName dbg")
             resValue(
@@ -183,11 +183,7 @@ android {
                 }
                 // This should not be required, but if I do not add the appId, I get this error:
                 // "App Distribution halted because it had a problem uploading the APK: [404] Requested entity was not found."
-                appId = if (isEnterpriseBuild) {
-                    "1:912726360885:android:3f7e1fe644d99d5a00427c"
-                } else {
-                    "1:912726360885:android:e17435e0beb0303000427c"
-                }
+                appId = BuildTimeConfig.GOOGLE_APP_ID_NIGHTLY
             }
         }
     }

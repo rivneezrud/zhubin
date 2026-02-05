@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Используйте другого поставщика учетных записей, например, собственный частный сервер или рабочую учетную запись."</string>
   <string name="screen_change_account_provider_title">"Сменить поставщика учетной записи"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Требуется приложение Element Pro для %1$s. Пожалуйста, загрузите его из магазина."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Требуется Element Pro"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Требуется приложение Zhubin Pro для %1$s. Пожалуйста, загрузите его из магазина."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Требуется Zhubin Pro"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Нам не удалось связаться с этим домашним сервером. Убедитесь, что вы правильно ввели URL-адрес домашнего сервера. Если URL-адрес указан правильно, обратитесь к администратору домашнего сервера за дополнительной помощью."</string>
   <string name="screen_change_server_error_invalid_well_known">"Сервер недоступен из-за проблемы в файле .well-known:
 %1$s"</string>
@@ -44,7 +44,7 @@
   <string name="screen_onboarding_sign_up">"Создать учетную запись"</string>
   <string name="screen_onboarding_welcome_message">"Добро пожаловать в самый быстрый клиент %1$s. Ориентирован на скорость и простоту."</string>
   <string name="screen_onboarding_welcome_subtitle">"Добро пожаловать в %1$s. Ориентирован на скорость и простоту."</string>
-  <string name="screen_onboarding_welcome_title">"Чувствуйте себя как дома с Element"</string>
+  <string name="screen_onboarding_welcome_title">"Чувствуйте себя как дома с Zhubin"</string>
   <string name="screen_qr_code_login_connecting_subtitle">"Установление безопасного соединения"</string>
   <string name="screen_qr_code_login_connection_note_secure_state_description">"Не удалось установить безопасное соединение с новым устройством. Существующие устройства по-прежнему в безопасности, и вам не нужно беспокоиться о них."</string>
   <string name="screen_qr_code_login_connection_note_secure_state_list_header">"Что теперь?"</string>
@@ -91,7 +91,7 @@
   <string name="screen_qr_code_login_verify_code_subtitle">"Поставщик учетной записи может запросить следующий код для подтверждения входа."</string>
   <string name="screen_qr_code_login_verify_code_title">"Ваш код подтверждения"</string>
   <string name="screen_server_confirmation_change_server">"Сменить поставщика учетной записи"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Частный сервер для сотрудников Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Частный сервер для сотрудников Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix — это открытая сеть для безопасной децентрализованной связи."</string>
   <string name="screen_server_confirmation_message_register">"Здесь будут храниться ваши разговоры — точно так же, как если бы вы использовали почтового провайдера для хранения своих писем."</string>
   <string name="screen_server_confirmation_title_login">"Вы собираетесь войти в %1$s"</string>

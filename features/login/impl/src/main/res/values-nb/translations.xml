@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Bruk en annen kontotilbyder, for eksempel din egen private server eller en arbeidskonto."</string>
   <string name="screen_change_account_provider_title">"Bytt kontotilbyder"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Element Pro-appen er nødvendig på %1$s. Last den ned fra butikken."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro kreves"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Zhubin Pro-appen er nødvendig på %1$s. Last den ned fra butikken."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro kreves"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Vi kunne ikke nå denne hjemmeserveren. Kontroller at du har skrevet inn hjemmeserverens URL riktig. Hvis URL-en er riktig, kontakt administratoren for hjemmeserveren din for å få mer hjelp."</string>
   <string name="screen_change_server_error_invalid_well_known">"Serveren er ikke tilgjengelig på grunn av et problem i den velkjente filen:
 %1$s"</string>
@@ -89,7 +89,7 @@ Prøv å logge på manuelt, eller skann QR-koden med en annen enhet."</string>
   <string name="screen_qr_code_login_verify_code_subtitle">"Kontotilbyderen din kan be om følgende kode for å bekrefte påloggingen."</string>
   <string name="screen_qr_code_login_verify_code_title">"Bekreftelseskoden din"</string>
   <string name="screen_server_confirmation_change_server">"Bytt kontotilbyder"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"En privat server for Element-ansatte."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"En privat server for Zhubin-ansatte."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix er et åpent nettverk for sikker, desentralisert kommunikasjon."</string>
   <string name="screen_server_confirmation_message_register">"Det er her samtalene dine vil ligge - akkurat som du ville brukt en e-postleverandør til å oppbevare e-postene dine."</string>
   <string name="screen_server_confirmation_title_login">"Du er i ferd med å logge inn på %1$s"</string>

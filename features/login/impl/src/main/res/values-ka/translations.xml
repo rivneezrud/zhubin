@@ -37,7 +37,7 @@
   <string name="screen_onboarding_welcome_title">"იყავი შენს element-ში"</string>
   <string name="screen_qr_code_login_invalid_scan_state_retry_button">"ხელახლა ცდა"</string>
   <string name="screen_server_confirmation_change_server">"შეცვალეთ ანგარიშის მომწოდებელი"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"კერძო სერვერი Element-ის თანამშრომლებისთვის."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"კერძო სერვერი Zhubin-ის თანამშრომლებისთვის."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix არის ღია ქსელი უსაფრთხო, დეცენტრალიზებული კომუნიკაციისთვის."</string>
   <string name="screen_server_confirmation_message_register">"აქ იქნება თქვენი საუბრები - ისევე, როგორც თქვენ ელ. ფოსტაში ინახება თქვენი ელ.წერილები."</string>
   <string name="screen_server_confirmation_title_login">"თქვენ აპირებთ შესვლას %1$s-ში"</string>

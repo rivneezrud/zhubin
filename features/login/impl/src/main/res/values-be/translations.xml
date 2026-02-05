@@ -80,7 +80,7 @@
   <string name="screen_qr_code_login_verify_code_subtitle">"Ваш правайдэр уліковага запісу можа запытаць наступны код для праверкі ўваходу."</string>
   <string name="screen_qr_code_login_verify_code_title">"Ваш код спраўджання"</string>
   <string name="screen_server_confirmation_change_server">"Змяніць правайдара ўліковага запісу"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Прыватны сервер для супрацоўнікаў Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Прыватны сервер для супрацоўнікаў Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix - гэта адкрытая сетка для бяспечнай, дэцэнтралізаванай сувязі."</string>
   <string name="screen_server_confirmation_message_register">"Тут будуць захоўвацца вашыя размовы - сапраўды гэтак жа, як вы выкарыстоўваеце паштовага правайдара для захоўвання сваіх лістоў."</string>
   <string name="screen_server_confirmation_title_login">"Вы збіраецеся ўвайсці ў %1$s"</string>

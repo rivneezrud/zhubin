@@ -37,7 +37,7 @@ class VectorUncaughtExceptionHandler(
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         Timber.v("Uncaught exception: $throwable")
         val bugDescription = buildString {
-            val appName = "ElementX"
+            val appName = "Zhubin"
             // append(appName + " Build : " + versionCodeProvider.getVersionCode() + "\n")
             append("$appName Version : 1.0") // ${versionProvider.getVersion(longFormat = true)}\n")
             // append("SDK Version : ${Matrix.getSdkVersion()}\n")

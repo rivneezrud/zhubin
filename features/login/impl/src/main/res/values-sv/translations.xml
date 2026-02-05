@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Använd en annan kontoleverantör, till exempel din egen privata server eller ett jobbkonto."</string>
   <string name="screen_change_account_provider_title">"Byt kontoleverantör"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Element Pro-appen krävs på %1$s. Ladda ner den från butiken."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro krävs"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Zhubin Pro-appen krävs på %1$s. Ladda ner den från butiken."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro krävs"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Vi kunde inte nå den här hemservern. Kontrollera att du har angett hemserverns URL korrekt. Om URL:en är korrekt kontaktar du administratören för hemservern för ytterligare hjälp."</string>
   <string name="screen_change_server_error_invalid_well_known">"Sliding Sync är inte tillgängligt på grund av ett problem i .well-known-filen:
 %1$s"</string>
@@ -89,7 +89,7 @@ Prova att logga in manuellt eller skanna QR-koden med en annan enhet."</string>
   <string name="screen_qr_code_login_verify_code_subtitle">"Din kontoleverantör kan be om följande kod för att verifiera inloggningen."</string>
   <string name="screen_qr_code_login_verify_code_title">"Din verifieringskod"</string>
   <string name="screen_server_confirmation_change_server">"Byt kontoleverantör"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"En privat server för Element-anställda."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"En privat server för Zhubin-anställda."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix är ett öppet nätverk för säker, decentraliserad kommunikation."</string>
   <string name="screen_server_confirmation_message_register">"Det är här dina konversationer kommer att sparas - precis som du skulle använda en e-postleverantör för att spara dina e-brev."</string>
   <string name="screen_server_confirmation_title_login">"Du är på väg att logga in på %1$s"</string>

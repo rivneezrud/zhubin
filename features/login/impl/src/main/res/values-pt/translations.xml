@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Utiliza um operador de conta diferente, como o teu próprio servidor privado ou uma conta de trabalho."</string>
   <string name="screen_change_account_provider_title">"Alterar operador de conta"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"%1$s requer a Element Pro. Por favor, descarrega-a da app store."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro necessária"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"%1$s requer a Zhubin Pro. Por favor, descarrega-a da app store."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro necessária"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Não foi possível comunicar com este servidor. Por favor, verifica se introduziste o seu URL corretamente. Se sim, contacta o administrador para obteres mais ajuda."</string>
   <string name="screen_change_server_error_invalid_well_known">"O servidor não está disponível devido a um problema no ficheiro \".well-known\":
 %1$s"</string>
@@ -89,7 +89,7 @@ Tenta iniciar a sessão manualmente ou digitaliza o código QR com outro disposi
   <string name="screen_qr_code_login_verify_code_subtitle">"O teu fornecedor de conta pode pedir o seguinte código para verificar o início de sessão."</string>
   <string name="screen_qr_code_login_verify_code_title">"O teu código de verificação"</string>
   <string name="screen_server_confirmation_change_server">"Alterar operador de conta"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Um servidor privado para funcionários da Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Um servidor privado para funcionários da Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"A Matrix é uma rede aberta de comunicação descentralizada e segura."</string>
   <string name="screen_server_confirmation_message_register">"É aqui que as tuas conversas vão ficar — tal como num serviço de e-mail."</string>
   <string name="screen_server_confirmation_title_login">"Irás iniciar sessão em %1$s"</string>

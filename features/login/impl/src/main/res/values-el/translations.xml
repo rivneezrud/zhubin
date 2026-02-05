@@ -85,7 +85,7 @@
   <string name="screen_qr_code_login_verify_code_subtitle">"Ο πάροχος λογαριασμού σου μπορεί να ζητήσει τον ακόλουθο κωδικό για να επαληθεύσει τη σύνδεση."</string>
   <string name="screen_qr_code_login_verify_code_title">"Ο κωδικός επαλήθευσής σου"</string>
   <string name="screen_server_confirmation_change_server">"Αλλαγή παρόχου λογαριασμού"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Ένας ιδιωτικός διακομιστής για υπαλλήλους του Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Ένας ιδιωτικός διακομιστής για υπαλλήλους του Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Το Matrix είναι ένα ανοιχτό δίκτυο για ασφαλή, αποκεντρωμένη επικοινωνία."</string>
   <string name="screen_server_confirmation_message_register">"Εδώ θα ζουν οι συνομιλίες σου - όπως θα χρησιμοποιούσες έναν πάροχο email για να διατηρήσεις τα email σου."</string>
   <string name="screen_server_confirmation_title_login">"Πρόκειται να συνδεθείς στο %1$s"</string>

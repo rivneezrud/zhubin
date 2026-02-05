@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Użyj innego dostawcy konta, takiego jak własny serwer lub konta służbowego."</string>
   <string name="screen_change_account_provider_title">"Zmień dostawcę konta"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"Wymagana jest aplikacja Element Pro na %1$s. Znajdziesz ją w sklepie z aplikacjami."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Wymagany jest Element Pro"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"Wymagana jest aplikacja Zhubin Pro na %1$s. Znajdziesz ją w sklepie z aplikacjami."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Wymagany jest Zhubin Pro"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Nie mogliśmy połączyć się z tym serwerem domowym. Sprawdź, czy adres URL serwera został wprowadzony poprawnie. Jeśli adres URL jest poprawny, skontaktuj się z administratorem serwera w celu uzyskania dalszej pomocy."</string>
   <string name="screen_change_server_error_invalid_well_known">"Serwer nie jest dostępny z powodu problemu pliku .well-known:
 %1$s"</string>
@@ -89,7 +89,7 @@ Spróbuj zalogować się ręcznie lub zeskanuj kod QR na innym urządzeniu."</st
   <string name="screen_qr_code_login_verify_code_subtitle">"Twój dostawca konta może poprosić o podany kod, aby zweryfikować logowanie."</string>
   <string name="screen_qr_code_login_verify_code_title">"Twój kod weryfikacyjny"</string>
   <string name="screen_server_confirmation_change_server">"Zmień dostawcę konta"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Serwer prywatny dla pracowników Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Serwer prywatny dla pracowników Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix to otwarta sieć do bezpiecznej i zdecentralizowanej komunikacji."</string>
   <string name="screen_server_confirmation_message_register">"Tutaj będą przechowywane Twoje konwersacje - w podobnej formie jak wiadomości widnieją na skrzynce e-mail."</string>
   <string name="screen_server_confirmation_title_login">"Zamierzasz się zalogować do %1$s"</string>

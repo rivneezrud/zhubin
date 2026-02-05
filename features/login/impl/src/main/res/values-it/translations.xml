@@ -14,8 +14,8 @@
   <string name="screen_change_account_provider_subtitle">"Utilizza un provider di account diverso, ad esempio il tuo server privato o un account di lavoro."</string>
   <string name="screen_change_account_provider_title">"Cambia fornitore dell\'account"</string>
   <string name="screen_change_server_error_element_pro_required_action_android">"Google Play"</string>
-  <string name="screen_change_server_error_element_pro_required_message">"L\'app Element Pro è necessaria su %1$s. Scaricala dallo store."</string>
-  <string name="screen_change_server_error_element_pro_required_title">"Element Pro è richiesto"</string>
+  <string name="screen_change_server_error_element_pro_required_message">"L\'app Zhubin Pro è necessaria su %1$s. Scaricala dallo store."</string>
+  <string name="screen_change_server_error_element_pro_required_title">"Zhubin Pro è richiesto"</string>
   <string name="screen_change_server_error_invalid_homeserver">"Non siamo riusciti a raggiungere questo homeserver. Verifica di aver inserito correttamente l\'URL. Se l\'URL è corretto, contatta l\'amministratore del homeserver per ulteriore assistenza."</string>
   <string name="screen_change_server_error_invalid_well_known">"Il server non è disponibile per un problema nel file well-known:
 %1$s"</string>
@@ -89,7 +89,7 @@ Prova ad accedere manualmente o scansiona il codice QR con un altro dispositivo.
   <string name="screen_qr_code_login_verify_code_subtitle">"Il fornitore dell\'account potrebbe richiedere il seguente codice per verificare l\'accesso."</string>
   <string name="screen_qr_code_login_verify_code_title">"Il tuo codice di verifica"</string>
   <string name="screen_server_confirmation_change_server">"Cambia fornitore dell\'account"</string>
-  <string name="screen_server_confirmation_message_login_element_dot_io">"Un server privato per i dipendenti di Element."</string>
+  <string name="screen_server_confirmation_message_login_element_dot_io">"Un server privato per i dipendenti di Zhubin."</string>
   <string name="screen_server_confirmation_message_login_matrix_dot_org">"Matrix è una rete aperta per comunicazioni sicure e decentralizzate."</string>
   <string name="screen_server_confirmation_message_register">"Qui è dove vivranno le tue conversazioni — proprio come useresti un fornitore di posta elettronica per conservare le tue email."</string>
   <string name="screen_server_confirmation_title_login">"Stai per accedere a %1$s"</string>
