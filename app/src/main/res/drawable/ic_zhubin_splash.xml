@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Zhubin splash screen icon
+  ~ Simplified Zhubin logo for splash screen
+  -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- White background circle -->
+    <circle
+        android:cx="60"
+        android:cy="60"
+        android:r="50"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Zhubin icon - stylized Z shape -->
+    <group android:name="zhubin_z">
+        <!-- Top horizontal line -->
+        <rect
+            android:x="35"
+            android:y="35"
+            android:width="50"
+            android:height="6"
+            android:fillColor="#1E40AF" />
+
+        <!-- Diagonal line (top-left to bottom-right) -->
+        <rect
+            android:x="35"
+            android:y="41"
+            android:width="7"
+            android:height="38"
+            android:rotation="45"
+            android:pivotX="38.5"
+            android:pivotY="60"
+            android:fillColor="#1E40AF" />
+
+        <!-- Bottom horizontal line -->
+        <rect
+            android:x="35"
+            android:y="79"
+            android:width="50"
+            android:height="6"
+            android:fillColor="#1E40AF" />
+    </group>
+</vector>

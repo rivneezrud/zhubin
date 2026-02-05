@@ -22,6 +22,7 @@ sealed class ElementLegal(
     @StringRes val titleRes: Int,
     val url: String,
 ) {
+    data object ForkAttribution : ElementLegal(CommonStrings.common_zhubin_fork_description, "https://github.com/element-hq/element-x-android")
     data object Copyright : ElementLegal(CommonStrings.common_copyright, COPYRIGHT_URL)
     data object AcceptableUsePolicy : ElementLegal(CommonStrings.common_acceptable_use_policy, USE_POLICY_URL)
     data object PrivacyPolicy : ElementLegal(CommonStrings.common_privacy_policy, PRIVACY_URL)
@@ -29,6 +30,7 @@ sealed class ElementLegal(
 
 fun getAllLegals(): ImmutableList<ElementLegal> {
     return persistentListOf(
+        ElementLegal.ForkAttribution,
         ElementLegal.Copyright,
         ElementLegal.AcceptableUsePolicy,
         ElementLegal.PrivacyPolicy,

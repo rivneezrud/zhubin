@@ -33,9 +33,9 @@ fun AnalyticsPreferencesView(
         state.eventSink(AnalyticsOptInEvents.EnableAnalytics(isEnabled = isEnabled))
     }
 
+    // Zhubin: Show that analytics is disabled
     val supportingText = stringResource(
-        id = R.string.screen_analytics_settings_help_us_improve,
-        state.applicationName
+        id = R.string.screen_analytics_settings_zhubin_disabled,
     )
     Column(modifier) {
         ListItem(
@@ -48,10 +48,9 @@ fun AnalyticsPreferencesView(
             leadingContent = null,
             trailingContent = ListItemContent.Switch(
                 checked = state.isEnabled,
+                enabled = false,  // Disable the toggle
             ),
-            onClick = {
-                onEnabledChanged(!state.isEnabled)
-            }
+            onClick = null,  // Make it non-clickable
         )
         if (state.policyUrl.isNotEmpty()) {
             val linkText = buildAnnotatedStringWithStyledPart(

@@ -1,114 +1,108 @@
-[![Latest build](https://github.com/element-hq/element-x-android/actions/workflows/build.yml/badge.svg?query=branch%3Adevelop)](https://github.com/element-hq/element-x-android/actions/workflows/build.yml?query=branch%3Adevelop)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=element-x-android&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=element-x-android)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=element-x-android&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=element-x-android)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=element-x-android&metric=bugs)](https://sonarcloud.io/summary/new_code?id=element-x-android)
-[![codecov](https://codecov.io/github/element-hq/element-x-android/branch/develop/graph/badge.svg?token=ecwvia7amV)](https://codecov.io/github/element-hq/element-x-android)
-[![Element X Android Matrix room #element-x-android:matrix.org](https://img.shields.io/matrix/element-x-android:matrix.org.svg?label=%23element-x-android:matrix.org&logo=matrix&server_fqdn=matrix.org)](https://matrix.to/#/#element-x-android:matrix.org)
-[![Localazy](https://img.shields.io/endpoint?url=https%3A%2F%2Fconnect.localazy.com%2Fstatus%2Felement%2Fdata%3Fcontent%3Dall%26title%3Dlocalazy%26logo%3Dtrue)](https://localazy.com/p/element)
+# Zhubin – پیام رسانی برای روزهای قطع و تاریکی
 
-# Element X Android
+Zhubin یک پیام رسان آزاد و امن است که به طور ویژه برای روزهایی ساخته شده که ارتباطات در ایران زیر فشار و قطع می‌شوند.  
+این پروژه برای خواهران و برادران داغ دیده من در ایران است؛ برای خانواده هایی که در دی ۱۴۰۴ اگر خط ها و اینترنت به دستور حاکمیت سرکوبگر خاموش نمیشد، شاید هنوز فرصت نجات جان عزیزانشان را داشتند.  
+برای چشم هایی که تا آخرین لحظه منتظر یک پیام، یک تماس یا حتی یک تیک تحویل ماندند و دیگر هیچ پاسخی نگرفتند.
 
-Element X Android is the next-generation [Matrix](https://matrix.org/) client provided by [Element](https://element.io/).
+هدف Zhubin این است که در چنین روزهایی، ابزار ارتباطی شما وابسته به یک شرکت، یک سرور مرکزی یا یک تصمیم سیاسی نباشد؛ بلکه تا حد امکان **مقاوم، غیرمتمرکز، و امن** بماند.
 
-Compared to the previous-generation [Element Classic](https://github.com/element-hq/element-android), the application is a total rewrite, using the [Matrix Rust SDK](https://github.com/matrix-org/matrix-rust-sdk) underneath and targeting devices running Android 7+. The UI layer is written using [Jetpack Compose](https://developer.android.com/jetpack/compose), and the navigation is managed using [Appyx](https://github.com/bumble-tech/appyx).
+---
 
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80">](https://play.google.com/store/apps/details?id=io.element.android.x)[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/io.element.android.x)
+## چرا Zhubin؟
 
-## Table of contents
+- برای شرایطی که:
+  - اینترنت سراسری مختل میشود.
+  - پلتفرم های محبوب فیلتر یا از کار انداخته میشوند.
+  - نیاز دارید بدون اعتماد به یک پیام رسان متمرکز، با عزیزان خود در ارتباط بمانید.
+- برای خانواده ها و دوستانی که:
+  - میخواهند در شرایط بحرانی، کانال ارتباطی نسبتا پایدار و امن داشته باشند.
+  - نمیخواهند اطلاعات شخصی و شبکه ارتباطی شان به سادگی در اختیار دیگران قرار بگیرد.
 
-<!--- TOC -->
+Zhubin تلاش میکند ابزار ارتباطی شما را:
+- تا حد ممکن **مستقل** از یک نقطه شکست واحد کند.
+- روی فناوری های **آزمایش شده و استاندارد** سوار کند، نه پروتکل های ناشناخته و اختصاصی.
+- بدون تبلیغات، ردگیری تجاری و تحلیل رفتار کاربران نگه دارد.
 
-* [Screenshots](#screenshots)
-* [Translations](#translations)
-* [Rust SDK](#rust-sdk)
-* [Status](#status)
-* [Minimum SDK version](#minimum-sdk-version)
-* [Contributing](#contributing)
-* [Build instructions](#build-instructions)
-* [Support](#support)
-* [Copyright and License](#copyright-and-license)
+---
 
-<!--- END -->
+## Zhubin بر چه پایه ای ساخته شده است؟
 
-## Screenshots
+Zhubin یک فورک از کلاینت متن باز **Element X** است که روی پروتکل **Matrix** کار میکند.  
+این یعنی:
 
-Here are some screenshots of the application:
+- پیام ها با **رمزنگاری سرتاسری (End-to-End Encryption)** ارسال و دریافت میشوند.
+- سرورها میتوانند **غیرمتمرکز** و مستقل از هم باشند (هرکسی میتواند سرور Matrix خود را داشته باشد).
+- پروتکل و کد **متن باز** هستند و هرکس میتواند آنها را بررسی و ممیزی کند.
+- برنامه برای **حریم خصوصی بیشتر** تنظیم شده (مثلاً خاموش کردن آنالیتیکس، عدم ارسال داده به سرویس های خارجی در نسخه Zhubin و…).
+- تمرکز پروژه بر روی استفاده در **شرایط بحرانی ملی** است، نه کاربرد تجاری.
 
-<!--
-Commands run before taking the screenshots:
-adb shell settings put system time_12_24 24
-adb shell am broadcast -a com.android.systemui.demo -e command enter
-adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 1337
-adb shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4
-adb shell am broadcast -a com.android.systemui.demo -e command network -e wifi show -e level 4
-adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false
-adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100
+---
 
-And to exit demo mode:
-adb shell am broadcast -a com.android.systemui.demo -e command exit
--->
+## امنیت و حریم خصوصی
 
-|<img src="./docs/images-lfs/screen_1_light.png" width="280" />|<img src="./docs/images-lfs/screen_2_light.png" width="280" />|<img src="./docs/images-lfs/screen_3_light.png" width="280" />|<img src="./docs/images-lfs/screen_4_light.png" width="280" />|
-|-|-|-|-|
-|<img src="./docs/images-lfs/screen_1_dark.png" width="280" />|<img src="./docs/images-lfs/screen_2_dark.png" width="280" />|<img src="./docs/images-lfs/screen_3_dark.png" width="280" />|<img src="./docs/images-lfs/screen_4_dark.png" width="280" />|
+### رمزنگاری سرتاسری
 
-## Translations
+- پیام ها بین شما و مخاطبتان به صورت سرتاسری رمزنگاری میشود.
+- سرورهای میانی تنها بسته های رمز شده را میبینند، نه متن پیام.
+- کلیدهای رمزنگاری روی دستگاه های کاربران نگه داشته میشوند، نه روی سرور.
 
-Element X Android supports many languages. You can help us to translate the app in your language by joining our [Localazy project](https://localazy.com/p/element). You can also help us to improve the existing translations.
+### غیرمتمرکز بودن
 
-Note that for now, we keep control on the French and German translations.
+- میتوانید از سرورهای مختلف Matrix استفاده کنید.
+- در صورت بروز مشکل برای یک سرور، امکان جابه جایی و مهاجرت وجود دارد.
+- ماهیت فدره ای Matrix باعث میشود ارتباطات کاملا در اختیار یک اپراتور واحد نباشد.
 
-Translations can be checked screen per screen using our tool Element X Android Gallery, available at https://element-hq.github.io/element-x-android/. Note that this page is updated every Tuesday.
+### حریم خصوصی از دید کلاینت Zhubin
 
-More instructions about translating the application can be found at [CONTRIBUTING.md](CONTRIBUTING.md#strings).
+- در فورک Zhubin، ارسال داده های تحلیلی (analytics) و گزارش های رفتاری به سرویس های خارجی غیرفعال شده است.
+- تمرکز روی **حداقل جمع آوری داده** است؛ فقط اطلاعاتی که برای کارکرد طبیعی پیام رسان لازم است نگهداری میشود.
+- تنظیمات حریم خصوصی (مانند آخرین بازدید، تیک خواندن پیام، تایپینگ و…) تا حد ممکن با پیش فرض های **محافظه کارانه تر** تنظیم شده اند تا کاربر از ابتدا در وضعیت امن تری باشد (شما همچنان میتوانید این تنظیمات را مطابق نیاز خود تغییر دهید).
 
-## Rust SDK
+> نکته مهم:  
+> هیچ نرم افزاری صددرصد امن نیست. امنیت واقعی ترکیبی از ابزار مناسب و رفتار آگاهانه کاربر است. Zhubin فقط سعی میکند بخش ابزار را تا حد ممکن جدی بگیرد.
 
-Element X leverages the [Matrix Rust SDK](https://github.com/matrix-org/matrix-rust-sdk) through an FFI layer that the final client can directly import and use.
+---
 
-We're doing this as a way to share code between platforms and while we've seen promising results it's still in the experimental stage and bound to change.
+## Zhubin در شرایط بحران ملی چه کمکی میکند؟
 
-## Status
+در سناریوهایی مثل دی ۱۴۰۴، که ممکن است:
 
-This project is actively developed and supported. New users are recommended to use Element X instead of the previous-generation app.
+- دسترسی به بعضی پیام رسان ها به طور کامل قطع یا فیلتر شود،
+- شبکه موبایل در بعضی شهرها مختل، و تنها مسیرهای محدود اینترنت فعال باشند،
+- کاربران نیاز به ارتباط چند نقطه ای، از سرورهای مختلف و مسیرهای مختلف داشته باشند،
 
-## Minimum SDK version
+Zhubin میتواند کمک کند:
 
-Element X Android requires a minimum SDK version of 24 (Android 7.0, Nougat). We aim to support devices running Android 7.0 and above, which covers a wide range of devices still in use today.
+1. **تنوع مسیر ارتباطی**  
+   با تکیه بر پروتکل Matrix و سرورهای مختلف، شما به یک سرویس تکی متکی نیستید. اگر یک سرور از دسترس خارج شود، میتوانید از سروری دیگر استفاده کنید.
 
-Element Android Enterprise requires a minimum SDK version of 33 (Android 13, Tiramisu). For Element Enterprise, we support only devices that still receive security updates, which means devices running Android 13 and above. Android does not have a documented support policy, but some information can be found at [https://endoflife.date/android](https://endoflife.date/android).
+2. **ارتباط امن در سطح کاربر به کاربر**  
+   رمزنگاری سرتاسری و امکاناتی مثل تایید هویت (verification) کمک میکند مطمئن شوید کسی در وسط مسیر پیام ها را دستکاری نمیکند.
 
-## Contributing
+3. **کاهش وابستگی به سرویس های تجاری و متمرکز**  
+   چون Zhubin متن باز و قابل نصب روی سرورهای مختلف است، میتوان آن را به بخشی از زیرساخت ارتباطی مردمی تبدیل کرد.
 
-Want to get actively involved in the project? You're more than welcome! A good way to start is to check the issues that are labelled with the [good first issue](https://github.com/element-hq/element-x-android/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) label. Let us know by commenting the issue that you're starting working on it.
+4. **کارکرد به عنوان لایه تکمیلی ارتباطی**  
+   Zhubin قرار نیست جای همه چیز را بگیرد، اما میتواند یک لایه امن و مقاوم در کنار VPN ها، کانال های اطلاع رسانی، و سایر ابزارهای شهروندی باشد.
 
-But first make sure to read our [contribution guide](CONTRIBUTING.md) first.
+---
 
-You can also come chat with the community in the Matrix [room](https://matrix.to/#/#element-x-android:matrix.org) dedicated to the project.
+---
 
-## Build instructions
+## نحوه نصب و ساخت
 
-Just clone the project and open it in Android Studio. Make sure to select the
-`app` configuration when building (as we also have sample apps in the project).
+### نصب نسخه آماده (در آینده)
 
-To build against a local copy of the Rust SDK, see the [Developer
-onboarding](docs/_developer_onboarding.md#building-the-sdk-locally) instructions.
+- اگر نسخه های آماده (APK) منتشر شود، لینک نصب در همین مخزن یا در بخش Releases قرار خواهد گرفت.
 
-## Support
+### ساخت از سورس (Android)
 
-When you are experiencing an issue on Element X Android, please first search in [GitHub issues](https://github.com/element-hq/element-x-android/issues)
-and then in [#element-x-android:matrix.org](https://matrix.to/#/#element-x-android:matrix.org).
-If after your research you still have a question, ask at [#element-x-android:matrix.org](https://matrix.to/#/#element-x-android:matrix.org). Otherwise feel free to create a GitHub issue if you encounter a bug or a crash, by explaining clearly in detail what happened. You can also perform bug reporting from the application settings. This is especially recommended when you encounter a crash.
+برای ساخت نسخه اندروید از سورس: 
 
-## Copyright and License
+```bash
+# کلون کردن مخزن
+git clone https://github.com/<your-username>/zhubin.git
+cd zhubin
 
-Copyright (c) 2025 Element Creations Ltd.
-Copyright (c) 2022 - 2025 New Vector Ltd.
-
-This software is dual licensed by Element Creations Ltd (Element). It can be used either:
-
-(1) for free under the terms of the GNU Affero General Public License (as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version); OR
-
-(2) under the terms of a paid-for Element Commercial License agreement between you and Element (the terms of which may vary depending on what you and Element have agreed to).
-
-Unless required by applicable law or agreed to in writing, software distributed under the Licenses is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the Licenses for the specific language governing permissions and limitations under the Licenses.
+# ساخت نسخه F-Droid Debug (برای تست)
+./gradlew :app:assembleFdroidDebug

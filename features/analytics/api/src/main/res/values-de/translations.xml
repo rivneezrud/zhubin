@@ -4,4 +4,5 @@
   <string name="screen_analytics_settings_read_terms">"Weitere Informationen findest du %1$s."</string>
   <string name="screen_analytics_settings_read_terms_content_link">"hier"</string>
   <string name="screen_analytics_settings_share_data">"Analysedaten teilen"</string>
+  <string name="screen_analytics_settings_zhubin_disabled">"Dieser Zhubin-Build sendet keine Analyse- oder Absturzdaten."</string>
 </resources>

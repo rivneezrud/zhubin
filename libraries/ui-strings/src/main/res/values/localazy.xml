@@ -176,6 +176,7 @@
   <string name="banner_migrate_to_native_sliding_sync_description">"Your server now supports a new, faster protocol. Log out and log back in to upgrade now. Doing this now will help you avoid a forced logout when the old protocol is removed later."</string>
   <string name="banner_migrate_to_native_sliding_sync_title">"Upgrade available"</string>
   <string name="common_about">"About"</string>
+  <string name="common_zhubin_fork_description">"Zhubin is a privacy-focused fork of Element X"</string>
   <string name="common_acceptable_use_policy">"Acceptable use policy"</string>
   <string name="common_add_account">"Add an account"</string>
   <string name="common_add_another_account">"Add another account"</string>
