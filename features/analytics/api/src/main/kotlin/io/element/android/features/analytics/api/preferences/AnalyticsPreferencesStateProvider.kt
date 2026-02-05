@@ -19,7 +19,7 @@ open class AnalyticsPreferencesStateProvider : PreviewParameterProvider<Analytic
 }
 
 fun aAnalyticsPreferencesState(
-    applicationName: String = "Element X",
+    applicationName: String = "Zhubin",
     isEnabled: Boolean = false,
     policyUrl: String = "https://element.io",
 ) = AnalyticsPreferencesState(

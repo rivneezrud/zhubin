@@ -12,8 +12,6 @@ import org.gradle.accessors.dm.LibrariesForLibs
 plugins {
     id("io.element.android-root")
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.ksp) apply false
@@ -52,6 +50,8 @@ allprojects {
 
     tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
         exclude("io/element/android/tests/konsist/failures/**")
+        // Force JVM target to 21 (project requirement) instead of auto-detecting JDK 25
+        jvmTarget = "21"
     }
 
     // KtLint

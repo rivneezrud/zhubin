@@ -26,7 +26,7 @@ forbiddenTerms = {
         # Contains "Element Call"
         "screen_incoming_call_subtitle_android",
         "call_invalid_audio_device_bluetooth_devices_disabled",
-        # Contains "Element X"
+        # Contains app name
         "screen_room_timeline_legacy_call",
         # We explicitly want to mention Element Pro in these 2:
         "screen_change_server_error_element_pro_required_title",
