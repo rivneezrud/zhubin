@@ -79,6 +79,14 @@ fun AdvancedSettingsView(
                 state.eventSink(AdvancedSettingsEvents.SetTheme(themeOption))
             }
         )
+        PreferenceDropdown(
+            title = stringResource(id = R.string.screen_advanced_settings_app_language),
+            selectedOption = state.appLanguage,
+            options = AppLanguageOption.entries.toImmutableList(),
+            onSelectOption = { languageOption ->
+                state.eventSink(AdvancedSettingsEvents.SetAppLanguage(languageOption))
+            }
+        )
         ListItem(
             headlineContent = {
                 Text(text = stringResource(id = CommonStrings.action_view_source))

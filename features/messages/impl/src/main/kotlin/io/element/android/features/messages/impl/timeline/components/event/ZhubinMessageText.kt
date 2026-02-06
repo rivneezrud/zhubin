@@ -8,23 +8,35 @@
 package io.element.android.features.messages.impl.timeline.components.event
 
 import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
+import android.text.style.URLSpan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.android.toAnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
+import io.element.android.compound.theme.LinkColor
 import io.element.android.features.messages.impl.R
 import io.element.android.features.messages.impl.timeline.components.IRAN_FLAG_INLINE_ID
 import io.element.android.features.messages.impl.timeline.components.IRAN_FLAG_UNICODE
@@ -88,8 +100,34 @@ internal fun ZhubinMessageText(
 private fun CharSequence.toAnnotatedStringCompat(): AnnotatedString {
     return when (this) {
         is AnnotatedString -> this
-        is Spanned -> this.toAnnotatedString()
+        is Spanned -> this.toAnnotatedStringCompat()
         else -> AnnotatedString(this.toString())
+    }
+}
+
+private fun Spanned.toAnnotatedStringCompat(): AnnotatedString = buildAnnotatedString {
+    append(this@toAnnotatedStringCompat.toString())
+    getSpans(0, length, Any::class.java).forEach { span ->
+        val start = getSpanStart(span)
+        val end = getSpanEnd(span)
+        if (start < 0 || end <= start) return@forEach
+        when (span) {
+            is StyleSpan -> when (span.style) {
+                android.graphics.Typeface.BOLD -> addStyle(SpanStyle(fontWeight = FontWeight.Bold), start, end)
+                android.graphics.Typeface.ITALIC -> addStyle(SpanStyle(fontStyle = FontStyle.Italic), start, end)
+                android.graphics.Typeface.BOLD_ITALIC -> addStyle(
+                    SpanStyle(fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic),
+                    start,
+                    end
+                )
+            }
+            is UnderlineSpan -> addStyle(SpanStyle(textDecoration = TextDecoration.Underline), start, end)
+            is ForegroundColorSpan -> addStyle(SpanStyle(color = Color(span.foregroundColor)), start, end)
+            is URLSpan -> {
+                addStyle(SpanStyle(color = LinkColor), start, end)
+                addStringAnnotation(tag = "URL", annotation = span.url, start = start, end = end)
+            }
+        }
     }
 }
 
@@ -112,6 +150,7 @@ private fun AnnotatedString.replaceIranFlagWithInlineContent(): AnnotatedString 
     return builder.toAnnotatedString()
 }
 
+@OptIn(ExperimentalTextApi::class)
 private fun AnnotatedString.linkAtPosition(
     position: androidx.compose.ui.geometry.Offset,
     layoutResult: TextLayoutResult?,

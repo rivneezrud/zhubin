@@ -12,6 +12,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.element.android.compound.theme.ElementTheme
@@ -81,7 +83,7 @@ fun ElementLogoAtom(
                 .background(backgroundColor)
                 .blurCompat(blur)
         )
-        Image(
+        Box(
             modifier = Modifier
                 .size(size.logoSize)
                 // Do the same double shadow than on Figma...
@@ -96,10 +98,18 @@ fun ElementLogoAtom(
                     clip = false,
                     shape = CircleShape,
                     ambientColor = Color(0x80000000),
-                ),
-            painter = painterResource(id = R.drawable.element_logo),
-            contentDescription = null
-        )
+                )
+                .clip(CircleShape)
+                .background(ElementTheme.materialColors.primary),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(id = R.drawable.element_logo),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+            )
+        }
     }
 }
 

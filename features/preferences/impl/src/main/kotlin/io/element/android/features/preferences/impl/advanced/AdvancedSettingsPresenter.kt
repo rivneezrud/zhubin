@@ -8,6 +8,7 @@
 
 package io.element.android.features.preferences.impl.advanced
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -60,6 +61,11 @@ class AdvancedSettingsPresenter(
                 }
             }
         }
+        val appLanguageOption by remember {
+            derivedStateOf {
+                AppLanguageOption.fromLocales(AppCompatDelegate.getApplicationLocales())
+            }
+        }
 
         val hasSplitMediaQualityOptions by produceState<Boolean?>(null) {
             value = featureFlagService.isFeatureEnabled(FeatureFlags.SelectableMediaQuality)
@@ -101,6 +107,9 @@ class AdvancedSettingsPresenter(
                         ThemeOption.Light -> appPreferencesStore.setTheme(Theme.Light.name)
                     }
                 }
+                is AdvancedSettingsEvents.SetAppLanguage -> {
+                    AppCompatDelegate.setApplicationLocales(event.language.toLocaleList())
+                }
                 is AdvancedSettingsEvents.SetHideInviteAvatars -> mediaPreviewConfigStateStore.setHideInviteAvatars(event.value)
                 is AdvancedSettingsEvents.SetTimelineMediaPreviewValue -> mediaPreviewConfigStateStore.setTimelineMediaPreviewValue(event.value)
                 is AdvancedSettingsEvents.SetCompressImages -> sessionCoroutineScope.launch {
@@ -117,6 +126,7 @@ class AdvancedSettingsPresenter(
             isSharePresenceEnabled = isSharePresenceEnabled,
             mediaOptimizationState = mediaOptimizationState,
             theme = themeOption,
+            appLanguage = appLanguageOption,
             mediaPreviewConfigState = mediaPreviewConfigState,
             eventSink = ::handleEvent,
         )
