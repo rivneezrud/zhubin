@@ -12,7 +12,7 @@ object BuildTimeConfig {
     const val APPLICATION_ID = "ir.zhubin.messenger"
     const val APPLICATION_NAME = "Zhubin"
     // TODO(zhubin): Replace with Firebase App IDs for ir.zhubin.messenger.
-    const val GOOGLE_APP_ID_RELEASE = "REPLACE_WITH_FIREBASE_APP_ID_RELEASE"
+    const val GOOGLE_APP_ID_RELEASE = "1:162006289992:android:f8ae2ff31eda7c40eb127d"
     const val GOOGLE_APP_ID_DEBUG = "REPLACE_WITH_FIREBASE_APP_ID_DEBUG"
     const val GOOGLE_APP_ID_NIGHTLY = "REPLACE_WITH_FIREBASE_APP_ID_NIGHTLY"
 

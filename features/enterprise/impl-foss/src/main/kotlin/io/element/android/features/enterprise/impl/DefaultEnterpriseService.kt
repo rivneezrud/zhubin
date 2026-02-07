@@ -34,7 +34,7 @@ class DefaultEnterpriseService : EnterpriseService {
     }
 
     override fun semanticColorsFlow(sessionId: SessionId?): Flow<SemanticColorsLightDark> {
-        return flowOf(SemanticColorsLightDark.default)
+        return flowOf(ZhubinSemanticColors.lightDark)
     }
 
     override fun firebasePushGateway(): String? = null
