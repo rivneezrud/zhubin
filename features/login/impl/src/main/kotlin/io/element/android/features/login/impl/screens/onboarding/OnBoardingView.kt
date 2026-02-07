@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +43,6 @@ import io.element.android.features.login.impl.screens.onboarding.classic.Confirm
 import io.element.android.features.login.impl.screens.onboarding.classic.LoginWithClassicEvent
 import io.element.android.features.login.impl.screens.onboarding.classic.LoginWithClassicState
 import io.element.android.libraries.architecture.AsyncData
-import io.element.android.libraries.designsystem.atomic.atoms.ElementLogoAtom
 import io.element.android.libraries.designsystem.atomic.atoms.ElementLogoAtomSize
 import io.element.android.libraries.designsystem.atomic.molecules.ButtonColumnMolecule
 import io.element.android.libraries.designsystem.atomic.pages.FlowStepPage
@@ -134,11 +135,12 @@ private fun LoginWithElementClassicView(
         confirmationDialog = { confirming ->
             when (confirming) {
                 is ConfirmingLoginWithElementClassic -> {
-                    // TODO i18n
                     ConfirmationDialog(
-                        title = "Sign in with Zhubin Classic",
-                        content = "You are signing in as ${confirming.userId} on Zhubin Classic." +
-                            " Your existing session on Zhubin Classic will not be signed out. Do you want to continue?",
+                        title = stringResource(id = R.string.screen_onboarding_sign_in_with_zhubin_classic),
+                        content = stringResource(
+                            id = R.string.screen_onboarding_classic_dialog_content,
+                            confirming.userId,
+                        ),
                         submitText = stringResource(CommonStrings.action_continue),
                         onSubmitClick = { state.eventSink(LoginWithClassicEvent.DoLoginWithClassic) },
                         onDismiss = { state.eventSink(LoginWithClassicEvent.CloseDialog) },
@@ -210,9 +212,13 @@ private fun OnBoardingContent(state: OnBoardingState) {
                 verticalBias = -0.4f
             )
         ) {
-            ElementLogoAtom(
-                size = ElementLogoAtomSize.Large,
-                modifier = Modifier.padding(top = ElementLogoAtomSize.Large.shadowRadius / 2)
+            Image(
+                modifier = Modifier
+                    .padding(top = ElementLogoAtomSize.Large.shadowRadius / 2)
+                    .size(ElementLogoAtomSize.Large.outerSize),
+                painter = painterResource(id = R.drawable.crossbow_royal),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
             )
         }
         Box(
@@ -285,7 +291,7 @@ private fun OnBoardingButtons(
         }
         if (state.loginWithClassicState.canLoginWithClassic) {
             Button(
-                text = "Sign in with Zhubin Classic",
+                text = stringResource(id = R.string.screen_onboarding_sign_in_with_zhubin_classic),
                 leadingIcon = IconSource.Vector(CompoundIcons.Mobile()),
                 onClick = {
                     state.loginWithClassicState.eventSink(
@@ -334,29 +340,16 @@ private fun OnBoardingButtons(
                     .fillMaxWidth()
             )
         }
-        if (state.isAddingAccount.not()) {
-            if (state.canReportBug) {
-                // Add a report problem text button. Use a Text since we need a special theme here.
-                Text(
-                    modifier = Modifier
-                        .clickable(onClick = onReportProblem)
-                        .padding(16.dp),
-                    text = stringResource(id = CommonStrings.common_report_a_problem),
-                    style = ElementTheme.typography.fontBodySmRegular,
-                    color = ElementTheme.colors.textSecondary,
-                )
-            } else {
-                Text(
-                    modifier = Modifier
-                        .clickable {
-                            state.eventSink(OnBoardingEvents.OnVersionClick)
-                        }
-                        .padding(16.dp),
-                    text = stringResource(id = R.string.screen_onboarding_app_version, state.version),
-                    style = ElementTheme.typography.fontBodySmRegular,
-                    color = ElementTheme.colors.textSecondary,
-                )
-            }
+        if (state.isAddingAccount.not() && state.canReportBug) {
+            // Add a report problem text button. Use a Text since we need a special theme here.
+            Text(
+                modifier = Modifier
+                    .clickable(onClick = onReportProblem)
+                    .padding(16.dp),
+                text = stringResource(id = CommonStrings.common_report_a_problem),
+                style = ElementTheme.typography.fontBodySmRegular,
+                color = ElementTheme.colors.textSecondary,
+            )
         }
     }
 }

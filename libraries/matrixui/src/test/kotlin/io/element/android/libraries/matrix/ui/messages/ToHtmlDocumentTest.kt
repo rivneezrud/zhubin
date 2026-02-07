@@ -65,7 +65,7 @@ class ToHtmlDocumentTest {
     fun `toHtmlDocument - if a mention is found without an '@' prefix, it will be added`() {
         val body = FormattedBody(
             format = MessageFormat.HTML,
-            body = "Hey <a href='https://matrix.to/#/@alice:matrix.org'>Alice</a>!"
+            body = "Hey <a href='@alice:matrix.org'>Alice</a>!"
         )
 
         val document = body.toHtmlDocument(permalinkParser = object : PermalinkParser {
@@ -80,7 +80,7 @@ class ToHtmlDocumentTest {
     fun `toHtmlDocument - if a mention is found with an '@' prefix, nothing will be done`() {
         val body = FormattedBody(
             format = MessageFormat.HTML,
-            body = "Hey <a href='https://matrix.to/#/@alice:matrix.org'>@Alice</a>!"
+            body = "Hey <a href='@alice:matrix.org'>@Alice</a>!"
         )
 
         val document = body.toHtmlDocument(permalinkParser = object : PermalinkParser {

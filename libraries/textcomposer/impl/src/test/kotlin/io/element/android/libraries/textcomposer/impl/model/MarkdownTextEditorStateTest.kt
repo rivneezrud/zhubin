@@ -123,8 +123,8 @@ class MarkdownTextEditorStateTest {
     fun `getMessageMarkdown - when there are MentionSpans returns the same text with links to the mentions`() {
         val text = "No mentions here"
         val permalinkBuilder = FakePermalinkBuilder(
-            permalinkForUserLambda = { Result.success("https://matrix.to/#/$it") },
-            permalinkForRoomAliasLambda = { Result.success("https://matrix.to/#/$it") },
+            permalinkForUserLambda = { Result.success("$it") },
+            permalinkForRoomAliasLambda = { Result.success("$it") },
         )
         val state = aMarkdownTextEditorState(initialText = text, initialFocus = true)
         state.text.update(aMarkdownTextWithMentions(), needsDisplaying = false)
@@ -132,8 +132,8 @@ class MarkdownTextEditorStateTest {
         val markdown = state.getMessageMarkdown(permalinkBuilder = permalinkBuilder)
 
         assertThat(markdown).isEqualTo(
-            "Hello [@alice:matrix.org](https://matrix.to/#/@alice:matrix.org) and everyone in @room" +
-                " and a room [#room:domain.org](https://matrix.to/#/#room:domain.org)"
+            "Hello [@alice:matrix.org](@alice:matrix.org) and everyone in @room" +
+                " and a room [#room:domain.org](#room:domain.org)"
         )
     }
 

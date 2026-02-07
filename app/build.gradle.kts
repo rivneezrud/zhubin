@@ -101,6 +101,26 @@ android {
             storePassword = System.getenv("ELEMENT_ANDROID_NIGHTLY_STOREPASSWORD")
                 ?: project.property("signing.element.nightly.storePassword") as? String?
         }
+        create("zhubinRelease") {
+            val storePath = providers.gradleProperty("/home/masiros/keystores/zhubin-release.jks").orNull
+                ?: System.getenv("/home/masiros/keystores/zhubin-release.jks")
+            val storePass = providers.gradleProperty("MHSn7620").orNull
+                ?: System.getenv("MHSn7620")
+            val keyAliasStr = providers.gradleProperty("zhubin").orNull
+                ?: System.getenv("zhubin")
+            val keyPass = providers.gradleProperty("MHSn7620").orNull
+                ?: System.getenv("MHSn7620")
+
+            require(!storePath.isNullOrBlank()) { "Missing /home/masiros/keystores/zhubin-release.jks" }
+            require(!storePass.isNullOrBlank()) { "Missing MHSn7620" }
+            require(!keyAliasStr.isNullOrBlank()) { "Missing zhubin" }
+            require(!keyPass.isNullOrBlank()) { "Missing MHSn7620" }
+
+            storeFile = file(storePath)
+            storePassword = storePass
+            keyAlias = keyAliasStr
+            keyPassword = keyPass
+        }
     }
 
     val baseAppName = BuildTimeConfig.APPLICATION_NAME
@@ -127,7 +147,7 @@ android {
                 "login_redirect_scheme",
                 oidcRedirectSchemeBase,
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("zhubinRelease")
 
             optimization {
                 enable = true

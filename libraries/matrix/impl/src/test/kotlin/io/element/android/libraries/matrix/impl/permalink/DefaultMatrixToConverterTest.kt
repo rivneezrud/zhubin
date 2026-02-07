@@ -18,26 +18,26 @@ import org.robolectric.RobolectricTestRunner
 class DefaultMatrixToConverterTest {
     @Test
     fun `converting a matrix-to url does nothing`() {
-        val url = Uri.parse("https://matrix.to/#/#element-android:matrix.org")
+        val url = Uri.parse("#element-android:matrix.org")
         assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(url)
     }
 
     @Test
     fun `converting a url with a supported room path returns a matrix-to url`() {
         val url = Uri.parse("https://riot.im/develop/#/room/#element-android:matrix.org")
-        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("https://matrix.to/#/#element-android:matrix.org"))
+        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("#element-android:matrix.org"))
     }
 
     @Test
     fun `converting a url with a supported user path returns a matrix-to url`() {
         val url = Uri.parse("https://riot.im/develop/#/user/@test:matrix.org")
-        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("https://matrix.to/#/@test:matrix.org"))
+        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("@test:matrix.org"))
     }
 
     @Test
     fun `converting a url with a supported group path returns a matrix-to url`() {
         val url = Uri.parse("https://riot.im/develop/#/group/+group:matrix.org")
-        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("https://matrix.to/#/+group:matrix.org"))
+        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("+group:matrix.org"))
     }
 
     @Test
@@ -49,12 +49,12 @@ class DefaultMatrixToConverterTest {
     @Test
     fun `converting url coming from the matrix-to website returns a matrix-to url for room case`() {
         val url = Uri.parse("element://room/#element-android:matrix.org")
-        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("https://matrix.to/#/#element-android:matrix.org"))
+        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("#element-android:matrix.org"))
     }
 
     @Test
     fun `converting url coming from the matrix-to website returns a matrix-to url for user case`() {
         val url = Uri.parse("element://user/@alice:matrix.org")
-        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("https://matrix.to/#/@alice:matrix.org"))
+        assertThat(DefaultMatrixToConverter().convert(url)).isEqualTo(Uri.parse("@alice:matrix.org"))
     }
 }

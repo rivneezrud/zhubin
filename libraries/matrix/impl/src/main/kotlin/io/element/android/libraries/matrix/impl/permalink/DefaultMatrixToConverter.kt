@@ -25,12 +25,12 @@ class DefaultMatrixToConverter : MatrixToConverter {
      * Try to convert a URL from an element web instance or from a client permalink to a matrix.to url.
      * To be successfully converted, URL path should contain one of the [SUPPORTED_PATHS].
      * Examples:
-     * - https://riot.im/develop/#/room/#element-android:matrix.org  ->  https://matrix.to/#/#element-android:matrix.org
-     * - https://app.element.io/#/room/#element-android:matrix.org   ->  https://matrix.to/#/#element-android:matrix.org
-     * - https://www.example.org/#/room/#element-android:matrix.org  ->  https://matrix.to/#/#element-android:matrix.org
+     * - https://riot.im/develop/#/room/#element-android:matrix.org  ->  #element-android:matrix.org
+     * - https://app.element.io/#/room/#element-android:matrix.org   ->  #element-android:matrix.org
+     * - https://www.example.org/#/room/#element-android:matrix.org  ->  #element-android:matrix.org
      * Also convert links coming from the matrix.to website:
-     * - element://room/#element-android:matrix.org                  ->  https://matrix.to/#/#element-android:matrix.org
-     * - element://user/@alice:matrix.org                            ->  https://matrix.to/#/@alice:matrix.org
+     * - element://room/#element-android:matrix.org                  ->  #element-android:matrix.org
+     * - element://user/@alice:matrix.org                            ->  @alice:matrix.org
      */
     override fun convert(uri: Uri): Uri? {
         val uriString = uri.toString()

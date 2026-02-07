@@ -42,7 +42,7 @@ class DefaultTextPillificationHelperTest {
                 PermalinkData.UserLink(userId)
             }),
             permalinkBuilder = FakePermalinkBuilder(permalinkForUserLambda = {
-                Result.success("https://matrix.to/#/@user:server.com")
+                Result.success("@user:server.com")
             }),
             mentionSpanFormatter = formatter,
         )
@@ -67,7 +67,7 @@ class DefaultTextPillificationHelperTest {
                 PermalinkData.RoomLink(RoomIdOrAlias.Alias(roomAlias))
             }),
             permalinkBuilder = FakePermalinkBuilder(permalinkForRoomAliasLambda = {
-                Result.success("https://matrix.to/#/#room:server.com")
+                Result.success("#room:server.com")
             }),
             mentionSpanFormatter = formatter,
         )
@@ -103,7 +103,7 @@ class DefaultTextPillificationHelperTest {
 
     @Test
     fun `pillify - adds pills for message permalinks`() {
-        val text = "Check this message: https://matrix.to/#/!roomid:server.com/$123"
+        val text = "Check this message: !roomid:server.com/$123"
         val roomId = RoomId("!roomid:server.com")
         val eventId = EventId("$123")
         val formatter = FakeMentionSpanFormatter()
@@ -131,7 +131,7 @@ class DefaultTextPillificationHelperTest {
 
     @Test
     fun `pillify - with pillifyPermalinks false does not add pills for permalinks`() {
-        val text = "Check this message: https://matrix.to/#/!roomid:server.com/$123"
+        val text = "Check this message: !roomid:server.com/$123"
         val roomId = RoomId("!roomid:server.com")
         val eventId = EventId("$123")
         val formatter = FakeMentionSpanFormatter()
@@ -152,7 +152,7 @@ class DefaultTextPillificationHelperTest {
 
     @Test
     fun `pillify - with pillifyPermalinks false still adds pills for matrix patterns`() {
-        val text = "A @user:server.com mention and a permalink https://matrix.to/#/!roomid:server.com/$123"
+        val text = "A @user:server.com mention and a permalink !roomid:server.com/$123"
         val userId = UserId("@user:server.com")
         val formatter = FakeMentionSpanFormatter()
         val helper = aTextPillificationHelper(
@@ -160,7 +160,7 @@ class DefaultTextPillificationHelperTest {
                 PermalinkData.UserLink(userId)
             }),
             permalinkBuilder = FakePermalinkBuilder(permalinkForUserLambda = {
-                Result.success("https://matrix.to/#/@user:server.com")
+                Result.success("@user:server.com")
             }),
             mentionSpanFormatter = formatter,
         )
@@ -175,7 +175,7 @@ class DefaultTextPillificationHelperTest {
 
     @Test
     fun `pillify - with pillifyPermalinks true adds pills for both matrix patterns and permalinks`() {
-        val text = "A @user:server.com mention and a permalink https://matrix.to/#/!roomid:server.com/$123"
+        val text = "A @user:server.com mention and a permalink !roomid:server.com/$123"
         val userId = UserId("@user:server.com")
         val roomId = RoomId("!roomid:server.com")
         val eventId = EventId("$123")
@@ -193,7 +193,7 @@ class DefaultTextPillificationHelperTest {
         val helper = aTextPillificationHelper(
             permalinkParser = permalinkParser,
             permalinkBuilder = FakePermalinkBuilder(permalinkForUserLambda = {
-                Result.success("https://matrix.to/#/@user:server.com")
+                Result.success("@user:server.com")
             }),
             mentionSpanFormatter = formatter,
         )

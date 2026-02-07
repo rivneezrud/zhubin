@@ -36,7 +36,6 @@ For a detailed overview of the project, see [Developer Onboarding](./docs/_devel
 
 If instead of contributing to the Zhubin Android project, you want to contribute to Synapse, the homeserver implementation, please read the [Synapse contribution guide](https://element-hq.github.io/synapse/latest/development/contributing_guide.html).
 
-Zhubin Android support can be found in this room: [![Zhubin Android Matrix room #element-x-android:matrix.org](https://img.shields.io/matrix/element-x-android:matrix.org.svg?label=%23element-x-android:matrix.org&logo=matrix&server_fqdn=matrix.org)](https://matrix.to/#/#element-x-android:matrix.org).
 
 The rest of the document contains specific rules for Matrix Android projects.
 

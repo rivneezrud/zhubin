@@ -1069,7 +1069,7 @@ class MessageComposerPresenterTest {
         val presenter = createPresenter(
             permalinkBuilder = FakePermalinkBuilder(
                 permalinkForUserLambda = {
-                    Result.success("https://matrix.to/#/${A_USER_ID_2.value}")
+                    Result.success("${A_USER_ID_2.value}")
                 }
             )
         )
@@ -1079,7 +1079,7 @@ class MessageComposerPresenterTest {
             initialState.eventSink(MessageComposerEvent.InsertSuggestion(ResolvedSuggestion.Member(aRoomMember(userId = A_USER_ID_2))))
 
             assertThat(initialState.textEditorState.messageHtml())
-                .isEqualTo("Hey <a href='https://matrix.to/#/${A_USER_ID_2.value}'>${A_USER_ID_2.value}</a>")
+                .isEqualTo("Hey <a href='${A_USER_ID_2.value}'>${A_USER_ID_2.value}</a>")
         }
     }
 

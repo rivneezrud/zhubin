@@ -40,8 +40,10 @@
   <string name="screen_onboarding_app_version">"Version %1$s"</string>
   <string name="screen_onboarding_sign_in_manually">"Sign in manually"</string>
   <string name="screen_onboarding_sign_in_to">"Sign in to %1$s"</string>
+  <string name="screen_onboarding_sign_in_with_zhubin_classic">"Sign in with Zhubin Classic"</string>
   <string name="screen_onboarding_sign_in_with_qr_code">"Sign in with QR code"</string>
   <string name="screen_onboarding_sign_up">"Create account"</string>
+  <string name="screen_onboarding_classic_dialog_content">"You are signing in as %1$s on Zhubin Classic. Your existing session on Zhubin Classic will not be signed out. Do you want to continue?"</string>
   <string name="screen_onboarding_welcome_message">"Welcome to the freedom world of %1$s."</string>
   <string name="screen_onboarding_welcome_subtitle">"Welcome to the freedom world of %1$s."</string>
   <string name="screen_onboarding_welcome_title">"The world is yours"</string>

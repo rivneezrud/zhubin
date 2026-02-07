@@ -126,9 +126,9 @@ internal fun MentionSpanThemePreview() {
                 permalinkParser = object : PermalinkParser {
                     override fun parse(uriString: String): PermalinkData {
                         return when (uriString) {
-                            "https://matrix.to/#/@me:matrix.org" -> PermalinkData.UserLink(UserId("@me:matrix.org"))
-                            "https://matrix.to/#/@other:matrix.org" -> PermalinkData.UserLink(UserId("@other:matrix.org"))
-                            "https://matrix.to/#/#room:matrix.org" -> PermalinkData.RoomLink(
+                            "@me:matrix.org" -> PermalinkData.UserLink(UserId("@me:matrix.org"))
+                            "@other:matrix.org" -> PermalinkData.UserLink(UserId("@other:matrix.org"))
+                            "#room:matrix.org" -> PermalinkData.RoomLink(
                                 roomIdOrAlias = RoomAlias("#room:matrix.org").toRoomIdOrAlias(),
                                 eventId = null,
                                 viaParameters = persistentListOf(),
@@ -142,9 +142,9 @@ internal fun MentionSpanThemePreview() {
         }
 
         val textColor = ElementTheme.colors.textPrimary.toArgb()
-        fun mentionSpanMe() = provider.getMentionSpanFor("mention", "https://matrix.to/#/@me:matrix.org")
-        fun mentionSpanOther() = provider.getMentionSpanFor("mention", "https://matrix.to/#/@other:matrix.org")
-        fun mentionSpanRoom() = provider.getMentionSpanFor("room:matrix.org", "https://matrix.to/#/#room:matrix.org")
+        fun mentionSpanMe() = provider.getMentionSpanFor("mention", "@me:matrix.org")
+        fun mentionSpanOther() = provider.getMentionSpanFor("mention", "@other:matrix.org")
+        fun mentionSpanRoom() = provider.getMentionSpanFor("room:matrix.org", "#room:matrix.org")
         fun mentionSpanEveryone() = provider.createEveryoneMentionSpan()
         mentionSpanTheme.updateStyles()
 
@@ -194,8 +194,8 @@ private fun MentionSpanThemeInTimelineContent(
             permalinkParser = object : PermalinkParser {
                 override fun parse(uriString: String): PermalinkData {
                     return when (uriString) {
-                        "https://matrix.to/#/@me:matrix.org" -> PermalinkData.UserLink(UserId("@me:matrix.org"))
-                        "https://matrix.to/#/@other:matrix.org" -> PermalinkData.UserLink(UserId("@other:matrix.org"))
+                        "@me:matrix.org" -> PermalinkData.UserLink(UserId("@me:matrix.org"))
+                        "@other:matrix.org" -> PermalinkData.UserLink(UserId("@other:matrix.org"))
                         else -> throw AssertionError("Unexpected value $uriString")
                     }
                 }
@@ -204,8 +204,8 @@ private fun MentionSpanThemeInTimelineContent(
     }
 
     val textColor = ElementTheme.colors.textPrimary.toArgb()
-    fun mentionSpanMe() = provider.getMentionSpanFor("mention", "https://matrix.to/#/@me:matrix.org")
-    fun mentionSpanOther() = provider.getMentionSpanFor("mention", "https://matrix.to/#/@other:matrix.org")
+    fun mentionSpanMe() = provider.getMentionSpanFor("mention", "@me:matrix.org")
+    fun mentionSpanOther() = provider.getMentionSpanFor("mention", "@other:matrix.org")
     mentionSpanTheme.updateStyles()
 
     AndroidView(

@@ -54,7 +54,7 @@ class TimelineTextViewTest {
 
     @Test
     fun `getTextWithResolvedMentions - does nothing for a non spannable CharSequence`() = runTest {
-        val charSequence = "Hello <a href=\"https://matrix.to/#/@alice:example.com\">@alice:example.com</a>"
+        val charSequence = "Hello <a href=\"@alice:example.com\">@alice:example.com</a>"
         val mentionSpanUpdater = aMentionSpanUpdater()
         val result = rule.getText(mentionSpanUpdater, aTextContentWithFormattedBody(charSequence))
 
@@ -64,7 +64,7 @@ class TimelineTextViewTest {
 
     @Test
     fun `getTextWithResolvedMentions - does nothing if there are no mentions`() = runTest {
-        val charSequence = SpannableString("Hello <a href=\"https://matrix.to/#/@alice:example.com\">@alice:example.com</a>")
+        val charSequence = SpannableString("Hello <a href=\"@alice:example.com\">@alice:example.com</a>")
         val mentionSpanUpdater = aMentionSpanUpdater()
         val result = rule.getText(mentionSpanUpdater, aTextContentWithFormattedBody(charSequence))
 
@@ -74,7 +74,7 @@ class TimelineTextViewTest {
 
     @Test
     fun `getTextWithResolvedMentions - just returns the body if there is no formattedBody`() = runTest {
-        val charSequence = "Hello <a href=\"https://matrix.to/#/@alice:example.com\">@alice:example.com</a>"
+        val charSequence = "Hello <a href=\"@alice:example.com\">@alice:example.com</a>"
         val mentionSpanUpdater = aMentionSpanUpdater()
         val result = rule.getText(mentionSpanUpdater, aTextContentWithFormattedBody(body = charSequence, formattedBody = null))
 

@@ -195,7 +195,7 @@ class IntentResolverTest {
         )
         val intent = Intent(RuntimeEnvironment.getApplication(), Activity::class.java).apply {
             action = Intent.ACTION_VIEW
-            data = "https://matrix.to/#/@alice:matrix.org".toUri()
+            data = "@alice:matrix.org".toUri()
         }
         val result = sut.resolve(intent)
         assertThat(result).isEqualTo(
@@ -214,7 +214,7 @@ class IntentResolverTest {
         )
         val intent = Intent(RuntimeEnvironment.getApplication(), Activity::class.java).apply {
             action = Intent.ACTION_VIEW
-            data = "https://matrix.to/#/@alice:matrix.org".toUri()
+            data = "@alice:matrix.org".toUri()
         }
         val result = sut.resolve(intent)
         assertThat(result).isNull()

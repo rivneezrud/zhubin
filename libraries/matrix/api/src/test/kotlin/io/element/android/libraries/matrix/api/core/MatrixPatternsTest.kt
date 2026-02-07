@@ -66,7 +66,7 @@ class MatrixPatternsTest {
 
     @Test
     fun `findPatterns - returns user ids in permalinks`() {
-        val text = "A [User](https://matrix.to/#/@user:server.com)"
+        val text = "A [User](@user:server.com)"
         val permalinkParser = aPermalinkParser { _ ->
             PermalinkData.UserLink(UserId("@user:server.com"))
         }
@@ -76,7 +76,7 @@ class MatrixPatternsTest {
 
     @Test
     fun `findPatterns - returns room aliases in permalinks`() {
-        val text = "A [Room](https://matrix.to/#/#room:server.com)"
+        val text = "A [Room](#room:server.com)"
         val permalinkParser = aPermalinkParser { _ ->
             PermalinkData.RoomLink(RoomIdOrAlias.Alias(RoomAlias("#room:server.com")))
         }
