@@ -27,12 +27,32 @@ android {
                 name = "google_app_id",
                 value = BuildTimeConfig.GOOGLE_APP_ID_RELEASE,
             )
+            resValue(
+                type = "string",
+                name = "google_api_key",
+                value = BuildTimeConfig.GOOGLE_API_KEY.takeIf { it?.isNotEmpty() == true } ?: "AIzaSyDummyKeyChangeInCI",
+            )
+            resValue(
+                type = "string",
+                name = "google_crash_reporting_api_key",
+                value = BuildTimeConfig.GOOGLE_CRASH_REPORTING_API_KEY.takeIf { it?.isNotEmpty() == true } ?: "AIzaSyDummyKeyChangeInCI",
+            )
         }
         getByName("debug") {
             resValue(
                 type = "string",
                 name = "google_app_id",
                 value = BuildTimeConfig.GOOGLE_APP_ID_DEBUG,
+            )
+            resValue(
+                type = "string",
+                name = "google_api_key",
+                value = BuildTimeConfig.GOOGLE_API_KEY.takeIf { it?.isNotEmpty() == true } ?: "AIzaSyDummyKeyChangeInCI",
+            )
+            resValue(
+                type = "string",
+                name = "google_crash_reporting_api_key",
+                value = BuildTimeConfig.GOOGLE_CRASH_REPORTING_API_KEY.takeIf { it?.isNotEmpty() == true } ?: "AIzaSyDummyKeyChangeInCI",
             )
         }
         register("nightly") {
@@ -42,6 +62,16 @@ android {
                 type = "string",
                 name = "google_app_id",
                 value = BuildTimeConfig.GOOGLE_APP_ID_NIGHTLY,
+            )
+            resValue(
+                type = "string",
+                name = "google_api_key",
+                value = BuildTimeConfig.GOOGLE_API_KEY.takeIf { it?.isNotEmpty() == true } ?: "AIzaSyDummyKeyChangeInCI",
+            )
+            resValue(
+                type = "string",
+                name = "google_crash_reporting_api_key",
+                value = BuildTimeConfig.GOOGLE_CRASH_REPORTING_API_KEY.takeIf { it?.isNotEmpty() == true } ?: "AIzaSyDummyKeyChangeInCI",
             )
         }
     }

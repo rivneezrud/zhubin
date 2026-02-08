@@ -33,6 +33,9 @@ object BuildTimeConfig {
     val SERVICES_SENTRY_DSN_RUST: String? = null
     val BUG_REPORT_URL: String? = null
     val BUG_REPORT_APP_NAME: String? = null
+    val GOOGLE_API_KEY: String? = System.getenv("FIREBASE_GOOGLE_API_KEY")
+    val GOOGLE_CRASH_REPORTING_API_KEY: String? = System.getenv("FIREBASE_GOOGLE_CRASH_REPORTING_API_KEY")
+    val GOOGLE_SERVICES_JSON_PATH: String? = System.getenv("GOOGLE_SERVICES_JSON_PATH")
 
     const val PUSH_CONFIG_INCLUDE_FIREBASE = true
     const val PUSH_CONFIG_INCLUDE_UNIFIED_PUSH = true

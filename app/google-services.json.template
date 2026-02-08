@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "SET_VIA_ENVIRONMENT"
+          "current_key": "REPLACE_WITH_GOOGLE_API_KEY_FROM_GCP_CONSOLE"
         }
       ],
       "services": {

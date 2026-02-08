@@ -115,3 +115,16 @@ lint/tmp/
 .DS_Store
 
 checkouts/**
+# Sensitive credentials and environment files
+.env
+.env.local
+.env.*.local
+app/google-services.json
+libraries/pushproviders/firebase/src/main/res/values/firebase-secrets.xml
+
+# API keys and secrets (never commit these)
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
