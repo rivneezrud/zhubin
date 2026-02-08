@@ -117,11 +117,13 @@ lint/tmp/
 checkouts/**
 # Sensitive credentials and environment files
 .env
+.env.example
 .env.local
 .env.*.local
 app/google-services.json
 libraries/pushproviders/firebase/src/main/res/values/firebase-secrets.xml
-
+google-services.json
+google-services.json.template
 # API keys and secrets (never commit these)
 *.key
 *.pem
