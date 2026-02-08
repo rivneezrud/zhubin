@@ -8,7 +8,6 @@
 
 rootProject.name = "Zhubin"
 
-// برای رزولوشن پلاگین‌ها مثل com.android.application
 pluginManagement {
     repositories {
         google()
@@ -18,7 +17,6 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    // اختیاری ولی معمول در پروژه‌های جدید اندروید
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
     repositories {
@@ -28,7 +26,6 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("libs") {
-            // اگر در ریشه همین پروژه است، احتمالاً بهتر است:
             // from(files("gradle/libs.versions.toml"))
             from(files("../gradle/libs.versions.toml"))
         }
