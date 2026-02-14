@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +34,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -103,12 +106,10 @@ fun HomeTopBar(
                 scrolledContainerColor = Color.Transparent,
             ),
             title = {
-                Text(
-                    modifier = Modifier.semantics {
-                        heading()
-                    },
-                    style = ElementTheme.typography.aliasScreenTitle,
-                    text = title,
+                Image(
+                    painter = painterResource(id = R.drawable.flag_iran),
+                    contentDescription = "Iran Flag",
+                    modifier = Modifier.size(32.dp)
                 )
             },
             navigationIcon = {
