@@ -25,12 +25,22 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
     @Inject lateinit var firebaseNewTokenHandler: FirebaseNewTokenHandler
     @Inject lateinit var pushParser: FirebasePushParser
     @Inject lateinit var pushHandler: PushHandler
+    @Inject lateinit var firebaseTokenGetter: FirebaseTokenGetter
     @AppCoroutineScope
     @Inject lateinit var coroutineScope: CoroutineScope
 
     override fun onCreate() {
         super.onCreate()
         bindings<VectorFirebaseMessagingServiceBindings>().inject(this)
+        // Ensure Firebase token is fetched when the service starts
+        coroutineScope.launch {
+            try {
+                firebaseTokenGetter.get()
+                Timber.tag(loggerTag.value).d("Firebase token fetched successfully on service start")
+            } catch (e: Exception) {
+                Timber.tag(loggerTag.value).w(e, "Failed to fetch Firebase token on service start")
+            }
+        }
     }
 
     override fun onNewToken(token: String) {

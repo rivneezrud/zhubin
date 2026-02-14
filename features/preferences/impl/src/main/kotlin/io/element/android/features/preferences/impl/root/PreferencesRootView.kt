@@ -56,12 +56,9 @@ fun PreferencesRootView(
     onManageAccountClick: (url: String) -> Unit,
     onLinkNewDeviceClick: () -> Unit,
     onOpenAnalytics: () -> Unit,
-    onOpenRageShake: () -> Unit,
     onOpenLockScreenSettings: () -> Unit,
-    onOpenAbout: () -> Unit,
     onOpenDeveloperSettings: () -> Unit,
     onOpenAdvancedSettings: () -> Unit,
-    onOpenLabs: () -> Unit,
     onOpenNotificationSettings: () -> Unit,
     onOpenUserProfile: (MatrixUser) -> Unit,
     onOpenBlockedUsers: () -> Unit,
@@ -109,12 +106,9 @@ fun PreferencesRootView(
         // General section
         GeneralSection(
             state = state,
-            onOpenAbout = onOpenAbout,
             onOpenAnalytics = onOpenAnalytics,
-            onOpenRageShake = onOpenRageShake,
             onOpenAdvancedSettings = onOpenAdvancedSettings,
             onOpenDeveloperSettings = onOpenDeveloperSettings,
-            onOpenLabs = onOpenLabs,
             onSignOutClick = onSignOutClick,
             onDeactivateClick = onDeactivateClick,
         )
@@ -239,27 +233,12 @@ private fun ColumnScope.ManageAccountSection(
 @Composable
 private fun ColumnScope.GeneralSection(
     state: PreferencesRootState,
-    onOpenAbout: () -> Unit,
     onOpenAnalytics: () -> Unit,
-    onOpenRageShake: () -> Unit,
     onOpenAdvancedSettings: () -> Unit,
-    onOpenLabs: () -> Unit,
     onOpenDeveloperSettings: () -> Unit,
     onSignOutClick: () -> Unit,
     onDeactivateClick: () -> Unit,
 ) {
-    ListItem(
-        headlineContent = { Text(stringResource(id = CommonStrings.common_about)) },
-        leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Info())),
-        onClick = onOpenAbout,
-    )
-    if (state.canReportBug) {
-        ListItem(
-            headlineContent = { Text(stringResource(id = CommonStrings.common_report_a_problem)) },
-            leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.ChatProblem())),
-            onClick = onOpenRageShake
-        )
-    }
     if (state.showAnalyticsSettings) {
         ListItem(
             headlineContent = { Text(stringResource(id = CommonStrings.common_analytics)) },
@@ -272,14 +251,6 @@ private fun ColumnScope.GeneralSection(
         leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Settings())),
         onClick = onOpenAdvancedSettings,
     )
-
-    if (state.showLabsItem) {
-        ListItem(
-            headlineContent = { Text(stringResource(id = R.string.screen_labs_title)) },
-            leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Labs())),
-            onClick = onOpenLabs,
-        )
-    }
 
     ListItem(
         headlineContent = { Text(stringResource(id = CommonStrings.action_signout)) },
@@ -356,11 +327,8 @@ private fun ContentToPreview(matrixUser: MatrixUser) {
         onBackClick = {},
         onAddAccountClick = {},
         onOpenAnalytics = {},
-        onOpenRageShake = {},
         onOpenDeveloperSettings = {},
         onOpenAdvancedSettings = {},
-        onOpenLabs = {},
-        onOpenAbout = {},
         onSecureBackupClick = {},
         onManageAccountClick = {},
         onLinkNewDeviceClick = {},

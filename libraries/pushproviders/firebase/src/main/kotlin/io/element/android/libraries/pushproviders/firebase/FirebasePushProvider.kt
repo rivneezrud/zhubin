@@ -27,6 +27,7 @@ class FirebasePushProvider(
     private val pusherSubscriber: PusherSubscriber,
     private val isPlayServiceAvailable: IsPlayServiceAvailable,
     private val firebaseTokenRotator: FirebaseTokenRotator,
+    private val firebaseTokenGetter: FirebaseTokenGetter,
     private val firebaseGatewayProvider: FirebaseGatewayProvider,
 ) : PushProvider {
     override val index = FirebaseConfig.INDEX
@@ -40,13 +41,23 @@ class FirebasePushProvider(
     }
 
     override suspend fun registerWith(matrixClient: MatrixClient, distributor: Distributor): Result<Unit> {
-        val pushKey = firebaseStore.getFcmToken() ?: return Result.failure<Unit>(
-            IllegalStateException(
-                "Unable to register pusher, Firebase token is not known."
-            )
-        ).also {
-            Timber.tag(loggerTag.value).w("Unable to register pusher, Firebase token is not known.")
+        var pushKey = firebaseStore.getFcmToken()
+        
+        // If no token is stored, fetch a fresh one from Firebase
+        if (pushKey == null) {
+            try {
+                pushKey = firebaseTokenGetter.get()
+                Timber.tag(loggerTag.value).d("Fetched fresh Firebase token")
+            } catch (e: Exception) {
+                Timber.tag(loggerTag.value).e(e, "Failed to fetch Firebase token")
+                return Result.failure(
+                    IllegalStateException(
+                        "Unable to register pusher, Firebase token could not be generated."
+                    )
+                )
+            }
         }
+        
         return pusherSubscriber.registerPusher(
             matrixClient = matrixClient,
             pushKey = pushKey,
@@ -90,5 +101,21 @@ class FirebasePushProvider(
 
     companion object {
         private val firebaseDistributor = Distributor("Firebase", "Firebase")
+    }
+    
+    /**
+     * Initialize Firebase token generation at app startup.
+     * This ensures a token is fetched from Firebase even before the user logs in.
+     */
+    suspend fun initializeToken() {
+        if (firebaseStore.getFcmToken() == null && isPlayServiceAvailable.isAvailable()) {
+            try {
+                firebaseTokenGetter.get()
+                Timber.tag(loggerTag.value).d("Firebase token initialized successfully")
+            } catch (e: Exception) {
+                Timber.tag(loggerTag.value).w(e, "Failed to initialize Firebase token at startup")
+                // Don't fail the app startup, token will be fetched when needed
+            }
+        }
     }
 }
