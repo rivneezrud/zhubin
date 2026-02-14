@@ -37,7 +37,7 @@ plugins {
     id("kotlin-parcelize")
     alias(libs.plugins.licensee)
     alias(libs.plugins.kotlin.serialization)
-    // To be able to update the firebase.xml files, uncomment and build the project
+    // Google Services plugin enabled (requires google-services.json per flavor/buildType)
     alias(libs.plugins.gms.google.services)
 }
 
@@ -56,6 +56,13 @@ android {
         ndk {
             abiFilters += listOf("armeabi-v7a", "x86", "arm64-v8a", "x86_64")
         }
+
+        // Firebase configuration (used by manual init; keep in sync with google-services.json)
+        buildConfigFieldStr("FIREBASE_PROJECT_ID", "zhubin-17484")
+        buildConfigFieldStr("FIREBASE_PROJECT_NUMBER", "162006289992")
+        buildConfigFieldStr("FIREBASE_API_KEY", "AIzaSyCUtOECjkOMXinJtKt8fECd_S2IGiV1f2U")
+        buildConfigFieldStr("FIREBASE_APP_ID", "1:162006289992:android:f8ae2ff31eda7c40eb127d")
+        buildConfigFieldStr("FIREBASE_STORAGE_BUCKET", "zhubin-17484.firebasestorage.app")
 
         // Ref: https://developer.android.com/studio/build/configure-apk-splits.html#configure-abi-split
         splits {
