@@ -62,6 +62,7 @@ fun PreferencesRootView(
     onOpenNotificationSettings: () -> Unit,
     onOpenUserProfile: (MatrixUser) -> Unit,
     onOpenBlockedUsers: () -> Unit,
+    onOpenChangePassword: () -> Unit,
     onSignOutClick: () -> Unit,
     onDeactivateClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -100,7 +101,8 @@ fun PreferencesRootView(
             state = state,
             onManageAccountClick = onManageAccountClick,
             onLinkNewDeviceClick = onLinkNewDeviceClick,
-            onOpenBlockedUsers = onOpenBlockedUsers
+            onOpenBlockedUsers = onOpenBlockedUsers,
+            onOpenChangePassword = onOpenChangePassword,
         )
 
         // General section
@@ -191,6 +193,7 @@ private fun ColumnScope.ManageAccountSection(
     onManageAccountClick: (url: String) -> Unit,
     onLinkNewDeviceClick: () -> Unit,
     onOpenBlockedUsers: () -> Unit,
+    onOpenChangePassword: () -> Unit,
 ) {
     if (state.showLinkNewDevice) {
         ListItem(
@@ -225,9 +228,13 @@ private fun ColumnScope.ManageAccountSection(
         )
     }
 
-    if (state.accountManagementUrl != null || state.devicesManagementUrl != null || state.showBlockedUsersItem) {
-        HorizontalDivider()
-    }
+    ListItem(
+        headlineContent = { Text(stringResource(id = R.string.screen_change_password_title)) },
+        leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Key())),
+        onClick = onOpenChangePassword,
+    )
+
+    HorizontalDivider()
 }
 
 @Composable
@@ -336,6 +343,7 @@ private fun ContentToPreview(matrixUser: MatrixUser) {
         onOpenLockScreenSettings = {},
         onOpenUserProfile = {},
         onOpenBlockedUsers = {},
+        onOpenChangePassword = {},
         onSignOutClick = {},
         onDeactivateClick = {},
     )

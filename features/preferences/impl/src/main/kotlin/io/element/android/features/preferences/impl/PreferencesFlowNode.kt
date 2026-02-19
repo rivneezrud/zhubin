@@ -29,6 +29,7 @@ import io.element.android.features.preferences.impl.about.AboutNode
 import io.element.android.features.preferences.impl.advanced.AdvancedSettingsNode
 import io.element.android.features.preferences.impl.analytics.AnalyticsSettingsNode
 import io.element.android.features.preferences.impl.blockedusers.BlockedUsersNode
+import io.element.android.features.preferences.impl.changepassword.ChangePasswordNode
 import io.element.android.features.preferences.impl.developer.DeveloperSettingsNode
 import io.element.android.features.preferences.impl.labs.LabsNode
 import io.element.android.features.preferences.impl.notifications.NotificationSettingsNode
@@ -108,6 +109,9 @@ class PreferencesFlowNode(
         data object BlockedUsers : NavTarget
 
         @Parcelize
+        data object ChangePassword : NavTarget
+
+        @Parcelize
         data object SignOut : NavTarget
 
         @Parcelize
@@ -173,6 +177,10 @@ class PreferencesFlowNode(
 
                     override fun navigateToBlockedUsers() {
                         backstack.push(NavTarget.BlockedUsers)
+                    }
+
+                    override fun navigateToChangePassword() {
+                        backstack.push(NavTarget.ChangePassword)
                     }
 
                     override fun startSignOutFlow() {
@@ -301,6 +309,9 @@ class PreferencesFlowNode(
             }
             NavTarget.BlockedUsers -> {
                 createNode<BlockedUsersNode>(buildContext)
+            }
+            NavTarget.ChangePassword -> {
+                createNode<ChangePasswordNode>(buildContext)
             }
             NavTarget.SignOut -> {
                 val callBack: LogoutEntryPoint.Callback = object : LogoutEntryPoint.Callback {
