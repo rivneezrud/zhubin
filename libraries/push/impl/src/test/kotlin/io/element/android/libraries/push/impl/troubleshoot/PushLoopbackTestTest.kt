@@ -26,7 +26,11 @@ import io.element.android.services.toolbox.test.strings.FakeStringProvider
 import io.element.android.services.toolbox.test.systemclock.FakeSystemClock
 import io.element.android.tests.testutils.lambda.lambdaRecorder
 import kotlinx.coroutines.test.runTest
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
+import retrofit2.HttpException
+import retrofit2.Response
+import java.net.HttpURLConnection
 
 class PushLoopbackTestTest {
     @Test
@@ -117,6 +121,31 @@ class PushLoopbackTestTest {
             val lastItem = awaitItem()
             assertThat(lastItem.status).isEqualTo(NotificationTroubleshootTestState.Status.Failure())
             assertThat(lastItem.description).contains(A_FAILURE_REASON)
+        }
+    }
+
+    @Test
+    fun `test PushLoopbackTest http server error is non critical`() = runTest {
+        val sut = createPushLoopbackTest(
+            pushService = FakePushService(
+                testPushBlock = {
+                    throw HttpException(
+                        Response.error<Unit>(
+                            HttpURLConnection.HTTP_BAD_GATEWAY,
+                            "".toResponseBody()
+                        )
+                    )
+                }
+            ),
+        )
+        sut.runAndTestState {
+            assertThat(awaitItem().status).isEqualTo(NotificationTroubleshootTestState.Status.Idle(true))
+            assertThat(awaitItem().status).isEqualTo(NotificationTroubleshootTestState.Status.InProgress)
+            val lastItem = awaitItem()
+            assertThat(lastItem.status).isEqualTo(
+                NotificationTroubleshootTestState.Status.Failure(isCritical = false)
+            )
+            assertThat(lastItem.description).contains("HTTP 502")
         }
     }
 

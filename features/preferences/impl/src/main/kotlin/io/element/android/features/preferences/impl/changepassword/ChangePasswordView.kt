@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.dp
 import io.element.android.compound.theme.ElementTheme
 import io.element.android.compound.tokens.generated.CompoundIcons
 import io.element.android.features.preferences.impl.R
-import io.element.android.libraries.architecture.AsyncAction
 import io.element.android.libraries.designsystem.components.button.BackButton
 import io.element.android.libraries.designsystem.components.form.textFieldState
 import io.element.android.libraries.designsystem.modifiers.onTabOrEnterKeyFocusNext
@@ -174,7 +173,7 @@ fun ChangePasswordView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .onTabOrEnterKeyFocusNext(focusManager)
-                    .semantics { contentType = ContentType.NewPassword },
+                    .semantics { contentType = ContentType.Password },
                 onValueChange = {
                     val sanitized = it.sanitize()
                     newPasswordFieldState = sanitized
@@ -225,7 +224,7 @@ fun ChangePasswordView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .onTabOrEnterKeyFocusNext(focusManager)
-                    .semantics { contentType = ContentType.NewPassword },
+                    .semantics { contentType = ContentType.Password },
                 onValueChange = {
                     val sanitized = it.sanitize()
                     confirmNewPasswordFieldState = sanitized

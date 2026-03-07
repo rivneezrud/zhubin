@@ -14,6 +14,7 @@ import extension.testCommonDependencies
 plugins {
     id("io.element.android-compose-library")
     id("kotlin-parcelize")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -88,11 +89,15 @@ dependencies {
     implementation(libs.color.picker)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.serialization.json)
     api(projects.features.preferences.api)
     implementation(libs.showkase)
 
     implementation(platform(libs.network.okhttp.bom))
     implementation(libs.network.okhttp)
+    implementation(platform(libs.network.retrofit.bom))
+    implementation(libs.network.retrofit)
+    implementation(libs.network.retrofit.converter.serialization)
 
     testCommonDependencies(libs, true)
     testImplementation(projects.libraries.matrix.test)

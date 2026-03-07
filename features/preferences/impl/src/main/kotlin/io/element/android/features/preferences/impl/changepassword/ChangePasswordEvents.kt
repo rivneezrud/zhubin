@@ -12,5 +12,4 @@ sealed interface ChangePasswordEvents {
     data class SetNewPassword(val password: String) : ChangePasswordEvents
     data class SetConfirmNewPassword(val password: String) : ChangePasswordEvents
     data object Submit : ChangePasswordEvents
-    data object ClearActionState : ChangePasswordEvents
 }

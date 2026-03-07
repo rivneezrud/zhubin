@@ -7,8 +7,9 @@
  */
 
 pluginManagement {
+    includeBuild("plugins")
     repositories {
-        includeBuild("plugins")
+        maven(url = "https://plugins.gradle.org/m2/")
         gradlePluginPortal()
         google()
         mavenCentral()

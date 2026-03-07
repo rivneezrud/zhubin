@@ -7,31 +7,15 @@
 
 package io.element.android.features.preferences.impl.changepassword
 
-import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import io.element.android.libraries.androidutils.json.JsonProvider
 import io.element.android.libraries.core.uri.ensureTrailingSlash
-import io.element.android.libraries.di.SessionScope
 import io.element.android.libraries.network.interceptors.UserAgentInterceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
-
-interface ChangePasswordApiFactory {
-    fun create(baseUrl: String): ChangePasswordApi
-}
-
-@ContributesBinding(SessionScope::class)
-class DefaultChangePasswordApiFactory(
-    private val secureRetrofitFactory: SecureRetrofitFactory,
-) : ChangePasswordApiFactory {
-    override fun create(baseUrl: String): ChangePasswordApi {
-        return secureRetrofitFactory.create(baseUrl)
-            .create(ChangePasswordApi::class.java)
-    }
-}
 
 @Inject
 class SecureRetrofitFactory(

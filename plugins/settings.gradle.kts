@@ -10,6 +10,9 @@ rootProject.name = "Zhubin"
 
 pluginManagement {
     repositories {
+        // Direct Maven endpoint for Gradle plugins. Keeping this explicit helps in
+        // environments where marker lookup via the plugin portal alias can fail.
+        maven(url = "https://plugins.gradle.org/m2/")
         google()
         mavenCentral()
         gradlePluginPortal()

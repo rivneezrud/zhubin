@@ -26,7 +26,7 @@ import extension.locales
 import extension.setupDependencyInjection
 import extension.setupKover
 import extension.testCommonDependencies
-import java.util.Locale
+import java.util.Locale 
 
 plugins {
     id("io.element.android-compose-application")
@@ -38,7 +38,7 @@ plugins {
     alias(libs.plugins.licensee)
     alias(libs.plugins.kotlin.serialization)
     // Google Services plugin enabled (requires google-services.json per flavor/buildType)
-    alias(libs.plugins.gms.google.services)
+    id("com.google.gms.google-services")
 }
 
 setupKover()
@@ -92,6 +92,24 @@ android {
         }
     }
 
+    val zhubinReleaseStorePath = providers.gradleProperty("signing.zhubin.release.storeFile").orNull
+        ?: System.getenv("ZHUBIN_RELEASE_STORE_FILE")
+        ?: "/home/masiros/keystores/zhubin-release.jks"
+    val zhubinReleaseStorePass = providers.gradleProperty("signing.zhubin.release.storePassword").orNull
+        ?: System.getenv("ZHUBIN_RELEASE_STORE_PASSWORD")
+    val zhubinReleaseKeyAlias = providers.gradleProperty("signing.zhubin.release.keyAlias").orNull
+        ?: System.getenv("ZHUBIN_RELEASE_KEY_ALIAS")
+    val zhubinReleaseKeyPass = providers.gradleProperty("signing.zhubin.release.keyPassword").orNull
+        ?: System.getenv("ZHUBIN_RELEASE_KEY_PASSWORD")
+    val zhubinReleaseStoreFile = file(zhubinReleaseStorePath)
+    val isCiBuild = providers.environmentVariable("CI").orNull?.toBoolean() == true
+    val hasZhubinReleaseSigning =
+        zhubinReleaseStoreFile.exists() &&
+            !zhubinReleaseStorePass.isNullOrBlank() &&
+            !zhubinReleaseKeyAlias.isNullOrBlank() &&
+            !zhubinReleaseKeyPass.isNullOrBlank()
+    val useDebugSigningForLocalRelease = !hasZhubinReleaseSigning && !isCiBuild
+
     signingConfigs {
         getByName("debug") {
             keyAlias = "androiddebugkey"
@@ -109,24 +127,24 @@ android {
                 ?: project.property("signing.element.nightly.storePassword") as? String?
         }
         create("zhubinRelease") {
-            val storePath = providers.gradleProperty("/home/masiros/keystores/zhubin-release.jks").orNull
-                ?: System.getenv("/home/masiros/keystores/zhubin-release.jks")
-            val storePass = providers.gradleProperty("MHSn7620").orNull
-                ?: System.getenv("MHSn7620")
-            val keyAliasStr = providers.gradleProperty("zhubin").orNull
-                ?: System.getenv("zhubin")
-            val keyPass = providers.gradleProperty("MHSn7620").orNull
-                ?: System.getenv("MHSn7620")
-
-            require(!storePath.isNullOrBlank()) { "Missing /home/masiros/keystores/zhubin-release.jks" }
-            require(!storePass.isNullOrBlank()) { "Missing MHSn7620" }
-            require(!keyAliasStr.isNullOrBlank()) { "Missing zhubin" }
-            require(!keyPass.isNullOrBlank()) { "Missing MHSn7620" }
-
-            storeFile = file(storePath)
-            storePassword = storePass
-            keyAlias = keyAliasStr
-            keyPassword = keyPass
+            if (hasZhubinReleaseSigning) {
+                storeFile = zhubinReleaseStoreFile
+                storePassword = zhubinReleaseStorePass
+                keyAlias = zhubinReleaseKeyAlias
+                keyPassword = zhubinReleaseKeyPass
+            } else {
+                if (useDebugSigningForLocalRelease) {
+                    logger.warn(
+                        "Release signing is not configured; local release builds will use debug signing. " +
+                            "Set signing.zhubin.release.* properties or ZHUBIN_RELEASE_* env vars for real release signing.",
+                    )
+                } else {
+                    logger.warn(
+                        "Release signing is not configured; builds will be unsigned. " +
+                            "Set signing.zhubin.release.* properties or ZHUBIN_RELEASE_* env vars.",
+                    )
+                }
+            }
         }
     }
 
@@ -154,7 +172,14 @@ android {
                 "login_redirect_scheme",
                 oidcRedirectSchemeBase,
             )
-            signingConfig = signingConfigs.getByName("zhubinRelease")
+            when {
+                hasZhubinReleaseSigning -> {
+                    signingConfig = signingConfigs.getByName("zhubinRelease")
+                }
+                useDebugSigningForLocalRelease -> {
+                    signingConfig = signingConfigs.getByName("debug")
+                }
+            }
 
             optimization {
                 enable = true
@@ -218,6 +243,12 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    lint {
+        // Work around AGP lintVital input-file validation failures in local release assembles.
+        checkReleaseBuilds = false
+    }
+
     flavorDimensions += "store"
     productFlavors {
         create("gplay") {

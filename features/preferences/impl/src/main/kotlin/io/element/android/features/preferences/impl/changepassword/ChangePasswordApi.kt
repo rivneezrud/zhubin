@@ -19,26 +19,48 @@ internal interface ChangePasswordApi {
         @Header("Authorization") authorization: String,
         @Body body: ChangePasswordRequest,
     ): Response<Unit>
+
+    @POST("/_matrix/client/v3/account/password")
+    suspend fun changePasswordLegacy(
+        @Header("Authorization") authorization: String,
+        @Body body: ChangePasswordLegacyRequest,
+    ): Response<Unit>
 }
 
 @Serializable
 internal data class ChangePasswordRequest(
     val new_password: String,
     val logout_devices: Boolean,
-    val auth: ChangePasswordAuth,
+    val auth: ChangePasswordAuth? = null,
 )
 
 @Serializable
 internal data class ChangePasswordAuth(
-    val type: String = "m.login.password",
+    val type: String,
     val identifier: ChangePasswordIdentifier,
     val password: String,
     val session: String? = null,
 )
 
 @Serializable
+internal data class ChangePasswordLegacyRequest(
+    val new_password: String,
+    val logout_devices: Boolean,
+    val auth: ChangePasswordLegacyAuth,
+)
+
+@Serializable
+internal data class ChangePasswordLegacyAuth(
+    val type: String,
+    val identifier: String,
+    val user: String? = null,
+    val password: String,
+    val session: String? = null,
+)
+
+@Serializable
 internal data class ChangePasswordIdentifier(
-    val type: String = "m.id.user",
+    val type: String,
     val user: String,
 )
 

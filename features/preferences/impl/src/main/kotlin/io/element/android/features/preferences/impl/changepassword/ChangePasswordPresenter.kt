@@ -60,20 +60,13 @@ class ChangePasswordPresenter(
                 }
                 ChangePasswordEvents.Submit -> {
                     val currentFormState = formState.value
-                    if (updateAction.value.isLoading().not() &&
-                        currentFormState.currentPassword.isNotEmpty() &&
-                        currentFormState.newPassword.isNotEmpty() &&
-                        currentFormState.confirmNewPassword.isNotEmpty()
-                    ) {
+                    if (currentFormState.canSubmit(updateAction.value)) {
                         coroutineScope.submit(
                             currentFormState = currentFormState,
                             updateAction = updateAction,
                             formState = formState,
                         )
                     }
-                }
-                ChangePasswordEvents.ClearActionState -> {
-                    updateAction.value = AsyncAction.Uninitialized
                 }
             }
         }
@@ -108,5 +101,22 @@ class ChangePasswordPresenter(
 
         // Clear sensitive data from memory-backed state after the request completes.
         formState.value = ChangePasswordFormState.Default
+    }
+
+    private fun ChangePasswordFormState.canSubmit(updateAction: AsyncAction<Unit>): Boolean {
+        val hasMinimumLength = newPassword.length >= ChangePasswordState.MIN_PASSWORD_LENGTH
+        val strengthScore = listOf(
+            newPassword.any(Char::isLowerCase),
+            newPassword.any(Char::isUpperCase),
+            newPassword.any(Char::isDigit),
+            newPassword.any { it.isLetterOrDigit().not() },
+        ).count { it }
+        val hasStrongEnoughComposition = strengthScore >= 3
+        return updateAction.isLoading().not() &&
+            currentPassword.isNotEmpty() &&
+            hasMinimumLength &&
+            hasStrongEnoughComposition &&
+            confirmNewPassword.isNotEmpty() &&
+            confirmNewPassword == newPassword
     }
 }

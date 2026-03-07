@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import retrofit2.HttpException
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
@@ -59,6 +60,18 @@ class PushLoopbackTest(
             delegate.updateState(
                 description = stringProvider.getString(R.string.troubleshoot_notifications_test_push_loop_back_failure_1),
                 status = NotificationTroubleshootTestState.Status.Failure(hasQuickFix = hasQuickFix)
+            )
+            job.cancel()
+            return
+        } catch (e: HttpException) {
+            Timber.e(e, "Failed to test push")
+            val isGatewayServerError = e.code() in 500..599
+            delegate.updateState(
+                description = stringProvider.getString(
+                    R.string.troubleshoot_notifications_test_push_loop_back_failure_2,
+                    e.message
+                ),
+                status = NotificationTroubleshootTestState.Status.Failure(isCritical = !isGatewayServerError)
             )
             job.cancel()
             return
