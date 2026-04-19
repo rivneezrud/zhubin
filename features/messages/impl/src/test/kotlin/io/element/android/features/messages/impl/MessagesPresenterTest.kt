@@ -58,6 +58,7 @@ import io.element.android.libraries.matrix.api.core.ThreadId
 import io.element.android.libraries.matrix.api.core.UserId
 import io.element.android.libraries.matrix.api.core.toThreadId
 import io.element.android.libraries.matrix.api.encryption.identity.IdentityState
+import io.element.android.libraries.matrix.test.media.FakeMatrixMediaLoader
 import io.element.android.libraries.matrix.api.media.MediaSource
 import io.element.android.libraries.matrix.api.permalink.PermalinkParser
 import io.element.android.libraries.matrix.api.room.MessageEventType
@@ -92,6 +93,7 @@ import io.element.android.libraries.matrix.test.timeline.FakeTimeline
 import io.element.android.libraries.matrix.test.timeline.aTimelineItemDebugInfo
 import io.element.android.libraries.matrix.ui.messages.reply.InReplyToDetails
 import io.element.android.libraries.recentemojis.api.AddRecentEmoji
+import io.element.android.libraries.savedgifs.test.FakeSavedGifsStore
 import io.element.android.libraries.textcomposer.model.MessageComposerMode
 import io.element.android.libraries.textcomposer.model.TextEditorState
 import io.element.android.libraries.textcomposer.model.aTextEditorStateMarkdown
@@ -110,6 +112,7 @@ import io.element.android.tests.testutils.testWithLifecycleOwner
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
@@ -256,6 +259,83 @@ class MessagesPresenterTest {
             initialState.eventSink(MessagesEvent.HandleAction(TimelineItemAction.Forward, aMessageEvent()))
             assertThat(awaitItem().actionListState.target).isEqualTo(ActionListState.Target.None)
             onForwardEventClickLambda.assertions().isCalledOnce().with(value(AN_EVENT_ID))
+        }
+    }
+
+    @Test
+    fun `present - handle action save to my gifs`() = runTest {
+        val savedGifsStore = FakeSavedGifsStore()
+        val matrixMediaLoader = FakeMatrixMediaLoader()
+        val event = aMessageEvent(
+            isMine = false,
+            content = TimelineItemImageContent(
+                filename = "animated.gif",
+                fileSize = 1234L,
+                caption = null,
+                formattedCaption = null,
+                isEdited = false,
+                mediaSource = MediaSource("mxc://server/animated"),
+                thumbnailSource = null,
+                formattedFileSize = "1KB",
+                fileExtension = "gif",
+                mimeType = MimeTypes.Gif,
+                blurhash = null,
+                width = null,
+                height = null,
+                thumbnailWidth = null,
+                thumbnailHeight = null,
+                aspectRatio = 1f,
+            ),
+        )
+        val presenter = createMessagesPresenter(
+            matrixMediaLoader = matrixMediaLoader,
+            savedGifsStore = savedGifsStore,
+        )
+
+        presenter.testWithLifecycleOwner {
+            val initialState = awaitItem()
+            initialState.eventSink(MessagesEvent.HandleAction(TimelineItemAction.SaveToMyGifs, event))
+
+            advanceUntilIdle()
+
+            assertThat(savedGifsStore.savedGifs(A_SESSION_ID).first()).hasSize(1)
+            assertThat(savedGifsStore.savedGifs(A_SESSION_ID).first().single().mimeType).isEqualTo(MimeTypes.Gif)
+        }
+    }
+
+    @Test
+    fun `present - handle action save to my gifs ignores non gif attachments`() = runTest {
+        val savedGifsStore = FakeSavedGifsStore()
+        val event = aMessageEvent(
+            isMine = false,
+            content = TimelineItemImageContent(
+                filename = "still.jpg",
+                fileSize = 1234L,
+                caption = null,
+                formattedCaption = null,
+                isEdited = false,
+                mediaSource = MediaSource("mxc://server/still"),
+                thumbnailSource = null,
+                formattedFileSize = "1KB",
+                fileExtension = "jpg",
+                mimeType = "image/jpeg",
+                blurhash = null,
+                width = null,
+                height = null,
+                thumbnailWidth = null,
+                thumbnailHeight = null,
+                aspectRatio = 1f,
+            ),
+        )
+        val presenter = createMessagesPresenter(savedGifsStore = savedGifsStore)
+
+        presenter.testWithLifecycleOwner {
+            val initialState = awaitItem()
+            initialState.eventSink(MessagesEvent.HandleAction(TimelineItemAction.SaveToMyGifs, event))
+
+            advanceUntilIdle()
+
+            assertThat(savedGifsStore.savedGifs(A_SESSION_ID).first()).isEmpty()
         }
     }
 
@@ -1320,6 +1400,8 @@ class MessagesPresenterTest {
         featureFlagService: FakeFeatureFlagService = FakeFeatureFlagService(),
         actionListEventSink: (ActionListEvent) -> Unit = {},
         addRecentEmoji: AddRecentEmoji = AddRecentEmoji { _ -> lambdaError() },
+        matrixMediaLoader: FakeMatrixMediaLoader = FakeMatrixMediaLoader(),
+        savedGifsStore: FakeSavedGifsStore = FakeSavedGifsStore(),
         markAsFullyRead: MarkAsFullyRead = FakeMarkAsFullyRead(),
     ): MessagesPresenter {
         return MessagesPresenter(
@@ -1349,6 +1431,8 @@ class MessagesPresenterTest {
             encryptionService = encryptionService,
             featureFlagService = featureFlagService,
             addRecentEmoji = addRecentEmoji,
+            matrixMediaLoader = matrixMediaLoader,
+            savedGifsStore = savedGifsStore,
             markAsFullyRead = markAsFullyRead,
             sessionCoroutineScope = backgroundScope,
         )

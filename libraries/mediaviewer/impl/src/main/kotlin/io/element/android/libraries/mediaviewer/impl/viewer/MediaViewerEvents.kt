@@ -14,6 +14,7 @@ import io.element.android.libraries.matrix.api.timeline.Timeline
 sealed interface MediaViewerEvents {
     data class LoadMedia(val data: MediaViewerPageData.MediaViewerData) : MediaViewerEvents
     data class SaveOnDisk(val data: MediaViewerPageData.MediaViewerData) : MediaViewerEvents
+    data class SaveToGifs(val data: MediaViewerPageData.MediaViewerData) : MediaViewerEvents
     data class Share(val data: MediaViewerPageData.MediaViewerData) : MediaViewerEvents
     data class OpenWith(val data: MediaViewerPageData.MediaViewerData) : MediaViewerEvents
     data class ClearLoadingError(val data: MediaViewerPageData.MediaViewerData) : MediaViewerEvents

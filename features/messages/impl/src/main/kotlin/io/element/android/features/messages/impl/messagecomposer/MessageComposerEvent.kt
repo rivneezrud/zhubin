@@ -9,6 +9,7 @@
 package io.element.android.features.messages.impl.messagecomposer
 
 import android.net.Uri
+import io.element.android.libraries.savedgifs.api.SavedGif
 import io.element.android.libraries.textcomposer.mentions.ResolvedSuggestion
 import io.element.android.libraries.textcomposer.model.MessageComposerMode
 import io.element.android.libraries.textcomposer.model.Suggestion
@@ -36,4 +37,6 @@ sealed interface MessageComposerEvent {
     data class SuggestionReceived(val suggestion: Suggestion?) : MessageComposerEvent
     data class InsertSuggestion(val resolvedSuggestion: ResolvedSuggestion) : MessageComposerEvent
     data object SaveDraft : MessageComposerEvent
+    data class SendSavedGif(val savedGif: SavedGif) : MessageComposerEvent
+    data class DeleteSavedGif(val gifId: Long) : MessageComposerEvent
 }

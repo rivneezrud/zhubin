@@ -127,6 +127,7 @@ class MediaGalleryPresenter(
                             room.sessionId -> permissions.canRedactOwn && event.mediaItem.eventId() != null
                             else -> permissions.canRedactOther && event.mediaItem.eventId() != null
                         },
+                        canSaveToGifs = false,
                         mediaInfo = event.mediaItem.mediaInfo(),
                         thumbnailSource = when (event.mediaItem) {
                             is MediaItem.Image -> event.mediaItem.thumbnailSource ?: event.mediaItem.mediaSource
@@ -135,6 +136,7 @@ class MediaGalleryPresenter(
                             is MediaItem.File -> null
                             is MediaItem.Voice -> null
                         },
+                        data = null,
                     )
                 }
                 is MediaGalleryEvents.ConfirmDelete -> {

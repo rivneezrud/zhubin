@@ -8,6 +8,7 @@
 
 package io.element.android.features.messages.impl
 
+import android.net.Uri
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,6 +48,7 @@ import io.element.android.features.messages.impl.timeline.model.event.TimelineIt
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemPollContent
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemStateContent
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemTextBasedContent
+import io.element.android.features.messages.impl.timeline.model.event.canBeSavedToGifs
 import io.element.android.features.messages.impl.timeline.protection.TimelineProtectionState
 import io.element.android.features.messages.impl.voicemessages.composer.DefaultVoiceMessageComposerPresenter
 import io.element.android.features.roomcall.api.RoomCallState
@@ -70,6 +72,8 @@ import io.element.android.libraries.featureflag.api.FeatureFlags
 import io.element.android.libraries.matrix.api.core.toThreadId
 import io.element.android.libraries.matrix.api.encryption.EncryptionService
 import io.element.android.libraries.matrix.api.encryption.identity.IdentityState
+import io.element.android.libraries.matrix.api.media.MatrixMediaLoader
+import io.element.android.libraries.matrix.api.media.toFile
 import io.element.android.libraries.matrix.api.permalink.PermalinkParser
 import io.element.android.libraries.matrix.api.room.JoinedRoom
 import io.element.android.libraries.matrix.api.room.RoomInfo
@@ -82,6 +86,7 @@ import io.element.android.libraries.matrix.ui.messages.reply.map
 import io.element.android.libraries.matrix.ui.model.getAvatarData
 import io.element.android.libraries.matrix.ui.room.getDirectRoomMember
 import io.element.android.libraries.recentemojis.api.AddRecentEmoji
+import io.element.android.libraries.savedgifs.api.SavedGifsStore
 import io.element.android.libraries.textcomposer.model.MessageComposerMode
 import io.element.android.libraries.ui.strings.CommonStrings
 import io.element.android.services.analytics.api.AnalyticsService
@@ -120,6 +125,8 @@ class MessagesPresenter(
     private val encryptionService: EncryptionService,
     private val featureFlagService: FeatureFlagService,
     private val addRecentEmoji: AddRecentEmoji,
+    private val matrixMediaLoader: MatrixMediaLoader,
+    private val savedGifsStore: SavedGifsStore,
     private val markAsFullyRead: MarkAsFullyRead,
     @SessionCoroutineScope private val sessionCoroutineScope: CoroutineScope,
 ) : Presenter<MessagesState> {
@@ -361,6 +368,7 @@ class MessagesPresenter(
             }
             TimelineItemAction.ViewSource -> handleShowDebugInfoAction(targetEvent)
             TimelineItemAction.Forward -> handleForwardAction(targetEvent)
+            TimelineItemAction.SaveToMyGifs -> handleSaveToMyGifs(targetEvent)
             TimelineItemAction.ReportContent -> handleReportAction(targetEvent)
             TimelineItemAction.EndPoll -> handleEndPollAction(targetEvent, timelineState)
             TimelineItemAction.Pin -> handlePinAction(targetEvent)
@@ -533,6 +541,36 @@ class MessagesPresenter(
     private fun handleForwardAction(event: TimelineItem.Event) {
         if (event.eventId == null) return
         navigator.forwardEvent(event.eventId)
+    }
+
+    private suspend fun handleSaveToMyGifs(event: TimelineItem.Event) {
+        val content = event.content as? TimelineItemEventContentWithAttachment ?: return
+        if (!event.content.canBeSavedToGifs()) return
+
+        matrixMediaLoader.downloadMediaFile(
+            source = content.mediaSource,
+            mimeType = content.mimeType,
+            filename = content.filename,
+        ).fold(
+            onSuccess = { mediaFile ->
+                mediaFile.use { downloadedFile ->
+                    savedGifsStore.saveGif(
+                        sessionId = room.sessionId,
+                        uri = Uri.fromFile(downloadedFile.toFile()),
+                        filename = content.filename,
+                        mimeType = content.mimeType,
+                        fileSize = content.fileSize,
+                    )
+                }.onSuccess {
+                    snackbarDispatcher.post(SnackbarMessage(R.string.screen_room_saved_gifs_saved))
+                }.onFailure {
+                    snackbarDispatcher.post(SnackbarMessage(CommonStrings.error_unknown))
+                }
+            },
+            onFailure = {
+                snackbarDispatcher.post(SnackbarMessage(CommonStrings.error_unknown))
+            }
+        )
     }
 
     private fun handleReportAction(event: TimelineItem.Event) {

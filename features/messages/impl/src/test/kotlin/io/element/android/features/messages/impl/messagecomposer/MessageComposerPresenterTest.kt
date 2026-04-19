@@ -68,6 +68,7 @@ import io.element.android.libraries.matrix.test.permalink.FakePermalinkParser
 import io.element.android.libraries.matrix.test.room.FakeBaseRoom
 import io.element.android.libraries.matrix.test.room.FakeJoinedRoom
 import io.element.android.libraries.matrix.test.room.aRoomInfo
+import io.element.android.libraries.savedgifs.test.FakeSavedGifsStore
 import io.element.android.libraries.matrix.test.room.aRoomMember
 import io.element.android.libraries.matrix.test.room.powerlevels.FakeRoomPermissions
 import io.element.android.libraries.matrix.test.timeline.FakeTimeline
@@ -1548,6 +1549,7 @@ class MessageComposerPresenterTest {
         suggestionsProcessor = SuggestionsProcessor(),
         mediaOptimizationConfigProvider = mediaOptimizationConfigProvider,
         notificationConversationService = notificationConversationService,
+        savedGifsStore = FakeSavedGifsStore(),
     ).apply {
         isTesting = true
         showTextFormatting = isRichTextEditorEnabled

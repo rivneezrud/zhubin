@@ -173,6 +173,7 @@ fun MediaGalleryView(
                 onDownload = { eventId ->
                     state.eventSink(MediaGalleryEvents.SaveOnDisk(eventId))
                 },
+                onSaveToGifs = {},
                 onDelete = { eventId ->
                     state.eventSink(
                         MediaGalleryEvents.ConfirmDelete(

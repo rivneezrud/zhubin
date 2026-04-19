@@ -20,6 +20,7 @@ activity = "1.12.3"
 media3 = "1.9.1"
 camera = "1.5.3"
 work = "2.11.1"
+room = "2.8.3"
 
 # Compose
 compose_bom = "2026.01.00"
@@ -98,6 +99,9 @@ androidx_camera_view = { module = "androidx.camera:camera-view", version.ref = "
 androidx_camera_camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera" }
 androidx_javascriptengine = "androidx.javascriptengine:javascriptengine:1.0.0"
 androidx_workmanager_runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
+androidx_room_runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx_room_ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx_room_compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 androidx_recyclerview = "androidx.recyclerview:recyclerview:1.4.0"
 androidx_browser = "androidx.browser:browser:1.9.0"

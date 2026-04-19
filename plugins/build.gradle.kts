@@ -7,7 +7,8 @@
  */
 buildscript {
     repositories {
-        maven(url = "https://plugins.gradle.org/m2/")
+        // maven(url = "https://plugins.gradle.org/m2/")
+        maven { url = uri("https://maven.myket.ir") }
         gradlePluginPortal()
         google()
         mavenCentral()

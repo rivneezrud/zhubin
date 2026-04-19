@@ -27,6 +27,7 @@ import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
 import io.element.android.libraries.architecture.AsyncData
 import io.element.android.libraries.architecture.Presenter
+import io.element.android.libraries.core.mimetype.MimeTypes.isMimeTypeGif
 import io.element.android.libraries.designsystem.utils.snackbar.SnackbarDispatcher
 import io.element.android.libraries.designsystem.utils.snackbar.SnackbarMessage
 import io.element.android.libraries.designsystem.utils.snackbar.collectSnackbarMessageAsState
@@ -42,6 +43,7 @@ import io.element.android.libraries.mediaviewer.impl.details.MediaBottomSheetSta
 import io.element.android.libraries.mediaviewer.impl.local.LocalMediaActions
 import io.element.android.libraries.mediaviewer.impl.model.MediaPermissions
 import io.element.android.libraries.mediaviewer.impl.model.mediaPermissions
+import io.element.android.libraries.savedgifs.api.SavedGifsStore
 import io.element.android.libraries.ui.strings.CommonStrings
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.CoroutineScope
@@ -59,6 +61,7 @@ class MediaViewerPresenter(
     @Assisted private val dataSource: MediaViewerDataSource,
     private val room: JoinedRoom,
     private val localMediaActions: LocalMediaActions,
+    private val savedGifsStore: SavedGifsStore,
 ) : Presenter<MediaViewerState> {
     @AssistedFactory
     fun interface Factory {
@@ -107,6 +110,10 @@ class MediaViewerPresenter(
                     mediaBottomSheetState = MediaBottomSheetState.Hidden
                     coroutineScope.saveOnDisk(event.data.downloadedMedia.value)
                 }
+                is MediaViewerEvents.SaveToGifs -> {
+                    mediaBottomSheetState = MediaBottomSheetState.Hidden
+                    coroutineScope.saveToGifs(event.data)
+                }
                 is MediaViewerEvents.Share -> {
                     mediaBottomSheetState = MediaBottomSheetState.Hidden
                     coroutineScope.share(event.data.downloadedMedia.value)
@@ -138,8 +145,10 @@ class MediaViewerPresenter(
                             room.sessionId -> permissions.canRedactOwn && event.data.eventId != null
                             else -> permissions.canRedactOther && event.data.eventId != null
                         },
+                        canSaveToGifs = event.data.mediaInfo.mimeType.isMimeTypeGif(),
                         mediaInfo = event.data.mediaInfo,
                         thumbnailSource = event.data.thumbnailSource,
+                        data = event.data,
                     )
                 }
                 is MediaViewerEvents.ConfirmDelete -> {
@@ -247,6 +256,23 @@ class MediaViewerPresenter(
                     val snackbarMessage = SnackbarMessage(mediaActionsError(it))
                     snackbarDispatcher.post(snackbarMessage)
                 }
+        }
+    }
+
+    private fun CoroutineScope.saveToGifs(data: MediaViewerPageData.MediaViewerData) = launch {
+        val localMedia = data.downloadedMedia.value
+        if (localMedia is AsyncData.Success) {
+            savedGifsStore.saveGif(
+                sessionId = room.sessionId,
+                uri = localMedia.data.uri,
+                filename = data.mediaInfo.filename,
+                mimeType = data.mediaInfo.mimeType,
+                fileSize = data.mediaInfo.fileSize,
+            ).onSuccess {
+                snackbarDispatcher.post(SnackbarMessage(R.string.screen_media_details_gif_saved))
+            }.onFailure {
+                snackbarDispatcher.post(SnackbarMessage(CommonStrings.error_unknown))
+            }
         }
     }
 

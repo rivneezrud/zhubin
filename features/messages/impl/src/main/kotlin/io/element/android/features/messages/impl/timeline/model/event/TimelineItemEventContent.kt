@@ -9,6 +9,7 @@
 package io.element.android.features.messages.impl.timeline.model.event
 
 import androidx.compose.runtime.Immutable
+import io.element.android.libraries.core.mimetype.MimeTypes.isMimeTypeGif
 import io.element.android.libraries.matrix.api.media.MediaSource
 import kotlin.time.Duration
 
@@ -62,6 +63,9 @@ fun TimelineItemEventContent.canBeForwarded(): Boolean =
         is TimelineItemStickerContent -> false
         else -> false
     }
+
+fun TimelineItemEventContent.canBeSavedToGifs(): Boolean =
+    (this as? TimelineItemEventContentWithAttachment)?.mimeType.isMimeTypeGif()
 
 /**
  * Return true if user can react (i.e. send a reaction) on the event content.

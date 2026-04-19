@@ -41,6 +41,8 @@ import io.element.android.features.messages.impl.report.ReportMessageNode
 import io.element.android.features.messages.impl.threads.ThreadedMessagesNode
 import io.element.android.features.messages.impl.timeline.TimelineController
 import io.element.android.features.messages.impl.timeline.debug.EventDebugInfoNode
+import io.element.android.features.messages.impl.timeline.media.MediaProgressPresenter
+import io.element.android.features.messages.impl.timeline.media.transferKey
 import io.element.android.features.messages.impl.timeline.model.TimelineItem
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemAudioContent
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemEventContentWithAttachment
@@ -120,6 +122,7 @@ class MessagesFlowNode(
     private val knockRequestsListEntryPoint: KnockRequestsListEntryPoint,
     private val dateFormatter: DateFormatter,
     private val coroutineDispatchers: CoroutineDispatchers,
+    private val mediaProgressPresenter: MediaProgressPresenter,
 ) : BaseFlowNode<MessagesFlowNode.NavTarget>(
     backstack = BackStack(
         initialElement = plugins.filterIsInstance<MessagesEntryPoint.Params>().first().initialTarget.toNavTarget(),
@@ -317,6 +320,18 @@ class MessagesFlowNode(
                     override fun forwardEvent(eventId: EventId, fromPinnedEvents: Boolean) {
                         // Need to go to the parent because of the overlay
                         callback.forwardEvent(eventId, fromPinnedEvents)
+                    }
+
+                    override fun onMediaDownloadProgress(mediaSource: MediaSource, bytesTransferred: Long, contentLength: Long) {
+                        mediaProgressPresenter.onDownloadProgress(
+                            key = mediaSource.transferKey(),
+                            bytesTransferred = bytesTransferred,
+                            contentLength = contentLength,
+                        )
+                    }
+
+                    override fun clearMediaDownloadProgress(mediaSource: MediaSource) {
+                        mediaProgressPresenter.clear(mediaSource.transferKey())
                     }
                 }
                 mediaViewerEntryPoint.createNode(

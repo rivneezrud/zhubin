@@ -9,6 +9,7 @@
 package io.element.android.features.messages.impl.messagecomposer
 
 import androidx.compose.runtime.Stable
+import io.element.android.libraries.savedgifs.api.SavedGif
 import io.element.android.libraries.textcomposer.mentions.ResolvedSuggestion
 import io.element.android.libraries.textcomposer.model.MessageComposerMode
 import io.element.android.libraries.textcomposer.model.TextEditorState
@@ -23,6 +24,7 @@ data class MessageComposerState(
     val showAttachmentSourcePicker: Boolean,
     val showTextFormatting: Boolean,
     val canShareLocation: Boolean,
+    val savedGifs: List<SavedGif>,
     val suggestions: ImmutableList<ResolvedSuggestion>,
     val resolveMentionDisplay: (String, String) -> TextDisplay,
     val resolveAtRoomMentionDisplay: () -> TextDisplay,

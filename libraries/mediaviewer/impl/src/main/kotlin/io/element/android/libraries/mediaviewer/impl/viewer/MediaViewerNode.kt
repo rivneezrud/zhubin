@@ -116,7 +116,7 @@ class MediaViewerNode(
     private val presenter = presenterFactory.create(
         inputs = inputs,
         navigator = this,
-        dataSource = MediaViewerDataSource(
+                dataSource = MediaViewerDataSource(
             mode = inputs.mode,
             dispatcher = coroutineDispatchers.computation,
             galleryDataSource = mediaGallerySource,
@@ -124,6 +124,8 @@ class MediaViewerNode(
             localMediaFactory = localMediaFactory,
             systemClock = systemClock,
             pagerKeysHandler = pagerKeysHandler,
+            onDownloadProgress = callback::onMediaDownloadProgress,
+            onDownloadFinished = callback::clearMediaDownloadProgress,
         )
     )
 

@@ -30,9 +30,11 @@ import io.element.android.libraries.architecture.Presenter
 import io.element.android.libraries.core.coroutine.CoroutineDispatchers
 import io.element.android.libraries.core.coroutine.firstInstanceOf
 import io.element.android.libraries.core.extensions.runCatchingExceptions
+import io.element.android.libraries.core.mimetype.MimeTypes.isMimeTypeGif
 import io.element.android.libraries.core.mimetype.MimeTypes.isMimeTypeImage
 import io.element.android.libraries.core.mimetype.MimeTypes.isMimeTypeVideo
 import io.element.android.libraries.di.annotations.SessionCoroutineScope
+import io.element.android.libraries.matrix.api.MatrixClient
 import io.element.android.libraries.matrix.api.core.EventId
 import io.element.android.libraries.matrix.api.permalink.PermalinkBuilder
 import io.element.android.libraries.matrix.api.timeline.Timeline
@@ -42,6 +44,7 @@ import io.element.android.libraries.mediaupload.api.MediaSenderFactory
 import io.element.android.libraries.mediaupload.api.MediaUploadInfo
 import io.element.android.libraries.mediaupload.api.allFiles
 import io.element.android.libraries.preferences.api.store.VideoCompressionPreset
+import io.element.android.libraries.savedgifs.api.SavedGifsStore
 import io.element.android.libraries.textcomposer.model.TextEditorState
 import io.element.android.libraries.textcomposer.model.rememberMarkdownTextEditorState
 import kotlinx.coroutines.CancellationException
@@ -64,6 +67,8 @@ class AttachmentsPreviewPresenter(
     @SessionCoroutineScope private val sessionCoroutineScope: CoroutineScope,
     private val dispatchers: CoroutineDispatchers,
     private val mediaOptimizationConfigProvider: MediaOptimizationConfigProvider,
+    private val matrixClient: MatrixClient,
+    private val savedGifsStore: SavedGifsStore,
 ) : Presenter<AttachmentsPreviewState> {
     @AssistedFactory
     interface Factory {
@@ -318,6 +323,7 @@ class AttachmentsPreviewPresenter(
             formattedCaption = null,
             inReplyToEventId = inReplyToEventId,
         ).getOrThrow()
+        saveGifIfNeeded()
     }.fold(
         onSuccess = {
             cleanUp(mediaUploadInfo)
@@ -337,4 +343,31 @@ class AttachmentsPreviewPresenter(
             }
         }
     )
+
+    private suspend fun saveGifIfNeeded() {
+    val mediaAttachment = attachment as? Attachment.Media ?: return
+    val mimeType = mediaAttachment.localMedia.info.mimeType
+    if (!mimeType.isMimeTypeGif()) return
+    savedGifsStore.saveGif(
+        sessionId = matrixClient.sessionId,
+        uri = mediaAttachment.localMedia.uri,
+        filename = mediaAttachment.localMedia.info.filename ?: "gif.gif",
+        mimeType = mimeType,
+        fileSize = mediaAttachment.localMedia.info.fileSize,
+    ).onSuccess {
+        savedGifsStore.markGifAsRecentlyUsed(
+            sessionId = matrixClient.sessionId,
+            uri = mediaAttachment.localMedia.uri,
+            filename = mediaAttachment.localMedia.info.filename ?: "gif.gif",
+            mimeType = mimeType,
+            fileSize = mediaAttachment.localMedia.info.fileSize,
+        ).onFailure { error ->
+            Timber.w(error, "Failed to mark sent GIF as recently used")
+        }
+    }.onFailure { error ->
+        Timber.w(error, "Failed to save sent GIF locally")
+    }
+}
+
+
 }

@@ -35,5 +35,7 @@ interface MatrixMediaLoader {
         mimeType: String?,
         filename: String?,
         useCache: Boolean = true,
+        expectedContentLength: Long? = null,
+        onProgress: ((Long, Long) -> Unit)? = null,
     ): Result<MediaFile>
 }

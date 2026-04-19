@@ -18,11 +18,13 @@ fun aMediaDetailsBottomSheetState(
     return MediaBottomSheetState.MediaDetailsBottomSheetState(
         eventId = EventId("\$eventId"),
         canDelete = canDelete,
+        canSaveToGifs = false,
         mediaInfo = anImageMediaInfo(
             senderName = "Alice",
             dateSentFull = dateSentFull,
         ),
         thumbnailSource = null,
+        data = null,
     )
 }
 

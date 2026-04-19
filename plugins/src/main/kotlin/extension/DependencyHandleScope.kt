@@ -116,6 +116,7 @@ fun DependencyHandlerScope.allLibrariesImpl() {
     implementation(project(":libraries:voicerecorder:impl"))
     implementation(project(":libraries:mediaplayer:impl"))
     implementation(project(":libraries:mediaviewer:impl"))
+    implementation(project(":libraries:savedgifs:impl"))
     implementation(project(":libraries:troubleshoot:impl"))
     implementation(project(":libraries:fullscreenintent:impl"))
     implementation(project(":libraries:wellknown:impl"))

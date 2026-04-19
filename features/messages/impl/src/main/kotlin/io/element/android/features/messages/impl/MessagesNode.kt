@@ -38,8 +38,10 @@ import io.element.android.features.messages.impl.messagecomposer.MessageComposer
 import io.element.android.features.messages.impl.timeline.TimelineController
 import io.element.android.features.messages.impl.timeline.TimelineEvent
 import io.element.android.features.messages.impl.timeline.TimelinePresenter
+import io.element.android.features.messages.impl.timeline.di.LocalMediaProgressPresenter
 import io.element.android.features.messages.impl.timeline.di.LocalTimelineItemPresenterFactories
 import io.element.android.features.messages.impl.timeline.di.TimelineItemPresenterFactories
+import io.element.android.features.messages.impl.timeline.media.MediaProgressPresenter
 import io.element.android.features.messages.impl.timeline.model.TimelineItem
 import io.element.android.features.roommembermoderation.api.ModerationAction
 import io.element.android.features.roommembermoderation.api.RoomMemberModerationEvents
@@ -90,6 +92,7 @@ class MessagesNode(
     presenterFactory: MessagesPresenter.Factory,
     actionListPresenterFactory: ActionListPresenter.Factory,
     private val timelineItemPresenterFactories: TimelineItemPresenterFactories,
+    private val mediaProgressPresenter: MediaProgressPresenter,
     private val mediaPlayer: MediaPlayer,
     private val permalinkParser: PermalinkParser,
     private val knockRequestsBannerRenderer: KnockRequestsBannerRenderer,
@@ -238,6 +241,7 @@ class MessagesNode(
         val isDark = ElementTheme.isLightTheme.not()
         CompositionLocalProvider(
             LocalTimelineItemPresenterFactories provides timelineItemPresenterFactories,
+            LocalMediaProgressPresenter provides mediaProgressPresenter,
         ) {
             val state = presenter.present()
 

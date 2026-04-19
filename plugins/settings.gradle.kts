@@ -7,30 +7,23 @@
  */
 
 rootProject.name = "Zhubin"
-
 pluginManagement {
     repositories {
-        // Direct Maven endpoint for Gradle plugins. Keeping this explicit helps in
-        // environments where marker lookup via the plugin portal alias can fail.
-        maven(url = "https://plugins.gradle.org/m2/")
+        maven { url = uri("https://maven.myket.ir") }
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
-
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-
+     versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))  
+        }
+    }
     repositories {
+        maven { url = uri("https://maven.myket.ir") }
         google()
         mavenCentral()
-    }
-
-    versionCatalogs {
-        create("libs") {
-            // from(files("gradle/libs.versions.toml"))
-            from(files("../gradle/libs.versions.toml"))
-        }
     }
 }

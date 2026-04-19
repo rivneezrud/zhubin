@@ -29,11 +29,14 @@ import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import io.element.android.compound.theme.ElementTheme
+import io.element.android.libraries.androidutils.text.MessageTextDirection
+import io.element.android.libraries.androidutils.text.detectTextDirection
 import io.element.android.libraries.core.extensions.toSafeLength
 import io.element.android.libraries.designsystem.atomic.atoms.PlaceholderAtom
 import io.element.android.libraries.designsystem.icons.CompoundDrawables
@@ -176,6 +179,7 @@ private fun ReplyToContentText(metadata: InReplyToMetadata?) {
         is InReplyToMetadata.Informative -> FontStyle.Italic
         else -> FontStyle.Normal
     }
+    val messageTextDirection = detectTextDirection(text) ?: MessageTextDirection.Ltr
     Row(
         modifier = Modifier.semantics(mergeDescendants = false) {
             isTraversalGroup = true
@@ -194,9 +198,19 @@ private fun ReplyToContentText(metadata: InReplyToMetadata?) {
         }
         Text(
             text = text,
-            style = ElementTheme.typography.fontBodyMdRegular,
+            style = ElementTheme.typography.fontBodyMdRegular.copy(
+                textDirection = if (messageTextDirection == MessageTextDirection.Rtl) {
+                    TextDirection.Rtl
+                } else {
+                    TextDirection.Ltr
+                }
+            ),
             fontStyle = fontStyle,
-            textAlign = TextAlign.Start,
+            textAlign = if (messageTextDirection == MessageTextDirection.Rtl) {
+                TextAlign.Right
+            } else {
+                TextAlign.Left
+            },
             color = ElementTheme.colors.textSecondary,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,

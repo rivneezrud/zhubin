@@ -37,6 +37,11 @@
   <string name="screen_room_attachment_source_gallery">"Photo &amp; Video Library"</string>
   <string name="screen_room_attachment_source_location">"Location"</string>
   <string name="screen_room_attachment_source_poll">"Poll"</string>
+  <string name="screen_room_saved_gifs_title">"Saved GIFs"</string>
+  <string name="screen_room_saved_gifs_empty">"No saved GIFs yet"</string>
+  <string name="screen_room_saved_gifs_remove">"Remove from Saved"</string>
+  <string name="screen_room_saved_gifs_save">"Save to My GIFs"</string>
+  <string name="screen_room_saved_gifs_saved">"GIF saved"</string>
   <string name="screen_room_attachment_text_formatting">"Text Formatting"</string>
   <string name="screen_room_encrypted_history_banner">"Message history is currently unavailable."</string>
   <string name="screen_room_encrypted_history_banner_unverified">"Message history is unavailable in this room. Verify this device to see your message history."</string>

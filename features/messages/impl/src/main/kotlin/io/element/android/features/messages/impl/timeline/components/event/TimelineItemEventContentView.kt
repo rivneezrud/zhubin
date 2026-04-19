@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.element.android.features.messages.impl.timeline.TimelineEvent
 import io.element.android.features.messages.impl.timeline.components.layout.ContentAvoidingLayoutData
+import io.element.android.features.messages.impl.timeline.di.LocalMediaProgressPresenter
 import io.element.android.features.messages.impl.timeline.di.LocalTimelineItemPresenterFactories
 import io.element.android.features.messages.impl.timeline.di.rememberPresenter
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemAudioContent
@@ -31,6 +32,7 @@ import io.element.android.features.messages.impl.timeline.model.event.TimelineIt
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemVideoContent
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemVoiceContent
 import io.element.android.libraries.architecture.Presenter
+import io.element.android.libraries.matrix.api.timeline.item.event.LocalEventSendState
 import io.element.android.libraries.voiceplayer.api.VoiceMessageState
 import io.element.android.wysiwyg.link.Link
 
@@ -46,8 +48,10 @@ fun TimelineItemEventContentView(
     eventSink: (TimelineEvent.TimelineItemEvent) -> Unit,
     modifier: Modifier = Modifier,
     onContentLayoutChange: (ContentAvoidingLayoutData) -> Unit = {},
+    sendState: LocalEventSendState? = null,
 ) {
     val presenterFactories = LocalTimelineItemPresenterFactories.current
+    val mediaProgressPresenter = LocalMediaProgressPresenter.current
     when (content) {
         is TimelineItemEncryptedContent -> TimelineItemEncryptedView(
             content = content,
@@ -107,6 +111,8 @@ fun TimelineItemEventContentView(
         )
         is TimelineItemFileContent -> TimelineItemFileView(
             content = content,
+            sendState = sendState,
+            downloadProgress = mediaProgressPresenter?.progressFor(content.mediaSource),
             onContentLayoutChange = onContentLayoutChange,
             modifier = modifier
         )

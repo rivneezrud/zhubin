@@ -16,9 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import io.element.android.compound.theme.ElementTheme
@@ -47,59 +50,63 @@ fun TimelineEventTimestampView(
     val isMessageEdited = event.content.isEdited()
     val isMessageRedacted = event.content.isRedacted()
     val tint = if (hasError || hasEncryptionCritical && !isMessageRedacted) ElementTheme.colors.textCriticalPrimary else ElementTheme.colors.textSecondary
-    Row(
-        modifier = Modifier
-            .padding(PaddingValues(start = TimelineEventTimestampViewDefaults.spacing))
-            .then(modifier),
-        verticalAlignment = Alignment.CenterVertically,
+    CompositionLocalProvider(
+        androidx.compose.ui.platform.LocalLayoutDirection provides LayoutDirection.Ltr
     ) {
-        if (isMessageEdited) {
-            Text(
-                stringResource(CommonStrings.common_edited_suffix),
-                style = ElementTheme.typography.fontBodyXsRegular,
-                color = tint,
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-        }
-        Text(
-            formattedTime,
-            style = ElementTheme.typography.fontBodyXsRegular,
-            color = tint,
-        )
-        if (hasError) {
-            val isVerifiedUserSendFailure = event.localSendState is LocalEventSendState.Failed.VerifiedUser
-            Spacer(modifier = Modifier.width(2.dp))
-            Icon(
-                imageVector = CompoundIcons.ErrorSolid(),
-                contentDescription = stringResource(id = CommonStrings.common_sending_failed),
-                tint = tint,
-                modifier = Modifier
-                    .size(15.dp, 18.dp)
-                    .clickable(
-                        enabled = isVerifiedUserSendFailure,
-                        onClickLabel = stringResource(CommonStrings.action_open_context_menu),
-                    ) {
-                        eventSink(TimelineEvent.ComputeVerifiedUserSendFailure(event))
-                    }
-            )
-        }
-
-        if (!isMessageRedacted) {
-            event.messageShield?.let { shield ->
-                Spacer(modifier = Modifier.width(2.dp))
-                Icon(
-                    imageVector = shield.toIcon(),
-                    contentDescription = stringResource(id = CommonStrings.a11y_encryption_details),
-                    modifier = Modifier
-                        .size(15.dp)
-                        .clickable(
-                            onClickLabel = stringResource(CommonStrings.a11y_view_details),
-                        ) {
-                            eventSink(TimelineEvent.ShowShieldDialog(shield))
-                        },
-                    tint = shield.toIconColor(),
+        Row(
+            modifier = Modifier
+                .padding(PaddingValues(start = TimelineEventTimestampViewDefaults.spacing))
+                .then(modifier),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (isMessageEdited) {
+                Text(
+                    stringResource(CommonStrings.common_edited_suffix),
+                    style = ElementTheme.typography.fontBodyXsRegular.copy(textDirection = TextDirection.Content),
+                    color = tint,
                 )
                 Spacer(modifier = Modifier.width(4.dp))
+            }
+            Text(
+                formattedTime,
+                style = ElementTheme.typography.fontBodyXsRegular.copy(textDirection = TextDirection.Content),
+                color = tint,
+            )
+            if (hasError) {
+                val isVerifiedUserSendFailure = event.localSendState is LocalEventSendState.Failed.VerifiedUser
+                Spacer(modifier = Modifier.width(2.dp))
+                Icon(
+                    imageVector = CompoundIcons.ErrorSolid(),
+                    contentDescription = stringResource(id = CommonStrings.common_sending_failed),
+                    tint = tint,
+                    modifier = Modifier
+                        .size(15.dp, 18.dp)
+                        .clickable(
+                            enabled = isVerifiedUserSendFailure,
+                            onClickLabel = stringResource(CommonStrings.action_open_context_menu),
+                        ) {
+                            eventSink(TimelineEvent.ComputeVerifiedUserSendFailure(event))
+                        }
+                )
+            }
+
+            if (!isMessageRedacted) {
+                event.messageShield?.let { shield ->
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Icon(
+                        imageVector = shield.toIcon(),
+                        contentDescription = stringResource(id = CommonStrings.a11y_encryption_details),
+                        modifier = Modifier
+                            .size(15.dp)
+                            .clickable(
+                                onClickLabel = stringResource(CommonStrings.a11y_view_details),
+                            ) {
+                                eventSink(TimelineEvent.ShowShieldDialog(shield))
+                            },
+                        tint = shield.toIconColor(),
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                }
             }
         }
     }

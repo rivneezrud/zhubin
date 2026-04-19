@@ -52,6 +52,7 @@ dependencies {
     implementation(projects.libraries.permissions.api)
     implementation(projects.libraries.preferences.api)
     implementation(projects.libraries.recentemojis.api)
+    implementation(projects.libraries.savedgifs.api)
     implementation(projects.libraries.roomselect.api)
     implementation(projects.libraries.voiceplayer.api)
     implementation(projects.libraries.voicerecorder.api)
@@ -102,4 +103,5 @@ dependencies {
     testImplementation(projects.features.poll.test)
     testImplementation(projects.libraries.eventformatter.test)
     testImplementation(projects.libraries.recentemojis.test)
+    testImplementation(projects.libraries.savedgifs.test)
 }

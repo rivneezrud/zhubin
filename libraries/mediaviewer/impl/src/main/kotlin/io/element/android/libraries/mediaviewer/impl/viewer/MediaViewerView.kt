@@ -244,24 +244,23 @@ fun MediaViewerView(
                     state.eventSink(MediaViewerEvents.ViewInTimeline(it))
                 },
                 onShare = {
-                    (currentData as? MediaViewerPageData.MediaViewerData)?.let {
-                        state.eventSink(MediaViewerEvents.Share(currentData))
-                    }
+                    bottomSheetState.data?.let { state.eventSink(MediaViewerEvents.Share(it)) }
                 },
                 onForward = {
                     state.eventSink(MediaViewerEvents.Forward(it))
                 },
                 onDownload = {
-                    (currentData as? MediaViewerPageData.MediaViewerData)?.let {
-                        state.eventSink(MediaViewerEvents.SaveOnDisk(currentData))
-                    }
+                    bottomSheetState.data?.let { state.eventSink(MediaViewerEvents.SaveOnDisk(it)) }
+                },
+                onSaveToGifs = {
+                    bottomSheetState.data?.let { state.eventSink(MediaViewerEvents.SaveToGifs(it)) }
                 },
                 onDelete = { eventId ->
-                    (currentData as? MediaViewerPageData.MediaViewerData)?.let {
+                    bottomSheetState.data?.let {
                         state.eventSink(
                             MediaViewerEvents.ConfirmDelete(
                                 eventId,
-                                currentData,
+                                it,
                             )
                         )
                     }

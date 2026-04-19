@@ -28,6 +28,7 @@ import io.element.android.features.poll.api.pollcontent.aPollAnswerItemList
 import io.element.android.libraries.dateformatter.test.FakeDateFormatter
 import io.element.android.libraries.featureflag.api.FeatureFlags
 import io.element.android.libraries.featureflag.test.FakeFeatureFlagService
+import io.element.android.libraries.core.mimetype.MimeTypes
 import io.element.android.libraries.matrix.api.room.BaseRoom
 import io.element.android.libraries.matrix.api.timeline.Timeline
 import io.element.android.libraries.matrix.api.timeline.item.event.LocalEventSendState
@@ -686,6 +687,69 @@ class ActionListPresenterTest {
                         TimelineItemAction.CopyLink,
                         TimelineItemAction.Pin,
                         TimelineItemAction.CopyCaption,
+                        TimelineItemAction.ViewSource,
+                        TimelineItemAction.ReportContent,
+                    ),
+                    recentEmojis = suggestedEmojis,
+                )
+            )
+            initialState.eventSink.invoke(ActionListEvent.Clear)
+            assertThat(awaitItem().target).isEqualTo(ActionListState.Target.None)
+        }
+    }
+
+    @Test
+    fun `present - compute for a gif item from another user includes save to my gifs`() = runTest {
+        val presenter = createActionListPresenter(isDeveloperModeEnabled = true)
+        presenter.test {
+            val initialState = awaitItem()
+            val messageEvent = aMessageEvent(
+                isMine = false,
+                isEditable = false,
+                content = io.element.android.features.messages.impl.timeline.model.event.TimelineItemImageContent(
+                    filename = "animated.gif",
+                    fileSize = 1234L,
+                    caption = null,
+                    formattedCaption = null,
+                    isEdited = false,
+                    mediaSource = io.element.android.libraries.matrix.api.media.MediaSource("mxc://server/animated"),
+                    thumbnailSource = null,
+                    formattedFileSize = "1KB",
+                    fileExtension = "gif",
+                    mimeType = MimeTypes.Gif,
+                    blurhash = null,
+                    width = null,
+                    height = null,
+                    thumbnailWidth = null,
+                    thumbnailHeight = null,
+                    aspectRatio = 1f,
+                ),
+            )
+            initialState.eventSink.invoke(
+                ActionListEvent.ComputeForMessage(
+                    event = messageEvent,
+                    userEventPermissions = aUserEventPermissions(
+                        canRedactOwn = true,
+                        canRedactOther = false,
+                        canSendMessage = true,
+                        canSendReaction = true,
+                        canPinUnpin = true,
+                    ),
+                )
+            )
+            val successState = awaitItem()
+            assertThat(successState.target).isEqualTo(
+                ActionListState.Target.Success(
+                    event = messageEvent,
+                    sentTimeFull = "0 Full true",
+                    displayEmojiReactions = true,
+                    verifiedUserSendFailure = VerifiedUserSendFailure.None,
+                    actions = persistentListOf(
+                        TimelineItemAction.Reply,
+                        TimelineItemAction.Forward,
+                        TimelineItemAction.CopyLink,
+                        TimelineItemAction.Pin,
+                        TimelineItemAction.SaveToMyGifs,
                         TimelineItemAction.ViewSource,
                         TimelineItemAction.ReportContent,
                     ),

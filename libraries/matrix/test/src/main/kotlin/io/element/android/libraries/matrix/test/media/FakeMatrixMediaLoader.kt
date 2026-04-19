@@ -38,6 +38,8 @@ class FakeMatrixMediaLoader : MatrixMediaLoader {
         mimeType: String?,
         filename: String?,
         useCache: Boolean,
+        expectedContentLength: Long?,
+        onProgress: ((Long, Long) -> Unit)?,
     ): Result<MediaFile> = simulateLongTask {
         if (shouldFail) {
             Result.failure(RuntimeException())

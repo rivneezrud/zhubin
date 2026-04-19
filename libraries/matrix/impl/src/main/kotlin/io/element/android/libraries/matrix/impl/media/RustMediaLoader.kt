@@ -14,6 +14,9 @@ import io.element.android.libraries.core.mimetype.MimeTypes
 import io.element.android.libraries.matrix.api.media.MatrixMediaLoader
 import io.element.android.libraries.matrix.api.media.MediaFile
 import io.element.android.libraries.matrix.api.media.MediaSource
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.matrix.rustcomponents.sdk.Client
 import org.matrix.rustcomponents.sdk.use
@@ -62,26 +65,58 @@ class RustMediaLoader(
         mimeType: String?,
         filename: String?,
         useCache: Boolean,
+        expectedContentLength: Long?,
+        onProgress: ((Long, Long) -> Unit)?,
     ): Result<MediaFile> =
         withContext(mediaDispatcher) {
             runCatchingExceptions {
-                source.toRustMediaSource().use { mediaSource ->
-                    val mediaFile = innerClient.getMediaFile(
-                        mediaSource = mediaSource,
-                        filename = filename,
-                        mimeType = when {
-                            mimeType == null -> MimeTypes.OctetStream
-                            MimeTypes.hasSubtype(mimeType) -> mimeType
-                            // Fallback to a default mime type based on the main type, so that the SDK can create a file with the correct extension.
-                            mimeType == MimeTypes.Images -> MimeTypes.Jpeg
-                            mimeType == MimeTypes.Videos -> MimeTypes.Mp4
-                            mimeType == MimeTypes.Audio -> MimeTypes.Mp3
-                            else -> MimeTypes.OctetStream
-                        },
-                        useCache = useCache,
-                        tempDir = cacheDirectory.path,
-                    )
-                    RustMediaFile(mediaFile)
+                coroutineScope {
+                    source.toRustMediaSource().use { mediaSource ->
+                        val downloadDirectory = cacheDirectory.resolve(source.downloadDirectoryName(filename)).apply {
+                            mkdirs()
+                        }
+                        val progressTracker = expectedContentLength
+                            ?.takeIf { it > 0L && onProgress != null }
+                            ?.let {
+                                FileDownloadProgressTracker(
+                                    destinationFile = downloadDirectory.resolve(filename ?: "media"),
+                                    expectedContentLength = it,
+                                    coroutineScope = this,
+                                )
+                            }
+                        val progressJob = progressTracker?.let { tracker ->
+                            launch {
+                                tracker.progress.collectLatest { progress ->
+                                    onProgress?.invoke(progress.bytesTransferred, progress.contentLength)
+                                }
+                            }
+                        }
+                        try {
+                            progressTracker?.start()
+                            val mediaFile = innerClient.getMediaFile(
+                                mediaSource = mediaSource,
+                                filename = filename,
+                                mimeType = when {
+                                    mimeType == null -> MimeTypes.OctetStream
+                                    MimeTypes.hasSubtype(mimeType) -> mimeType
+                                    // Fallback to a default mime type based on the main type, so that the SDK can create a file with the correct extension.
+                                    mimeType == MimeTypes.Images -> MimeTypes.Jpeg
+                                    mimeType == MimeTypes.Videos -> MimeTypes.Mp4
+                                    mimeType == MimeTypes.Audio -> MimeTypes.Mp3
+                                    else -> MimeTypes.OctetStream
+                                },
+                                useCache = useCache,
+                                tempDir = downloadDirectory.path,
+                            )
+                            expectedContentLength
+                                ?.takeIf { it > 0L }
+                                ?.also { onProgress?.invoke(it, it) }
+                            RustMediaFile(mediaFile)
+                        } finally {
+                            progressJob?.cancel()
+                            progressTracker?.stop()
+                        }
+                    }
                 }
             }
         }
@@ -93,5 +128,16 @@ class RustMediaLoader(
         } else {
             RustMediaSource.fromUrl(url)
         }
+    }
+
+    private fun MediaSource.downloadDirectoryName(filename: String?): String {
+        val rawKey = buildString {
+            append(url)
+            append('|')
+            append(json.orEmpty())
+            append('|')
+            append(filename.orEmpty())
+        }
+        return rawKey.hashCode().toString()
     }
 }

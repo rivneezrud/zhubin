@@ -36,6 +36,7 @@ import io.element.android.features.messages.impl.timeline.model.event.TimelineIt
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemStateContent
 import io.element.android.features.messages.impl.timeline.model.event.canBeCopied
 import io.element.android.features.messages.impl.timeline.model.event.canBeForwarded
+import io.element.android.features.messages.impl.timeline.model.event.canBeSavedToGifs
 import io.element.android.features.messages.impl.timeline.model.event.canReact
 import io.element.android.libraries.architecture.Presenter
 import io.element.android.libraries.dateformatter.api.DateFormatter
@@ -227,6 +228,9 @@ class DefaultActionListPresenter(
                 add(TimelineItemAction.CopyText)
             } else if ((timelineItem.content as? TimelineItemEventContentWithAttachment)?.caption.isNullOrBlank().not()) {
                 add(TimelineItemAction.CopyCaption)
+            }
+            if (!timelineItem.isMine && timelineItem.content.canBeSavedToGifs()) {
+                add(TimelineItemAction.SaveToMyGifs)
             }
             if (timelineItem.isRemote) {
                 add(TimelineItemAction.CopyLink)

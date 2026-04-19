@@ -11,6 +11,7 @@ package io.element.android.libraries.mediaviewer.impl.details
 import io.element.android.libraries.matrix.api.core.EventId
 import io.element.android.libraries.matrix.api.media.MediaSource
 import io.element.android.libraries.mediaviewer.api.MediaInfo
+import io.element.android.libraries.mediaviewer.impl.viewer.MediaViewerPageData
 
 sealed interface MediaBottomSheetState {
     data object Hidden : MediaBottomSheetState
@@ -24,7 +25,9 @@ sealed interface MediaBottomSheetState {
     data class MediaDetailsBottomSheetState(
         val eventId: EventId?,
         val canDelete: Boolean,
+        val canSaveToGifs: Boolean,
         val mediaInfo: MediaInfo,
         val thumbnailSource: MediaSource?,
+        val data: MediaViewerPageData.MediaViewerData?,
     ) : MediaBottomSheetState
 }

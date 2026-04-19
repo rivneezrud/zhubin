@@ -48,6 +48,8 @@ import io.element.android.libraries.mediaviewer.api.anApkMediaInfo
 import io.element.android.libraries.mediaviewer.api.local.LocalMedia
 import io.element.android.libraries.mediaviewer.test.viewer.aLocalMedia
 import io.element.android.libraries.preferences.api.store.VideoCompressionPreset
+import io.element.android.libraries.matrix.test.FakeMatrixClient
+import io.element.android.libraries.savedgifs.test.FakeSavedGifsStore
 import io.element.android.tests.testutils.WarmUpRule
 import io.element.android.tests.testutils.awaitLastSequentialItem
 import io.element.android.tests.testutils.consumeItemsUntilPredicate
@@ -595,6 +597,8 @@ class AttachmentsPreviewPresenterTest {
             timelineMode = timelineMode,
             inReplyToEventId = null,
             mediaOptimizationConfigProvider = mediaOptimizationConfigProvider,
+            matrixClient = FakeMatrixClient(),
+            savedGifsStore = FakeSavedGifsStore(),
         )
     }
 

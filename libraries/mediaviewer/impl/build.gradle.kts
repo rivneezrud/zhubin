@@ -45,6 +45,7 @@ dependencies {
     implementation(projects.libraries.featureflag.api)
     implementation(projects.libraries.matrix.api)
     implementation(projects.libraries.matrixmedia.api)
+    implementation(projects.libraries.savedgifs.api)
     implementation(projects.libraries.uiStrings)
     implementation(projects.libraries.voiceplayer.api)
     implementation(projects.services.toolbox.api)
@@ -65,4 +66,5 @@ dependencies {
     testImplementation(projects.libraries.mediaviewer.test)
     testImplementation(projects.services.toolbox.test)
     testImplementation(libs.coroutines.core)
+    testImplementation(projects.libraries.savedgifs.test)
 }

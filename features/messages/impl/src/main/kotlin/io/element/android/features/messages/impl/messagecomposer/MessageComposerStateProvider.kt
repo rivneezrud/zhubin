@@ -13,6 +13,7 @@ import io.element.android.libraries.textcomposer.mentions.ResolvedSuggestion
 import io.element.android.libraries.textcomposer.model.MessageComposerMode
 import io.element.android.libraries.textcomposer.model.TextEditorState
 import io.element.android.libraries.textcomposer.model.aTextEditorStateRich
+import io.element.android.libraries.savedgifs.api.SavedGif
 import io.element.android.wysiwyg.display.TextDisplay
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -31,6 +32,7 @@ fun aMessageComposerState(
     showTextFormatting: Boolean = false,
     showAttachmentSourcePicker: Boolean = false,
     canShareLocation: Boolean = true,
+    savedGifs: List<SavedGif> = emptyList(),
     suggestions: ImmutableList<ResolvedSuggestion> = persistentListOf(),
     eventSink: (MessageComposerEvent) -> Unit = {},
 ) = MessageComposerState(
@@ -40,6 +42,7 @@ fun aMessageComposerState(
     showTextFormatting = showTextFormatting,
     showAttachmentSourcePicker = showAttachmentSourcePicker,
     canShareLocation = canShareLocation,
+    savedGifs = savedGifs,
     suggestions = suggestions,
     resolveMentionDisplay = { _, _ -> TextDisplay.Plain },
     resolveAtRoomMentionDisplay = { TextDisplay.Plain },

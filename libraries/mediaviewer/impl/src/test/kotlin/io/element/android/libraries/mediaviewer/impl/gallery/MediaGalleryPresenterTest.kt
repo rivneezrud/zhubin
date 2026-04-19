@@ -129,8 +129,10 @@ class MediaGalleryPresenterTest {
                 MediaBottomSheetState.MediaDetailsBottomSheetState(
                     eventId = AN_EVENT_ID,
                     canDelete = canDeleteOwn,
+                    canSaveToGifs = false,
                     mediaInfo = item.mediaInfo,
                     thumbnailSource = item.mediaSource,
+                    data = null,
                 )
             )
             // Close the bottom sheet
@@ -176,8 +178,10 @@ class MediaGalleryPresenterTest {
                 MediaBottomSheetState.MediaDetailsBottomSheetState(
                     eventId = AN_EVENT_ID,
                     canDelete = canDeleteOther,
+                    canSaveToGifs = false,
                     mediaInfo = item.mediaInfo,
                     thumbnailSource = item.mediaSource,
+                    data = null,
                 )
             )
             // Close the bottom sheet

@@ -9,6 +9,7 @@
 package io.element.android.libraries.textcomposer.impl.components.markdown
 
 import android.widget.EditText
+import android.view.Gravity
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -142,6 +143,65 @@ class MarkdownTextInputTest {
         }
         // Focus state is updated
         assertThat(state.hasFocus).isTrue()
+    }
+
+    @Test
+    fun `text aligns left for latin input and right for persian input`() = runTest {
+        val state = aMarkdownTextEditorState(initialFocus = true)
+        rule.setMarkdownTextInput(state = state)
+        var editor: EditText? = null
+        rule.activityRule.scenario.onActivity {
+            val foundEditor = it.findEditor()
+            editor = foundEditor
+            foundEditor.setText("Hello")
+        }
+        rule.awaitIdle()
+        assertThat(editor?.textDirection).isEqualTo(EditText.TEXT_DIRECTION_LTR)
+        assertThat(editor?.gravity?.and(Gravity.HORIZONTAL_GRAVITY_MASK)).isEqualTo(Gravity.LEFT)
+
+        rule.activityRule.scenario.onActivity {
+            editor?.setText("سلام")
+        }
+        rule.awaitIdle()
+        assertThat(editor?.textDirection).isEqualTo(EditText.TEXT_DIRECTION_RTL)
+        assertThat(editor?.gravity?.and(Gravity.HORIZONTAL_GRAVITY_MASK)).isEqualTo(Gravity.RIGHT)
+    }
+
+    @Test
+    fun `text direction is preserved across new lines and resets only when cleared`() = runTest {
+        val state = aMarkdownTextEditorState(initialFocus = true)
+        rule.setMarkdownTextInput(state = state)
+        var editor: EditText? = null
+
+        rule.activityRule.scenario.onActivity {
+            val foundEditor = it.findEditor()
+            editor = foundEditor
+            foundEditor.setText("سلام")
+        }
+        rule.awaitIdle()
+        assertThat(editor?.textDirection).isEqualTo(EditText.TEXT_DIRECTION_RTL)
+        assertThat(editor?.gravity?.and(Gravity.HORIZONTAL_GRAVITY_MASK)).isEqualTo(Gravity.RIGHT)
+
+        rule.activityRule.scenario.onActivity {
+            editor?.setText("سلام\n")
+        }
+        rule.awaitIdle()
+        assertThat(editor?.textDirection).isEqualTo(EditText.TEXT_DIRECTION_RTL)
+        assertThat(editor?.gravity?.and(Gravity.HORIZONTAL_GRAVITY_MASK)).isEqualTo(Gravity.RIGHT)
+
+        rule.activityRule.scenario.onActivity {
+            editor?.setText("\n")
+        }
+        rule.awaitIdle()
+        assertThat(editor?.textDirection).isEqualTo(EditText.TEXT_DIRECTION_RTL)
+        assertThat(editor?.gravity?.and(Gravity.HORIZONTAL_GRAVITY_MASK)).isEqualTo(Gravity.RIGHT)
+
+        rule.activityRule.scenario.onActivity {
+            editor?.setText("")
+        }
+        rule.awaitIdle()
+        assertThat(editor?.textDirection).isEqualTo(EditText.TEXT_DIRECTION_LTR)
+        assertThat(editor?.gravity?.and(Gravity.HORIZONTAL_GRAVITY_MASK)).isEqualTo(Gravity.LEFT)
     }
 
     @Test

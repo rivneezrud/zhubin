@@ -11,19 +11,23 @@ package io.element.android.features.messages.impl.messagecomposer
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import io.element.android.compound.tokens.generated.CompoundIcons
 import io.element.android.features.messages.impl.R
 import io.element.android.libraries.androidutils.ui.hideKeyboard
@@ -76,12 +80,23 @@ internal fun AttachmentsBottomSheet(
             ),
             onDismissRequest = { isVisible = false }
         ) {
-            AttachmentSourcePickerMenu(
-                state = state,
-                enableTextFormatting = enableTextFormatting,
-                onSendLocationClick = onSendLocationClick,
-                onCreatePollClick = onCreatePollClick,
-            )
+            var showSavedGifs by remember { mutableStateOf(false) }
+
+            if (showSavedGifs) {
+                SavedGifsBottomSheetContent(
+                    state = state,
+                    onBack = { showSavedGifs = false },
+                    onDismiss = { isVisible = false },
+                )
+            } else {
+                AttachmentSourcePickerMenu(
+                    state = state,
+                    enableTextFormatting = enableTextFormatting,
+                    onSendLocationClick = onSendLocationClick,
+                    onCreatePollClick = onCreatePollClick,
+                    onSavedGifsClick = { showSavedGifs = true },
+                )
+            }
         }
     }
 }
@@ -92,6 +107,7 @@ private fun AttachmentSourcePickerMenu(
     onSendLocationClick: () -> Unit,
     onCreatePollClick: () -> Unit,
     enableTextFormatting: Boolean,
+    onSavedGifsClick: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -142,6 +158,12 @@ private fun AttachmentSourcePickerMenu(
             headlineContent = { Text(stringResource(R.string.screen_room_attachment_source_poll)) },
             style = ListItemStyle.Primary,
         )
+        ListItem(
+            modifier = Modifier.clickable { onSavedGifsClick() },
+            leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Favourite())),
+            headlineContent = { Text(stringResource(R.string.screen_room_saved_gifs_title)) },
+            style = ListItemStyle.Primary,
+        )
         if (enableTextFormatting) {
             ListItem(
                 modifier = Modifier.clickable { state.eventSink(MessageComposerEvent.ToggleTextFormatting(enabled = true)) },
@@ -150,6 +172,39 @@ private fun AttachmentSourcePickerMenu(
                 style = ListItemStyle.Primary,
             )
         }
+    }
+}
+
+@Composable
+private fun SavedGifsBottomSheetContent(
+    state: MessageComposerState,
+    onBack: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .navigationBarsPadding()
+            .imePadding()
+    ) {
+        ListItem(
+            modifier = Modifier.clickable { onBack() },
+            leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.ArrowLeft())),
+            headlineContent = { Text(stringResource(R.string.screen_room_saved_gifs_title)) },
+            style = ListItemStyle.Primary,
+        )
+        SavedGifsView(
+            savedGifs = state.savedGifs,
+            onGifClick = { gif ->
+                state.eventSink(MessageComposerEvent.SendSavedGif(gif))
+                onDismiss()
+            },
+            onDeleteGif = { gifId ->
+                state.eventSink(MessageComposerEvent.DeleteSavedGif(gifId))
+            },
+            modifier = Modifier
+                .heightIn(min = 200.dp, max = 400.dp)
+                .padding(bottom = 8.dp),
+        )
     }
 }
 

@@ -41,6 +41,8 @@ import io.element.android.libraries.mediaviewer.impl.model.aMediaItemImage
 import io.element.android.libraries.mediaviewer.impl.model.aMediaItemLoadingIndicator
 import io.element.android.libraries.mediaviewer.test.FakeLocalMediaActions
 import io.element.android.libraries.mediaviewer.test.FakeLocalMediaFactory
+import io.element.android.libraries.savedgifs.api.SavedGifsStore
+import io.element.android.libraries.savedgifs.test.FakeSavedGifsStore
 import io.element.android.services.toolbox.test.systemclock.FakeSystemClock
 import io.element.android.tests.testutils.WarmUpRule
 import io.element.android.tests.testutils.lambda.lambdaRecorder
@@ -883,6 +885,7 @@ internal fun TestScope.createMediaViewerPresenter(
     room: JoinedRoom = FakeJoinedRoom(
         liveTimeline = FakeTimeline(),
     ),
+    savedGifsStore: SavedGifsStore = FakeSavedGifsStore(),
 ): MediaViewerPresenter {
     return MediaViewerPresenter(
         inputs = createMediaViewerEntryPointParams(
@@ -902,6 +905,7 @@ internal fun TestScope.createMediaViewerPresenter(
         ),
         room = room,
         localMediaActions = localMediaActions,
+        savedGifsStore = savedGifsStore,
     )
 }
 

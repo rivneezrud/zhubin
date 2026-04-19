@@ -30,13 +30,13 @@ private const val versionMajor = 1
 
 /**
  * Minor version. Value must be in [0,99].
- */
-private const val versionMinor = 0
+ */ 
+private const val versionMinor = 1
 
 /**
  * Patch version. Value must be in [0,99].
  */
-private const val versionPatch = 1
+private const val versionPatch = 2
 
 object Versions {
     /**

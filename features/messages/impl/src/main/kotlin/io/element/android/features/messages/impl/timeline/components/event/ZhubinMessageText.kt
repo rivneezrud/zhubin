@@ -34,12 +34,16 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.em
 import io.element.android.compound.theme.LinkColor
 import io.element.android.features.messages.impl.R
 import io.element.android.features.messages.impl.timeline.components.IRAN_FLAG_INLINE_ID
 import io.element.android.features.messages.impl.timeline.components.IRAN_FLAG_UNICODE
+import io.element.android.libraries.androidutils.text.MessageTextDirection
+import io.element.android.libraries.androidutils.text.detectTextDirection
 import io.element.android.libraries.designsystem.theme.components.Text
 import io.element.android.wysiwyg.link.Link
 import kotlinx.collections.immutable.persistentMapOf
@@ -52,7 +56,8 @@ internal fun ZhubinMessageText(
     modifier: Modifier = Modifier,
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
-    val annotated = remember(text) { text.toAnnotatedStringCompat() }
+    val resolvedTextStyle = remember(text) { resolveMessageTextStyle(text) }
+    val annotated = remember(text) { text.toAnnotatedStringCompat().wrapWithBidiIsolates() }
     val annotatedWithInline = remember(annotated) { annotated.replaceIranFlagWithInlineContent() }
     val inlineContent = remember {
         persistentMapOf(
@@ -90,12 +95,37 @@ internal fun ZhubinMessageText(
         text = annotatedWithInline,
         inlineContent = inlineContent,
         modifier = modifier.then(tapModifier),
+        style = androidx.compose.material3.LocalTextStyle.current.copy(
+            textDirection = resolvedTextStyle.textDirection,
+            textAlign = resolvedTextStyle.textAlign,
+        ),
         onTextLayout = { layout ->
             layoutResult = layout
             onTextLayout(layout)
         },
     )
 }
+
+internal data class ResolvedMessageTextStyle(
+    val textDirection: TextDirection,
+    val textAlign: TextAlign,
+)
+
+internal fun resolveMessageTextStyle(text: CharSequence?): ResolvedMessageTextStyle {
+    return when (detectTextDirection(text) ?: MessageTextDirection.Ltr) {
+        MessageTextDirection.Rtl -> ResolvedMessageTextStyle(
+            textDirection = TextDirection.Rtl,
+            textAlign = TextAlign.Right,
+        )
+        MessageTextDirection.Ltr -> ResolvedMessageTextStyle(
+            textDirection = TextDirection.Ltr,
+            textAlign = TextAlign.Left,
+        )
+    }
+}
+
+private const val FSI = '\u2068'
+private const val PDI = '\u2069'
 
 private fun CharSequence.toAnnotatedStringCompat(): AnnotatedString {
     return when (this) {
@@ -148,6 +178,16 @@ private fun AnnotatedString.replaceIranFlagWithInlineContent(): AnnotatedString 
         index = next + IRAN_FLAG_UNICODE.length
     }
     return builder.toAnnotatedString()
+}
+
+private fun AnnotatedString.wrapWithBidiIsolates(): AnnotatedString {
+    if (text.isEmpty()) return this
+    if (text.first() == FSI && text.last() == PDI) return this
+    return buildAnnotatedString {
+        append(FSI.toString())
+        append(this@wrapWithBidiIsolates)
+        append(PDI.toString())
+    }
 }
 
 @OptIn(ExperimentalTextApi::class)

@@ -33,6 +33,8 @@ interface MediaViewerEntryPoint : FeatureEntryPoint {
         fun onDone()
         fun viewInTimeline(eventId: EventId)
         fun forwardEvent(eventId: EventId, fromPinnedEvents: Boolean)
+        fun onMediaDownloadProgress(mediaSource: MediaSource, bytesTransferred: Long, contentLength: Long) = Unit
+        fun clearMediaDownloadProgress(mediaSource: MediaSource) = Unit
     }
 
     data class Params(

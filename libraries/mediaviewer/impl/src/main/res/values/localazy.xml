@@ -18,4 +18,6 @@
   <string name="screen_media_details_no_more_media_to_show">"No more media to show"</string>
   <string name="screen_media_details_uploaded_by">"Uploaded by"</string>
   <string name="screen_media_details_uploaded_on">"Uploaded on"</string>
+  <string name="screen_media_details_save_to_my_gifs">"Save to My GIFs"</string>
+  <string name="screen_media_details_gif_saved">"GIF saved"</string>
 </resources>

@@ -19,6 +19,7 @@ import io.element.android.libraries.architecture.AsyncData
 import io.element.android.libraries.core.extensions.mapCatchingExceptions
 import io.element.android.libraries.matrix.api.media.MatrixMediaLoader
 import io.element.android.libraries.matrix.api.media.MediaFile
+import io.element.android.libraries.matrix.api.media.MediaSource
 import io.element.android.libraries.matrix.api.timeline.Timeline
 import io.element.android.libraries.mediaviewer.api.MediaViewerEntryPoint.MediaViewerMode
 import io.element.android.libraries.mediaviewer.api.local.LocalMedia
@@ -48,6 +49,8 @@ class MediaViewerDataSource(
     private val localMediaFactory: LocalMediaFactory,
     private val systemClock: SystemClock,
     private val pagerKeysHandler: PagerKeysHandler,
+    private val onDownloadProgress: (MediaSource, Long, Long) -> Unit = { _, _, _ -> },
+    private val onDownloadFinished: (MediaSource) -> Unit = {},
 ) {
     // List of media files that are currently being loaded
     private val mediaFiles: MutableList<MediaFile> = mutableListOf()
@@ -170,7 +173,11 @@ class MediaViewerDataSource(
             .downloadMediaFile(
                 source = data.mediaSource,
                 mimeType = data.mediaInfo.mimeType,
-                filename = data.mediaInfo.filename
+                filename = data.mediaInfo.filename,
+                expectedContentLength = data.mediaInfo.fileSize,
+                onProgress = { bytesTransferred, contentLength ->
+                    onDownloadProgress(data.mediaSource, bytesTransferred, contentLength)
+                },
             )
             .onSuccess { mediaFile ->
                 mediaFiles.add(mediaFile)
@@ -187,5 +194,6 @@ class MediaViewerDataSource(
             .onFailure {
                 localMediaState.value = AsyncData.Failure(it)
             }
+        onDownloadFinished(data.mediaSource)
     }
 }

@@ -52,6 +52,7 @@ fun MediaDetailsBottomSheet(
     onShare: (EventId) -> Unit,
     onForward: (EventId) -> Unit,
     onDownload: (EventId) -> Unit,
+    onSaveToGifs: (EventId) -> Unit,
     onDelete: (EventId) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
@@ -120,6 +121,16 @@ fun MediaDetailsBottomSheet(
                             onDownload(state.eventId)
                         }
                     )
+                    if (state.canSaveToGifs) {
+                        ListItem(
+                            leadingContent = ListItemContent.Icon(IconSource.Vector(CompoundIcons.Download())),
+                            headlineContent = { Text(stringResource(R.string.screen_media_details_save_to_my_gifs)) },
+                            style = ListItemStyle.Primary,
+                            onClick = {
+                                onSaveToGifs(state.eventId)
+                            }
+                        )
+                    }
                     if (state.canDelete) {
                         HorizontalDivider()
                         ListItem(
@@ -228,6 +239,7 @@ internal fun MediaDetailsBottomSheetPreview() = ElementPreview {
         onShare = {},
         onForward = {},
         onDownload = {},
+        onSaveToGifs = {},
         onDelete = {},
         onDismiss = {},
     )

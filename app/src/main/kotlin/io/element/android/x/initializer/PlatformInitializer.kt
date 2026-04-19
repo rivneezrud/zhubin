@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.preference.PreferenceManager
 import androidx.startup.Initializer
-import com.google.firebase.messaging.FirebaseMessaging
 import io.element.android.features.rageshake.api.logs.createWriteToFilesConfiguration
 import io.element.android.libraries.architecture.bindings
 import io.element.android.libraries.featureflag.api.FeatureFlags
@@ -122,43 +121,66 @@ private fun initializeFirebase(context: Context) {
         initializeAppMethod.invoke(null, context, options)
         Timber.i("Firebase initialized with custom BuildConfig values (Project ID: %s, App ID: %s)", BuildConfig.FIREBASE_PROJECT_ID, BuildConfig.FIREBASE_APP_ID)
         
-        // Request FCM token REGARDLESS of whether we just initialized Firebase or it was already initialized
-        Timber.i("About to request FirebaseMessaging.getInstance()")
-        try {
-            val messaging = FirebaseMessaging.getInstance()
-            Timber.i("FirebaseMessaging.getInstance() succeeded, now calling .token")
-            
-            messaging.token.addOnCompleteListener { task ->
-                Timber.i("[TOKEN_CALLBACK_INVOKED] FCM token callback fired. Success: ${task.isSuccessful}")
-                
-                try {
-                    if (task.isSuccessful) {
-                        val token = task.result
-                        Timber.i("[TOKEN_SUCCESS] Token obtained: %s", token?.substring(0, Math.min(20, token?.length ?: 0)) + "...")
-                        
-                        Timber.i("[TOKEN_PREFS] Getting default SharedPreferences")
-                        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-                        Timber.i("[TOKEN_PREFS] Got SharedPreferences, now editing")
-                        
-                        val editor = prefs.edit()
-                        Timber.i("[TOKEN_PREFS] Created editor, putting string with key=FCM_TOKEN")
-                        editor.putString("FCM_TOKEN", token)
-                        Timber.i("[TOKEN_PREFS] String put, now calling apply()")
-                        editor.apply()
-                        Timber.i("[TOKEN_STORED] FCM token successfully stored in SharedPreferences")
-                    } else {
-                        Timber.w(task.exception, "[TOKEN_FAILED] Task failed with exception")
-                    }
-                } catch (t: Throwable) {
-                    Timber.e(t, "[TOKEN_ERROR] Exception in callback handler")
-                }
-            }
-            
-            Timber.i("[TOKEN_REQUEST] Token request added, callback is async - will fire when result is available")
-        } catch (t: Throwable) {
-            Timber.e(t, "[TOKEN_INIT_ERROR] Could not request FCM token - exception during getInstance() or addOnCompleteListener()")
-        }
+        requestFcmToken(context)
     } catch (e: ClassNotFoundException) {
         Timber.i("Firebase not available in this build variant")
+    }
+}
+
+private fun requestFcmToken(context: Context) {
+    Timber.i("About to request FirebaseMessaging.getInstance()")
+    try {
+        val messagingClass = Class.forName("com.google.firebase.messaging.FirebaseMessaging")
+        val taskClass = Class.forName("com.google.android.gms.tasks.Task")
+        val onCompleteListenerClass = Class.forName("com.google.android.gms.tasks.OnCompleteListener")
+
+        val messaging = messagingClass.getMethod("getInstance").invoke(null)
+        Timber.i("FirebaseMessaging.getInstance() succeeded, now calling .token")
+
+        val tokenTask = messagingClass.getMethod("getToken").invoke(messaging)
+        val listener = java.lang.reflect.Proxy.newProxyInstance(
+            onCompleteListenerClass.classLoader,
+            arrayOf(onCompleteListenerClass),
+        ) { _, _, args ->
+            val task = args?.firstOrNull()
+            handleFcmTokenTask(context, taskClass, task)
+            null
+        }
+        taskClass.getMethod("addOnCompleteListener", onCompleteListenerClass).invoke(tokenTask, listener)
+
+        Timber.i("[TOKEN_REQUEST] Token request added, callback is async - will fire when result is available")
+    } catch (e: ClassNotFoundException) {
+        Timber.i("Firebase Messaging not available in this build variant")
+    } catch (t: Throwable) {
+        Timber.e(t, "[TOKEN_INIT_ERROR] Could not request FCM token - exception during getInstance() or addOnCompleteListener()")
+    }
+}
+
+private fun handleFcmTokenTask(context: Context, taskClass: Class<*>, task: Any?) {
+    try {
+        val isSuccessful = taskClass.getMethod("isSuccessful").invoke(task) as? Boolean ?: false
+        Timber.i("[TOKEN_CALLBACK_INVOKED] FCM token callback fired. Success: $isSuccessful")
+
+        if (isSuccessful) {
+            val token = taskClass.getMethod("getResult").invoke(task) as? String
+            val tokenPreview = token?.take(20).orEmpty() + "..."
+            Timber.i("[TOKEN_SUCCESS] Token obtained: %s", tokenPreview)
+
+            Timber.i("[TOKEN_PREFS] Getting default SharedPreferences")
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            Timber.i("[TOKEN_PREFS] Got SharedPreferences, now editing")
+
+            val editor = prefs.edit()
+            Timber.i("[TOKEN_PREFS] Created editor, putting string with key=FCM_TOKEN")
+            editor.putString("FCM_TOKEN", token)
+            Timber.i("[TOKEN_PREFS] String put, now calling apply()")
+            editor.apply()
+            Timber.i("[TOKEN_STORED] FCM token successfully stored in SharedPreferences")
+        } else {
+            val exception = taskClass.getMethod("getException").invoke(task) as? Throwable
+            Timber.w(exception, "[TOKEN_FAILED] Task failed with exception")
+        }
+    } catch (t: Throwable) {
+        Timber.e(t, "[TOKEN_ERROR] Exception in callback handler")
     }
 }

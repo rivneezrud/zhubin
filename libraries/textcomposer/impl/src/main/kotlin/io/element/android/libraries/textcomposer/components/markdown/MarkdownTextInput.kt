@@ -15,10 +15,12 @@ import android.net.Uri
 import android.text.Editable
 import android.text.InputType
 import android.text.Selection
+import android.view.Gravity
 import android.view.View
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
@@ -29,6 +31,8 @@ import androidx.core.view.OnReceiveContentListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
+import io.element.android.libraries.androidutils.text.MessageTextDirection
+import io.element.android.libraries.androidutils.text.detectTextDirection
 import io.element.android.compound.theme.ElementTheme
 import io.element.android.libraries.designsystem.preview.ElementPreview
 import io.element.android.libraries.designsystem.preview.PreviewsDayNight
@@ -54,6 +58,30 @@ fun MarkdownTextInput(
     richTextEditorStyle: RichTextEditorStyle,
     onSelectRichContent: ((Uri) -> Unit)?,
 ) {
+    val currentTextDirection = remember(state) {
+        androidx.compose.runtime.mutableStateOf(detectTextDirection(state.text.value()) ?: MessageTextDirection.Ltr)
+    }
+
+    fun MarkdownEditText.applyDetectedTextDirection(text: CharSequence?) {
+        currentTextDirection.value = when {
+            text.isNullOrEmpty() -> MessageTextDirection.Ltr
+            else -> detectTextDirection(text) ?: currentTextDirection.value
+        }
+
+        when (currentTextDirection.value) {
+            MessageTextDirection.Rtl -> {
+                textDirection = View.TEXT_DIRECTION_RTL
+                textAlignment = View.TEXT_ALIGNMENT_GRAVITY
+                gravity = Gravity.TOP or Gravity.RIGHT
+            }
+            MessageTextDirection.Ltr -> {
+                textDirection = View.TEXT_DIRECTION_LTR
+                textAlignment = View.TEXT_ALIGNMENT_GRAVITY
+                gravity = Gravity.TOP or Gravity.LEFT
+            }
+        }
+    }
+
     // Copied from io.element.android.wysiwyg.internal.utils.UriContentListener
     class ReceiveUriContentListener(
         private val onContent: (uri: Uri) -> Unit,
@@ -96,12 +124,15 @@ fun MarkdownTextInput(
                     InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or
                     InputType.TYPE_TEXT_FLAG_MULTI_LINE or
                     InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                layoutDirection = View.LAYOUT_DIRECTION_LOCALE
+                applyDetectedTextDirection(text)
                 val textRange = 0..text.length
                 setSelection(state.selection.first.coerceIn(textRange), state.selection.last.coerceIn(textRange))
                 setOnFocusChangeListener { _, hasFocus ->
                     state.hasFocus = hasFocus
                 }
                 addTextChangedListener { editable ->
+                    applyDetectedTextDirection(editable)
                     onTyping(!editable.isNullOrEmpty())
                     state.text.update(editable, false)
                     state.lineCount = lineCount
@@ -132,6 +163,7 @@ fun MarkdownTextInput(
                 editText.updateEditableText(text)
                 state.text.update(editText.editableText, false)
             }
+            editText.applyDetectedTextDirection(text)
             val newSelectionStart = state.selection.first
             val newSelectionEnd = state.selection.last
             val currentTextRange = 0..editText.editableText.length

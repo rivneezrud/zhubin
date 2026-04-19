@@ -42,6 +42,7 @@ import io.element.android.features.messages.impl.utils.TextPillificationHelper
 import io.element.android.libraries.architecture.Presenter
 import io.element.android.libraries.core.extensions.runCatchingExceptions
 import io.element.android.libraries.core.mimetype.MimeTypes
+import io.element.android.libraries.core.mimetype.MimeTypes.isMimeTypeGif
 import io.element.android.libraries.designsystem.utils.snackbar.SnackbarDispatcher
 import io.element.android.libraries.designsystem.utils.snackbar.SnackbarMessage
 import io.element.android.libraries.di.annotations.SessionCoroutineScope
@@ -68,6 +69,7 @@ import io.element.android.libraries.permissions.api.PermissionsEvent
 import io.element.android.libraries.permissions.api.PermissionsPresenter
 import io.element.android.libraries.preferences.api.store.SessionPreferencesStore
 import io.element.android.libraries.push.api.notifications.conversations.NotificationConversationService
+import io.element.android.libraries.savedgifs.api.SavedGifsStore
 import io.element.android.libraries.textcomposer.mentions.MentionSpanProvider
 import io.element.android.libraries.textcomposer.mentions.ResolvedSuggestion
 import io.element.android.libraries.textcomposer.model.MarkdownTextEditorState
@@ -75,6 +77,7 @@ import io.element.android.libraries.textcomposer.model.Message
 import io.element.android.libraries.textcomposer.model.MessageComposerMode
 import io.element.android.libraries.textcomposer.model.Suggestion
 import io.element.android.libraries.textcomposer.model.TextEditorState
+import io.element.android.libraries.ui.strings.CommonStrings
 import io.element.android.libraries.textcomposer.model.rememberMarkdownTextEditorState
 import io.element.android.services.analytics.api.AnalyticsService
 import io.element.android.services.analyticsproviders.api.trackers.captureInteraction
@@ -125,6 +128,7 @@ class MessageComposerPresenter(
     private val suggestionsProcessor: SuggestionsProcessor,
     private val mediaOptimizationConfigProvider: MediaOptimizationConfigProvider,
     private val notificationConversationService: NotificationConversationService,
+    private val savedGifsStore: SavedGifsStore,
 ) : Presenter<MessageComposerState> {
     @AssistedFactory
     interface Factory {
@@ -198,6 +202,8 @@ class MessageComposerPresenter(
 
         val suggestions = remember { mutableStateListOf<ResolvedSuggestion>() }
         ResolveSuggestionsEffect(suggestions)
+
+        val savedGifs by savedGifsStore.savedGifs(room.sessionId).collectAsState(initial = emptyList())
 
         DisposableEffect(Unit) {
             // Declare that the user is not typing anymore when the composer is disposed
@@ -354,6 +360,26 @@ class MessageComposerPresenter(
                     val draft = createDraftFromState(markdownTextEditorState, richTextEditorState)
                     sessionCoroutineScope.updateDraft(draft, isVolatile = false)
                 }
+                is MessageComposerEvent.SendSavedGif -> {
+                    val gif = event.savedGif
+                    val inReplyToEventId = (messageComposerContext.composerMode as? MessageComposerMode.Reply)?.eventId
+                    sessionCoroutineScope.launch {
+                        sendMedia(
+                            uri = gif.uri,
+                            mimeType = gif.mimeType,
+                            inReplyToEventId = inReplyToEventId,
+                        )
+                    }
+                    messageComposerContext.composerMode = MessageComposerMode.Normal
+                }
+                is MessageComposerEvent.DeleteSavedGif -> {
+                    sessionCoroutineScope.launch {
+                        savedGifsStore.deleteGif(room.sessionId, event.gifId).onFailure { error ->
+                            Timber.w(error, "Failed to delete saved GIF")
+                            snackbarDispatcher.post(SnackbarMessage(CommonStrings.error_unknown))
+                        }
+                    }
+                }
             }
         }
 
@@ -382,6 +408,7 @@ class MessageComposerPresenter(
             showAttachmentSourcePicker = showAttachmentSourcePicker,
             showTextFormatting = showTextFormatting,
             canShareLocation = canShareLocation.value,
+            savedGifs = savedGifs,
             suggestions = suggestions.toImmutableList(),
             resolveMentionDisplay = resolveMentionDisplay,
             resolveAtRoomMentionDisplay = resolveAtRoomMentionDisplay,
@@ -550,6 +577,7 @@ class MessageComposerPresenter(
             mediaOptimizationConfig = mediaOptimizationConfigProvider.get(),
             inReplyToEventId = inReplyToEventId,
         ).getOrThrow()
+        saveGifIfNeeded(uri = uri, mimeType = mimeType)
     }
         .onFailure { cause ->
             Timber.e(cause, "Failed to send attachment")
@@ -560,6 +588,34 @@ class MessageComposerPresenter(
                 snackbarDispatcher.post(snackbarMessage)
             }
         }
+
+   private suspend fun saveGifIfNeeded(
+    uri: Uri,
+    mimeType: String,
+) {
+    if (!mimeType.isMimeTypeGif()) return
+    savedGifsStore.saveGif(
+        sessionId = room.sessionId,
+        uri = uri,
+        filename = uri.lastPathSegment ?: "gif.gif",
+        mimeType = mimeType,
+        fileSize = null,
+    ).onSuccess {
+        savedGifsStore.markGifAsRecentlyUsed(
+            sessionId = room.sessionId,
+            uri = uri,
+            filename = uri.lastPathSegment ?: "gif.gif",
+            mimeType = mimeType,
+            fileSize = null,
+        ).onFailure { error ->
+            Timber.w(error, "Failed to mark sent GIF as recently used")
+        }
+    }.onFailure { error ->
+        Timber.w(error, "Failed to save sent GIF locally")
+    }
+}
+
+
 
     private fun CoroutineScope.updateDraft(
         draft: ComposerDraft?,

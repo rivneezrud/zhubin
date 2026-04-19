@@ -16,6 +16,8 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import io.element.android.features.messages.impl.timeline.model.event.TimelineItemTextBasedContent
@@ -132,6 +134,30 @@ class TimelineTextViewTest {
         val result = rule.getText(mentionSpanUpdater, aTextContentWithFormattedBody(charSequence))
         assertThat(result.getMentionSpans().firstOrNull()?.displayText.toString()).isEqualTo(expectedDisplayText)
         assert(formatLambda).isCalledOnce()
+    }
+
+    @Test
+    fun `resolveMessageTextStyle aligns rtl text to the right`() {
+        val result = resolveMessageTextStyle(" سلام")
+
+        assertThat(result.textDirection).isEqualTo(TextDirection.Rtl)
+        assertThat(result.textAlign).isEqualTo(TextAlign.Right)
+    }
+
+    @Test
+    fun `resolveMessageTextStyle aligns ltr text to the left`() {
+        val result = resolveMessageTextStyle(" Hello")
+
+        assertThat(result.textDirection).isEqualTo(TextDirection.Ltr)
+        assertThat(result.textAlign).isEqualTo(TextAlign.Left)
+    }
+
+    @Test
+    fun `resolveMessageTextStyle ignores emoji prefixes for rtl text`() {
+        val result = resolveMessageTextStyle("🔴🔴 ایران موافقت کرد")
+
+        assertThat(result.textDirection).isEqualTo(TextDirection.Rtl)
+        assertThat(result.textAlign).isEqualTo(TextAlign.Right)
     }
 
     private suspend fun <R : TestRule> AndroidComposeTestRule<R, ComponentActivity>.getText(

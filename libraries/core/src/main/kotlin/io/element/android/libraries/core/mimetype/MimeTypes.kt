@@ -40,6 +40,7 @@ object MimeTypes {
 
     fun String?.normalizeMimeType() = if (this == BadJpg) Jpeg else this
 
+    fun String?.isMimeTypeGif() = this == Gif
     fun String?.isMimeTypeImage() = this?.startsWith("image/").orFalse()
     fun String?.isMimeTypeAnimatedImage() = this == Gif || this == WebP
     fun String?.isMimeTypeVideo() = this?.startsWith("video/").orFalse()

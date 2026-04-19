@@ -132,6 +132,7 @@ val NEGATIVE_MARGIN_FOR_BUBBLE = (-8).dp
 val SENDER_AVATAR_BORDER_WIDTH = 3.dp
 
 private val BUBBLE_INCOMING_OFFSET = 16.dp
+private const val CONTEXT_MENU_LONG_PRESS_TIMEOUT_MILLIS = 250L
 
 @Composable
 fun TimelineItemEventRow(
@@ -158,6 +159,7 @@ fun TimelineItemEventRow(
     eventContentView: @Composable (Modifier, (ContentAvoidingLayoutData) -> Unit) -> Unit = { contentModifier, onContentLayoutChange ->
         // Only pass down a custom clickable lambda if the content can be clicked separately
         val onContentClick = onEventClick.takeUnless { event.isWholeContentClickable }
+        android.util.Log.e("ZHUDEBUG_ROW", "event.localSendState = ${event.localSendState}, eventId = ${event.eventId}")
 
         TimelineItemEventContentView(
             content = event.content,
@@ -169,7 +171,8 @@ fun TimelineItemEventRow(
             onLinkLongClick = onLinkLongClick,
             eventSink = eventSink,
             modifier = contentModifier,
-            onContentLayoutChange = onContentLayoutChange
+            onContentLayoutChange = onContentLayoutChange,
+            sendState = event.localSendState,
         )
     },
 ) {
@@ -209,7 +212,7 @@ fun TimelineItemEventRow(
             val offset = state.offset.floatValue
             val swipeThresholdPx = 40.dp.toPx()
             val thresholdCrossed = abs(offset) > swipeThresholdPx
-            SwipeSensitivity(3f) {
+            TimelineItemInteractionSensitivity {
                 Box(Modifier.fillMaxWidth()) {
                     Row(modifier = Modifier.matchParentSize()) {
                         ReplySwipeIndicator({ offset / 120 })
@@ -248,22 +251,24 @@ fun TimelineItemEventRow(
                 }
             }
         } else {
-            TimelineItemEventRowContent(
-                event = event,
-                timelineMode = timelineMode,
-                timelineProtectionState = timelineProtectionState,
-                timelineRoomInfo = timelineRoomInfo,
-                interactionSource = interactionSource,
-                onContentClick = onContentClick,
-                onLongClick = onLongClick,
-                inReplyToClick = ::inReplyToClick,
-                onUserDataClick = ::onUserDataClick,
-                onReactionClick = { emoji -> onReactionClick(emoji, event) },
-                onReactionLongClick = { emoji -> onReactionLongClick(emoji, event) },
-                onMoreReactionsClick = { onMoreReactionsClick(event) },
-                eventSink = eventSink,
-                eventContentView = eventContentView,
-            )
+            TimelineItemInteractionSensitivity {
+                TimelineItemEventRowContent(
+                    event = event,
+                    timelineMode = timelineMode,
+                    timelineProtectionState = timelineProtectionState,
+                    timelineRoomInfo = timelineRoomInfo,
+                    interactionSource = interactionSource,
+                    onContentClick = onContentClick,
+                    onLongClick = onLongClick,
+                    inReplyToClick = ::inReplyToClick,
+                    onUserDataClick = ::onUserDataClick,
+                    onReactionClick = { emoji -> onReactionClick(emoji, event) },
+                    onReactionLongClick = { emoji -> onReactionLongClick(emoji, event) },
+                    onMoreReactionsClick = { onMoreReactionsClick(event) },
+                    eventSink = eventSink,
+                    eventContentView = eventContentView,
+                )
+            }
         }
 
         if (displayThreadSummaries && timelineMode !is Timeline.Mode.Thread && event.threadInfo is TimelineItemThreadInfo.ThreadRoot) {
@@ -374,22 +379,20 @@ private fun ThreadSummaryView(
 }
 
 /**
- * Impact ViewConfiguration.touchSlop by [sensitivityFactor].
- * Inspired from https://issuetracker.google.com/u/1/issues/269627294.
- * @param sensitivityFactor the factor to multiply the touchSlop by. The highest value, the more the user will
- * have to drag to start the drag.
+ * Makes swipe-to-reply less eager while keeping long-press close to chat-app defaults.
  * @param content the content to display.
  */
 @Composable
-private fun SwipeSensitivity(
-    sensitivityFactor: Float,
+private fun TimelineItemInteractionSensitivity(
     content: @Composable () -> Unit,
 ) {
     val current = LocalViewConfiguration.current
     CompositionLocalProvider(
         LocalViewConfiguration provides object : ViewConfiguration by current {
             override val touchSlop: Float
-                get() = current.touchSlop * sensitivityFactor
+                get() = current.touchSlop * 3f
+            override val longPressTimeoutMillis: Long
+                get() = CONTEXT_MENU_LONG_PRESS_TIMEOUT_MILLIS
         }
     ) {
         content()

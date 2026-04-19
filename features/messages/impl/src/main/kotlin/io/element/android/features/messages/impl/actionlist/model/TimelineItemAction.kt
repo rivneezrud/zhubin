@@ -10,6 +10,7 @@ package io.element.android.features.messages.impl.actionlist.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import io.element.android.features.messages.impl.R
 import io.element.android.libraries.designsystem.icons.CompoundDrawables
 import io.element.android.libraries.ui.strings.CommonStrings
 
@@ -32,6 +33,7 @@ enum class TimelineItemAction(
     AddCaption(CommonStrings.action_add_caption, CompoundDrawables.ic_compound_edit),
     RemoveCaption(CommonStrings.action_remove_caption, CompoundDrawables.ic_compound_close, destructive = true),
     ViewSource(CommonStrings.action_view_source, CompoundDrawables.ic_compound_code),
+    SaveToMyGifs(R.string.screen_room_saved_gifs_save, CompoundDrawables.ic_compound_download),
     ReportContent(CommonStrings.action_report_content, CompoundDrawables.ic_compound_chat_problem, destructive = true),
     EndPoll(CommonStrings.action_end_poll, CompoundDrawables.ic_compound_polls_end),
     Pin(CommonStrings.action_pin, CompoundDrawables.ic_compound_pin),
